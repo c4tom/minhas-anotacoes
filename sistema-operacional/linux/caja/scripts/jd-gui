@@ -1,0 +1,3 @@
+#!/bin/sh
+
+java -jar /win/desenv/decomp/jd-gui-1.4.0.jar "$1"

@@ -1,0 +1,5 @@
+.sonarlint
+.history/*
+.vscode*.json
+settings.json
+tasks.json

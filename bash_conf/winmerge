@@ -1,0 +1,14 @@
+#!/bin/bash
+
+_winepath () 
+{ 
+    ArgWinePath=`winepath -w "$1"`;
+    FileName=${1:+$ArgWinePath};
+    echo $FileName
+}
+
+file1=`_winepath "$1"`;
+file2=`_winepath "$2"`;
+/usr/share/playonlinux/playonlinux --run "WinMergeU" /e "$file1" "$file2"
+
+

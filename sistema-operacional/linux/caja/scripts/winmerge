@@ -1,0 +1,19 @@
+#!/bin/bash
+
+_winepath(){
+	ArgWinePath=`winepath -w "$1"`
+	FileName=${1:+$ArgWinePath}
+	echo $FileName
+}
+
+
+PWD=`pwd`
+
+file1=`_winepath "$PWD/$1"`;
+file2=`_winepath "$PWD/$2"`;
+
+echo "$1 = $2" > /tmp/aaa.txt
+echo "$PWD/$1 == $PWD/$2" >> /tmp/aaa.txt
+
+/usr/share/playonlinux/playonlinux --run "WinMergeU" /e "$file1" "$file2"
+

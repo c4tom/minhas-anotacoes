@@ -1,0 +1,210 @@
+#!/bin/bash
+
+# Wiki Oficial
+# https://trac.ffmpeg.org/wiki
+
+# https://trac.ffmpeg.org/wiki/Encode/HighQualityAudio
+# http://howto-pages.org/ffmpeg/
+
+# Metadata
+# https://wiki.multimedia.cx/index.php/FFmpeg_Metadata
+# 
+# Codecs (https://www.ffmpeg.org/ffmpeg-codecs.html)
+# H.264 https://trac.ffmpeg.org/wiki/Encode/H.264
+# H.265 https://trac.ffmpeg.org/wiki/Encode/H.265 (HEVC)
+# 
+# Parametros mais comuns:
+# Videos 
+# -c:v libx265 
+# -preset ultrafast (ultrafast, superfast, veryfast, faster, fast, medium, slow, slower, veryslow and placebo)
+# 
+#
+#
+# Audio 
+# -c:a aac (aac, libmp3lame,...)
+# -b:a 64k (bitrate sample: 8, 16, 24, 32, 40, 48, 64, 80, 96, 112, 128, 160, 192, 224, 256, or 320 com k no final)
+# -ar 44100 (frequencia, )
+#
+
+[[ -f /usr/bin/ffmpeg ]] || { return ; }
+
+# https://unix.stackexchange.com/questions/283878/ffmpeg-creating-a-video-clip-of-approx-10-seconds-when-video-duration-is-unkn
+FFMPEG_CLIP10s=" -threads 3 -ss 00:00:0.0 -t 10 -a"
+
+
+ct_mp4tohevc1() {
+  # Video
+  # FPS = 10 (-r), codec = libx265, Constant Rate Factor = 25 (0-50 => 0 lowless)
+  #
+  #
+  #
+  mkdir -p conv
+  ffmpeg -i "$1" -preset ultrafast -c:v libx265 -crf 25 -r 10 -c:a libmp3lame -ac 1 -b:a 64k -ar 32000 -metadata title="EVP" "conv/$1"
+}
+
+mp4tohevc1_all()
+{
+  for i in *.mp4
+  do
+    ct_mp4tohevc1 "$i"
+  done
+}
+
+# $1 nome do arquivo de saida $1
+vob2mp4_template1()
+{
+  ffmpeg -i "concat:$(echo *.VOB|tr \  \|)" -f mp4 -c copy -sn -y -preset ultrafast -c:v libx265 -crf 25 -c:a libmp3lame -ac 1 -b:a 96k -ar 44100 "$1.mp4"
+}
+
+vob2mp4_templateOA()
+{
+  if test ! -f "../_mp4/$1.mp4" 
+  then
+    ffmpeg -i "concat:$(echo *.VOB|tr \  \|)" -f mp4 -c copy -sn -y -preset ultrafast -c:v libx265 -crf 25 -r 15 -c:a libmp3lame -ac 1 -b:a 96k -ar 44100 \
+    -metadata album="O Amanhã Hoje" -metadata comment="www.advertenciafinal.com.br / youtube.com/tvadvertenciafinal" \
+    -metadata copyright="Ministério Quarto Anjo - Advertência Final" -metadata author="Ministério Quarto Anjo" \
+    -metadata album_artist="Ministério Quarto Anjo - O Amanhã Hoje" \
+    "../_mp4/$1.mp4"
+  fi
+}
+
+# $1 inicio (formato: hh:mm:ss)
+# $2 final (formato: hh:mm:ss)
+# $3 nome do arquivo
+# ./ffmpeg -i input.mp4 -ss 00:00:05 -c copy -to 00:00:07 sliced-output.mp4
+slice_video() {
+  mkdir -p slice
+  ffmpeg -i "$3" -ss $1 -c copy -to $2 "slice/$3"
+}
+
+evp_metadados() {
+
+  local titulo="$1"
+  local autor="$2"
+  local albun="$3"
+  local ano="$5"
+  local copy="EVP"
+  local descricao="$4"
+
+  echo '-metadata title="'$titulo'" -metadata author="'$autor'" -metadata copyright="'$copy'" -metadata description="'$descricao'" -metadata album="'$albun'" -metadata year="'$ano'" ' 
+ }
+
+
+evp_convert_all() {
+  export PATH=$PATH:/p/programas/video/
+  local titulo=""
+  mkdir -p conv
+  for i in *.mp4
+  do 
+    if test ! -f "conv/$i" 
+    then
+      echo "============ $i ================"
+      titulo=`echo "$i" | cut -d "_" -f 2`
+      titulo=`basename "$titulo" .mp4`
+      ffmpeg -i "$i" -preset ultrafast -c:v libx265 -crf 20 -r 10 -c:a libmp3lame -ac 1 -b:a 64k -ar 32000 \
+      -metadata title="$titulo" -metadata author="$1" -metadata copyright="EVP" \
+      -metadata comment="EVP.com.br" -metadata album="$2"  "conv/$i"
+      echo
+      echo 
+    fi
+  done
+}
+
+evp_convert_all_dir()
+{
+  for j in *
+  do 
+    cd $j
+    echo "====== Diretorio: $j ======="
+    evp_convert_all
+    cd ..
+  done
+}
+
+
+deezerMp3Convert() {
+  mkdir -p conv
+  for i in *.mp3
+  do
+    if test ! -f "conv/$i" 
+     then
+      echo "============ $i ================"
+      ffmpeg -i "$i" -c:a libmp3lame -ac 2 -b:a 96k -ar 44100  "conv/$i"
+    fi
+  done
+}
+
+deezerMp3ConvertBiblia() {
+  mkdir -p conv
+  for i in *.mp3
+  do
+    if test ! -f "conv/$i" 
+     then
+      echo "============ $i ================"
+      ffmpeg -i "$i" -c:a libmp3lame -ac 1 -b:a 64k -ar 32000  "conv/$i"
+    fi
+  done
+}
+
+youtubePlayListDownload() {
+  youtube-dl -f mp4 --yes-playlist -i "$1" "$2" "$3" "$4" "$5"
+}
+
+#https://gist.github.com/protrolium/e0dbd4bb0f1a396fcb55
+# https://pt.wikipedia.org/wiki/MP3
+mp4TOmp3(){
+  mkdir -p mp3
+  for i in *.mp4
+  do
+    ffmpeg -n -i "$i" -ac 1 -ab 24000 -ar 32000 -f mp3 "mp3/$i.mp3"
+  done
+}
+
+mp4TOmp3_44khz(){
+  mkdir -p mp3-44khz
+  for i in *.mp4
+  do
+    ffmpeg -n -i "$i" -ac 1 -ab 64000 -ar 44100 -f mp3 "mp3-44khz/$i.mp3"
+  done
+}
+
+mkvTOmp4()
+{
+  ffmpeg -i "$1" -codec copy "$1.mp4"
+}
+
+videoClip() {
+  mkdir -p tmp;
+  ffmpeg -i "$1" -ss 00:00:0.0 -t 10 "tmp/$1";
+}
+
+videoAudioDelay() {
+  # DELAYING THE AUDIO OR THE VIDEO
+  # http://howto-pages.org/ffmpeg/#delay
+  # http://alien.slackbook.org/blog/fixing-audio-sync-with-ffmpeg/
+  # https://superuser.com/questions/982342/in-ffmpeg-how-to-delay-only-the-audio-of-a-mp4-video-without-converting-the-au
+  echo;
+}
+
+
+ffmpeg_changeSpeed() {
+  mkdir -p speed
+  local speed=1.3
+  # ffmpeg.exe -i input.mp4 -filter_complex "[0:v]setpts=PTS/1.3[v];[0:a]atempo=1.3[a]" -map "[v]" -map "[a]" output.mp4
+  ffmpeg -i "$1" \
+    -filter_complex "[0:v]setpts=PTS/$speed[v];[0:a]atempo=$speed[a]" -map "[v]" -map "[a]" \
+    "speed/$1"
+}
+
+ffmpeg_changeSpeed32k44khz() {
+  mkdir -p speed
+  local speed="1.3"
+  # ffmpeg.exe -i input.mp4 -filter_complex "[0:v]setpts=PTS/1.3[v];[0:a]atempo=1.3[a]" -map "[v]" -map "[a]" output.mp4
+  ffmpeg -i "$1" -ac 1 -ab 32000 -ar 44100 -f mp3 -filter_complex "[0:v]setpts=PTS/"$speed"[v];[0:a]atempo="$speed"[a]" -map "[v]" -map "[a]" "speed/$1"
+}
+
+
+mp4ToLow() {
+  mkdir -p "conv"
+  ffmpeg -i "$i" -preset ultrafast -c:v libx265 -crf 20 -r 10 -c:a libmp3lame -ac 1 -b:a 64k -ar 32000 "conv/$1"
+}

@@ -1,0 +1,4 @@
+#!/bin/sh
+
+/usr/lib/git-core/git-gui $1
+#git-gui $1

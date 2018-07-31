@@ -1,0 +1,14 @@
+#!/bin/bash
+
+_winepath(){
+	ArgWinePath=`winepath -w "$1"`
+	FileName=${1:+$ArgWinePath}
+	echo $FileName
+}
+
+PWD=`pwd`
+file1=`_winepath "$PWD/$1"`;
+
+
+/usr/share/playonlinux/playonlinux --run "Notepad Plus Plus" "$file1"
+

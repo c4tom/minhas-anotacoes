@@ -1,0 +1,1 @@
+[[ -f /sbin/iptables ]] || { return ; }

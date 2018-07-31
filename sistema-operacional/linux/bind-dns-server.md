@@ -1,0 +1,1 @@
+https://servidordebian.org/pt/squeeze/intranet/dns/server

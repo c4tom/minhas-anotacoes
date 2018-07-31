@@ -1,0 +1,5 @@
+#!/bin/sh
+for f in $CAJA_SCRIPT_SELECTED_FILE_PATHS
+do
+    mimetype $f | grep "image" && exiftool -all= $f
+done
