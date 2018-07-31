@@ -24,4 +24,10 @@ lampp_manager()
     sudo $LAMPP/manager-linux-x64.run
 }
 
+lampp_reset_config() {
+    export PATH=$PATH_ORIGINAL
+    export LD_LIBRARY_PATH=
+}
+
+# PHP 5 como padrao
 lampp_set_php5
