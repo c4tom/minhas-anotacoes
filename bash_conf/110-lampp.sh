@@ -30,4 +30,4 @@ lampp_reset_config() {
 }
 
 # PHP 5 como padrao
-lampp_set_php5
+#lampp_set_php5
