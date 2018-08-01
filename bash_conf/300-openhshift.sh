@@ -1,3 +1,6 @@
+# https://manage.openshift.com/account/index Testar Online Gratis
+
+
 # Cliente OpenShift
 # Baixe em https://github.com/openshift/origin/releases ou https://www.openshift.org/download.html
 # Referencia https://docs.openshift.com/container-platform/3.3/cli_reference/basic_cli_operations.html
