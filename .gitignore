@@ -3,3 +3,4 @@
 .vscode*.json
 settings.json
 tasks.json
+.vs
