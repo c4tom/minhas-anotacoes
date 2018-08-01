@@ -40,3 +40,8 @@ ct_dockerComposeDownloadInstall() {
 ct_dockerBash() {
 	$DOCKER exec -ti $1 bash
 }
+
+# Conteudo para usar as melhores praticas ao criar Dockfile
+ct_dockerBestPratice(){
+	xdg-open https://docs.docker.com/develop/develop-images/dockerfile_best-practices
+}
