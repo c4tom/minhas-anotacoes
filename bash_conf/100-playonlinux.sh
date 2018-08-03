@@ -29,9 +29,11 @@ pol() {
 # https://iridakos.com/tutorials/2018/03/01/bash-programmable-completion-tutorial.html
 _playonlinux_autocomplete()
 {
+	local PWD=$(pwd)
 	cd /home/$USER/.PlayOnLinux/shortcuts
 	local LISTA=$(printf " '%s'" *)
 	complete -W "$LISTA" pol
+	cd $PWD
 }
 _playonlinux_autocomplete
 
