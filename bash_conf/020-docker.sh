@@ -45,3 +45,10 @@ ct_dockerBash() {
 ct_dockerBestPratice(){
 	xdg-open https://docs.docker.com/develop/develop-images/dockerfile_best-practices
 }
+
+
+#https://docs.docker.com/config/pruning/#prune-everything
+ct_dockerRemoveTudo() {
+	echo "ATENÇÃO: Isso removerá tudo, desde imagens, containers e cache"
+	docker system prune
+}
