@@ -9,6 +9,8 @@ curl -sSL [https://get.docker.com/](https://get.docker.com/) \| sudo bash
 
 ## Executar sem SUDO
 
+Para executar o comando docker sem usar o `sudo docker` siga os passos:
+
 [https://askubuntu.com/questions/477551/how-can-i-use-docker-without-sudo](https://askubuntu.com/questions/477551/how-can-i-use-docker-without-sudo)
 
 ```
@@ -35,6 +37,8 @@ sudo usermod -aG docker $USER
 ## - [Imagens](docker-images.md)
 
 ## - [Problemas](problemas.md)
+
+## - [Dicas](dicas.md)
 
 
 
