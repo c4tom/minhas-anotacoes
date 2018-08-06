@@ -1,5 +1,7 @@
 # https://manage.openshift.com/account/index Testar Online Gratis
 
+# http://rafabene.com/2016/01/09/docker-images-openshift-network/
+# https://github.com/rafabene/devops-demo
 
 # Cliente OpenShift
 # Baixe em https://github.com/openshift/origin/releases ou https://www.openshift.org/download.html
