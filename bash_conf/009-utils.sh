@@ -29,27 +29,6 @@ __pause(){
 
 
 
-#### HARDWARE ####
-ct_hardDiskInfo() {
-	sudo hdparm -I /dev/sda1
-}
-
-### PC Info
-ct_hardInfo() {
-	inxi -Fz
-}
-
-### System Info
-
-ct_diskInfoPartition() {
-	lsblk -o "NAME,MAJ:MIN,RM,SIZE,RO,FSTYPE,MOUNTPOINT,UUID"
-}
-
-ct_diskInfomation(){
-	local DISK_DEV=$1 #/dev/sda
-	hdparm -I $DISK_DEV
-}
-
 
 
 ### Open AnyFile ####
