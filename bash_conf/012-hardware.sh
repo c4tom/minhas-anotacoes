@@ -15,6 +15,12 @@ ct_hardInfo() {
 	inxi -Fz
 }
 
+# Com mais detalhes, pode instalar um visual apt-get install hardinfo sysinfo
+ct_hardInfoLSHW()
+{
+	sudo lshw
+}
+
 ### System Info
 
 diskInfoPartition() {
