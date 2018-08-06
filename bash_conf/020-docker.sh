@@ -1,6 +1,5 @@
+[[ -f /usr/bin/docker ]] || { return ; }
 DOCKER=/usr/bin/docker
-[[ -f $DOCKER ]] || { return ; }
-
 
 # Lista a quantidade de memoria utilizada para cada container em execu√ß√£o
 ct_dockerTotalMemory(){
@@ -50,5 +49,47 @@ ct_dockerBestPratice(){
 #https://docs.docker.com/config/pruning/#prune-everything
 ct_dockerRemoveTudo() {
 	echo "ATEN«√O: Isso remover· tudo, desde imagens, containers e cache"
-	docker system prune
+	docker system prune --all
 }
+
+#$ docker login -u {docker-hub-username}
+#<enter user name and password for Docker Hub Repository>
+#$ docker tag first-image {docker-hub-username}/{default-repo-folder-name}:first-image
+#$ docker push {docker-hub-username}/{default-repo-folder-name}:first-image
+#
+# ou configure $HOME/.docker/config.json em 
+# https://docs.docker.com/engine/reference/commandline/login/#default-behavior
+ct_dockerPush() {
+	[ ! -z $DOCKERHUB_LOGIN ] || { echo "Defina DOCKERHUB_LOGIN, ou adicione em .bashrc ou .profile"; return; }
+	
+	local NOME_TAG=$1
+	local NOME_REPO=$(dirname `pwd`/a)
+	echo "Senha para logar no hub.docker.com"
+	#docker login -u $DOCKERHUB_LOGIN
+	echo $NOME_REPO
+
+}
+
+ct_dockerInfoAdicionarRepoBrasilDebian() {
+	echo "
+	\`RUN cat /etc/apt/sources.list | \
+    sed '1s#.*#deb http://ftp.br.debian.org/debian jessie main contrib non-free#' > /etc/apt/sources.list.new \
+    && cat /etc/apt/sources.list.new > /etc/apt/sources.list\`
+	"
+}
+
+ct_dockerCheckStatusWeb() {
+	local URL="$1"
+	echo "  Wait until redmine be ready (wget required)"
+	wget -w 5 --retry-connrefused --tries=60  $URL 2> /dev/null
+	if [ $? -eq 0 ]
+	then
+    	echo ""
+    	echo " You can now use your browser to accesss: $URL"
+   else
+    	echo ""
+    	echo " ERROR: Timeout waiting for readmine"
+   fi
+
+}
+
