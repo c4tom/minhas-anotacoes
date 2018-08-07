@@ -6,7 +6,7 @@
 
 alias code="code -p"
 
-ct_codeSemExtensao() {
+ct_codeExecutaSemExtensoes() {
     code -p --disable-extensions "$@"
 }
 
