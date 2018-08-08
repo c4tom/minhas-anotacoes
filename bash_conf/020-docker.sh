@@ -6,10 +6,11 @@ ct_dockerTotalMemory(){
 	for line in `$DOCKER ps | awk '{print $1}' | grep -v CONTAINER`; do $DOCKER ps | grep $line | awk '{printf $NF" "}' && echo $(( `cat /sys/fs/cgroup/memory/docker/$line*/memory.usage_in_bytes` / 1024 / 1024 ))MB ; done
 }
 
-# $1 - nome da tag
-ct_dockerBuild(){ 
+# $1 - nome da tag/container
+ct_dockerBuild(){
+	local CONTAINER_NAME=$1
 	#docker build -t $1 - < Dockerfile
-	$DOCKER build -t $1 .
+	$DOCKER build -t $CONTAINER_NAME .
 }
 
 # $1 nome da imagem docker
@@ -37,7 +38,14 @@ ct_dockerComposeDownloadInstall() {
 # $1 nome do container
 # execute: docker ps -a
 ct_dockerBash() {
-	$DOCKER exec -ti $1 bash
+	local CONTAINER_NAME=$1
+	$DOCKER exec -ti $CONTAINER_NAME bash
+}
+
+ct_dockerExec() {
+	local CONTAINER_NAME=$1
+	local CMD="$2"
+	$DOCKER exec -ti $CONTAINER_NAME $CMD
 }
 
 # Conteudo para usar as melhores praticas ao criar Dockfile
