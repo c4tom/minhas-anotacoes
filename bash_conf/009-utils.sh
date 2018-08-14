@@ -117,3 +117,14 @@ ct_replaceTwoOrMoreBlankLinesToOneFromFile() {
 	}
 }
 
+
+### Proxy ###
+ct_proxyEnable() {
+	export http_proxy=http://localhost:3128/
+	export https_proxy=http://localhost:3128/
+}
+
+ct_proxyDisable() {
+	unset http_proxy
+	unset https_proxy
+}
