@@ -74,3 +74,16 @@ ct_pol_temp_clean(){
 ct_pol_lista_atalhos() {
 	ls -l /home/$USER/.PlayOnLinux/shortcuts
 }
+
+ct_pol_criar_atalho() {
+	local EXEFILE="$1"
+	echo '#!/usr/bin/env playonlinux-bash
+[ "$PLAYONLINUX" = "" ] && exit 0
+source "$PLAYONLINUX/lib/sources"
+export WINEPREFIX="/home/'$HOME'/.PlayOnLinux//wineprefix/default"
+export WINEDEBUG="-all"
+cd '$EXEPATH'
+POL_Wine '$EXE' "$@"'
+	
+
+}
