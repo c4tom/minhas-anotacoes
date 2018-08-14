@@ -13,10 +13,14 @@ ct_bitlockerMount() {
     local CHAVE="$2"
     local PONTO_DE_MONTAGEM="$3"
 
-    sudo mkdir -p "$PONTO_DE_MONTAGEM"
+
+    [[ ! -f "$DEV_SDAx" ]] || { echo "Nao existe $DEV_SDAx"; return ; } 
     
     local BL_FOLDER=`echo $DEV_SDAx | sed "s@/dev/@@"`
-    sudo mkdir /mnt/$BL_FOLDER
+
+    [[ -d "/mnt/$BL_FOLDER" ]] || { 
+        sudo mkdir -p "/mnt/$BL_FOLDER"
+    }
     sudo dislocker -v -V "$DEV_SDAx" -p$CHAVE -- /mnt/$BL_FOLDER
 
     sudo mount -o loop /mnt/$BL_FOLDER/dislocker-file "$PONTO_DE_MONTAGEM"
