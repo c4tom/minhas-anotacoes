@@ -146,9 +146,7 @@ deezerMp3ConvertBiblia() {
   done
 }
 
-youtubePlayListDownload() {
-  youtube-dl -f mp4 --yes-playlist -i "$1" "$2" "$3" "$4" "$5"
-}
+
 
 #https://gist.github.com/protrolium/e0dbd4bb0f1a396fcb55
 # https://pt.wikipedia.org/wiki/MP3
