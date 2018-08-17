@@ -118,6 +118,8 @@ ct_replaceTwoOrMoreBlankLinesToOneFromFile() {
 }
 
 
+
+
 ### Proxy ###
 ct_proxyEnable() {
 	export http_proxy=http://localhost:3128/
@@ -128,3 +130,16 @@ ct_proxyDisable() {
 	unset http_proxy
 	unset https_proxy
 }
+
+autoEnableProxy() {
+	if [[ ! $http_proxy ]]
+		then 
+			if [ $(ct_netCheckPortIsListen 3128) = "open" ]
+				then
+					echo "Proxy ON (localhost)"
+					ct_proxyDisable
+			fi
+	fi
+}
+
+autoEnableProxy
