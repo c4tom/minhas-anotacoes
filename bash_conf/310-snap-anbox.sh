@@ -3,6 +3,7 @@
 [[ -f /usr/bin/snap ]] || { return ; }
 
 # https://github.com/anbox/anbox/blob/master/docs/install.md
+# https://docs.anbox.io/userguide/install.html
 ct_anboxInstall() {
     sudo add-apt-repository ppa:morphis/anbox-support
     sudo apt update
@@ -13,7 +14,6 @@ ct_anboxInstall() {
 
 
     ls -1 /dev/{ashmem,binder}
-
 
     sudo snap install --devmode --beta anbox
 
