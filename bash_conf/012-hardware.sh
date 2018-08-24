@@ -31,3 +31,7 @@ diskInfomation(){
 	local DISK_DEV=$1 #/dev/sda
 	hdparm -I $DISK_DEV
 }
+
+ct_hardBiosInfo() {
+	sudo dmidecode
+}
