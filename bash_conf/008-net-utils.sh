@@ -20,3 +20,11 @@
 		echo 'OK'
 	}
 }
+
+# https://stackoverflow.com/questions/9609130/efficiently-test-if-a-port-is-open-on-linux-without-nmap-or-netcat#9609247
+# retorna closed|open
+ct_netCheckPortIsListen() {
+	local PORT=$1
+	true &>/dev/null </dev/tcp/127.0.0.1/$PORT && echo open || echo closed
+}
+
