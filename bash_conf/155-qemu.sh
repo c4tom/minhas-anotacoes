@@ -7,7 +7,7 @@ if [[ -f /usr/bin/qemu-nbd ]]
 then
     #https://askubuntu.com/questions/202571/how-to-mount-a-virtual-hard-disk
     ct_qemuMountVMDK() {
-        modprobe nbd max_part=16
+        sudo modprobe nbd max_part=16
         local DEV_NUMERO=$1 # /dev/nbd$DEV_NUMERO
         local ARQUIVO_VMDK="$2" # /caminho/do/arquivo.vmdk
         local PONTO_DE_MONTAGEM="$3" # /mnt/ponto-de-montagem
