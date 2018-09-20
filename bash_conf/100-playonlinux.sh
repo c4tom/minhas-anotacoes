@@ -6,8 +6,10 @@ then
 		cd /tmp
 		wget -q "http://deb.playonlinux.com/public.gpg" -O- | sudo apt-key add -
 		sudo wget http://deb.playonlinux.com/playonlinux_oneiric.list -O /etc/apt/sources.list.d/playonlinux.list
+		
+		sudo dpkg --add-architecture i386
 		sudo apt-get update
-		sudo apt-get install playonlinux
+		sudo apt-get install playonlinux wine32
 	}
 fi
 
@@ -72,18 +74,19 @@ ct_pol_temp_clean(){
 }
 
 ct_pol_lista_atalhos() {
+	echo "/home/$USER/.PlayOnLinux/shortcuts"
 	ls -l /home/$USER/.PlayOnLinux/shortcuts
 }
 
 ct_pol_criar_atalho() {
 	local EXEFILE="$1"
+	local EXEPATH=$(pwd)
+
 	echo '#!/usr/bin/env playonlinux-bash
 [ "$PLAYONLINUX" = "" ] && exit 0
 source "$PLAYONLINUX/lib/sources"
-export WINEPREFIX="/home/'$HOME'/.PlayOnLinux//wineprefix/default"
+export WINEPREFIX="/home/'$USER'/.PlayOnLinux/wineprefix/default"
 export WINEDEBUG="-all"
-cd '$EXEPATH'
-POL_Wine '$EXE' "$@"'
-	
-
+cd "'$EXEPATH'"
+POL_Wine "'$EXEFILE'" "$@"' > /home/$USER/.PlayOnLinux/shortcuts/$EXEFILE
 }
