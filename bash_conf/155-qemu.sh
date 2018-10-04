@@ -2,7 +2,7 @@
 
 [[ -f /usr/bin/qemu-x86_64 ]] || { return ; }
 
-
+# sudo apt install qemu-utils
 if [[ -f /usr/bin/qemu-nbd ]] 
 then
     #https://askubuntu.com/questions/202571/how-to-mount-a-virtual-hard-disk
