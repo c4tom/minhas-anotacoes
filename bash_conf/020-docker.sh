@@ -60,6 +60,15 @@ ct_dockerRemoveTudo() {
 	docker system prune --all
 }
 
+ct_dockerRemoveNetwork() {
+	$DOCKER network prune
+}
+ct_dockerRemoveContainers() {
+	$DOCKER container prune
+}
+
+
+
 #$ docker login -u {docker-hub-username}
 #<enter user name and password for Docker Hub Repository>
 #$ docker tag first-image {docker-hub-username}/{default-repo-folder-name}:first-image
