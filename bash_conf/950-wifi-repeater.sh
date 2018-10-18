@@ -6,5 +6,8 @@
 wifiRepeater() {
 	local ssid=$1
 	local pass=$2
- create_ap wlp2s0 wlp2s0 $ssid $pass
+	local ifaceWIFI=$(ifconfig | grep wlp | awk '{ print $1 }')
+	local ifaceWithInternet=$(route -n | grep UG | head -n 1 | awk '{print $8}')
+	local mac=$(echo "`ct_rand0_99`:`ct_rand0_99`:`ct_rand0_99`:`ct_rand0_99`:`ct_rand0_99`:`ct_rand0_99`")
+ create_ap $ifaceWIFI $ifaceWithInternet $ssid $pass
 }
