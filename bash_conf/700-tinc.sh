@@ -1,46 +1,56 @@
 [[ -f /usr/sbin/tincd ]] || { return ; }
 
-export TINC_PORT=656
+export TINC_PORT=655
 
+#
+# obs: pegar a chave.pub do servidor e copia-la no host/server do cliente
+# e copiar a chave.pub do cliente host/cliente-nome para o servidor host/cliente-nome
+# assim funcionara
+#
 
 tincSetupUPDOWN() {
     local ip=$1
     local TINC_ETC=$2
-        sudo echo "#!/bin/sh
-ifconfig \$INTERFACE $ip netmask 255.255.255.0" > $TINC_ETC/tinc-up
+        echo "#!/bin/sh
+ifconfig \$INTERFACE $ip netmask 255.255.255.0" | sudo tee --append $TINC_ETC/tinc-up > /dev/null
 
-    sudo echo "#!/bin/sh
-ifconfig \$INTERFACE down" > $TINC_ETC/tinc-down
+    echo "#!/bin/sh
+ifconfig \$INTERFACE down" | sudo tee --append $TINC_ETC/tinc-down > /dev/null
 
-    sudo chmod 755  > $TINC_ETC/tinc-*
+    sudo chmod 755 $TINC_ETC/tinc-*
 }
 
-#Rodar no servidor, configuração apenas para 1 rede
+#Criar um servidor, configuração apenas para 1 rede
 tincServerSetup() {
     local NOMEREDE=$1
-    local SERVER_HOST=$2 # server
-    local IP_SUBREDE="10.0.0.1"
+    local SERVER_HOSTNAME=$2 # server
+    local IP_DO_SERVIDOR_NA_REDE=$3 # 10.0.0.1
 
     local TINC_ETC=/etc/tinc/$NOMEREDE
     local TINC_HOSTS=$TINC_ETC/hosts
 
     sudo mkdir -p $TINC_ETC
 
-    echo "Name = $SERVER_HOST
+    echo "Name = $SERVER_HOSTNAME
 AddressFamily = ipv4
 Interface = tun0
-TCPOnly = true" > $TINC_ETC
+TCPOnly = true" | sudo tee --append $TINC_ETC > /dev/null
 
     sudo mkdir -p $TINC_HOSTS
 
-    sudo echo "Address = IP_PUBLICO_OU_EXTERNO
-Subnet = $IP_SUBREDE/32" > $TINC_HOSTS/$SERVEHOST
+    echo "Address = IP_PUBLICO_OU_EXTERNO
+Subnet = $IP_DO_SERVIDOR_NA_REDE/32" | sudo tee --append $TINC_HOSTS/$SERVER_HOSTNAME > /dev/null
 
     tincMakeKey $NOMEREDE
 
-    tincSetupUPDOWN $IP_SUBREDE $TINC_ETC
+    tincSetupUPDOWN $IP_DO_SERVIDOR_NA_REDE $TINC_ETC
 
-    sudo echo "$NOMEREDE" > /etc/tinc/nets.boot
+    _tincNetsBoot $NOMEREDE
+}
+
+_tincNetsBoot()
+{
+    echo "$1" | sudo tee --append /etc/tinc/nets.boot > /dev/null
 }
 
 tincMakeKey() {
@@ -48,7 +58,7 @@ tincMakeKey() {
     sudo tincd -n $nomeRede -K4096
 }
 
-# Rodar no cliente, configuração apenas para 1 rede
+# Criar um host cliente, configuração apenas para 1 rede
 tincClientSetup() {
     local NOMEREDE=$1
     local CLIENT_HOST=$2 # cliente1
@@ -64,8 +74,11 @@ tincClientSetup() {
 
     tincSetupUPDOWN $IP_SUBREDE $TINC_ETC
 
-    sudo echo "$NOMEREDE" > /etc/tinc/nets.boot
+    tincMakeConf "$NOMEREDE" $CLIENT_HOST $CONNECT_TO $NOMEREDE
+
+    _tincNetsBoot "$NOMEREDE" 
 }
+
 tincMakeClientHosts() {
     local NOMEREDE=$1
     local CLIENT_HOST=$2 # cliente1
@@ -75,12 +88,12 @@ tincMakeClientHosts() {
     local TINC_ETC=/etc/tinc/$NOMEREDE
     local TINC_HOSTS=$TINC_ETC/hosts
 
-    sudo echo "Name = $CLIENT_HOST
+    echo "Name = $CLIENT_HOST
 AddressFamily = ipv4
 Interface = tun0
 Subnet = $IP_SUBREDE
 ConnectTo = $CONNECT_TO
-Port = $TINC_PORT" > $TINC_HOSTS/$CLIENT_HOST
+Port = $TINC_PORT" | sudo tee --append $TINC_HOSTS/$CLIENT_HOST > /dev/null
 }
 
 
@@ -97,7 +110,7 @@ AddressFamily = ipv4
 Interface = $IFACE
 TCPOnly = yes
 ConnectTo=$CONNECT_TO
-" > $TINC_ETC/tinc.conf
+" | sudo tee --append $TINC_ETC/tinc.conf > /dev/null
 }
 
 tincServerHostClient() {
@@ -115,5 +128,5 @@ AddressFamily = ipv4
 Subnet = $IP_SUBREDE
 TCPOnly = yes
 Port = $TINC_PORT
-" > $TINC_HOSTS/$CLIENT_HOST
+" | sudo tee --append $TINC_HOSTS/$CLIENT_HOST > /dev/null
 }
