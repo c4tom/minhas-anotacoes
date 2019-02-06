@@ -23,11 +23,24 @@ OC="/usr/bin/oc"
 
 # $1 = projeto
 ct_ocLogin() {
+
+	if test -z $OC_SERVER_ADDR 
+		then
+			echo "Favor, setar a variável OC_SERVER_ADDR"
+			return 0
+	fi
+
 	# Fazer login no openshift
 	if [  `ct_ocIsLogged` = "0" ]
 		then
+
+			if [ `isWin` == "1" ] 
+				then
+					LOGNAME=$USENAME
+			fi
+
 			echoColor "Logando em: $OC_SERVER_ADDR como: $LOGNAME"
-			$OC login --username=$LOGNAME $OC_SERVER_ADDR
+			$OC login --insecure-skip-tls-verify --username=$LOGNAME $OC_SERVER_ADDR
 			$OC project $1
 		else
 			echo ">>> Já esta logado";
