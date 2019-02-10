@@ -143,3 +143,17 @@ autoEnableProxy() {
 }
 
 autoEnableProxy
+
+
+### Password
+
+ct_genPassword() {
+    local MATRIX='0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
+    local LENGTH=10
+		local rand=`ct_rand0_999`
+    while [ ${n:=1} -le $LENGTH ]; do
+        PASS="$PASS${MATRIX:$(($rand%${#MATRIX})):1}"
+        let n+=1
+    done
+    echo "$PASS"
+}
