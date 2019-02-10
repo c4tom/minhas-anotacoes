@@ -1,7 +1,7 @@
 [[ -f /usr/bin/docker ]] || { return ; }
 DOCKER=/usr/bin/docker
 
-# Lista a quantidade de memoria utilizada para cada container em execuÃ§Ã£o
+# Lista a quantidade de memoria utilizada para cada container em execução
 ct_dockerTotalMemory(){
 	for line in `$DOCKER ps | awk '{print $1}' | grep -v CONTAINER`; do $DOCKER ps | grep $line | awk '{printf $NF" "}' && echo $(( `cat /sys/fs/cgroup/memory/docker/$line*/memory.usage_in_bytes` / 1024 / 1024 ))MB ; done
 }
@@ -46,6 +46,12 @@ ct_dockerExec() {
 	local CONTAINER_NAME=$1
 	local CMD="$2"
 	$DOCKER exec -ti $CONTAINER_NAME $CMD
+}
+
+ct_dockerExecNoTI() {
+	local CONTAINER_NAME=$1
+	local CMD="$2"
+	$DOCKER exec $CONTAINER_NAME $CMD
 }
 
 # Conteudo para usar as melhores praticas ao criar Dockfile
