@@ -187,7 +187,7 @@ videoAudioDelay() {
 
 ffmpeg_changeSpeed() {
   mkdir -p speed
-  local speed=1.3
+  local speed=$2
   # ffmpeg.exe -i input.mp4 -filter_complex "[0:v]setpts=PTS/1.3[v];[0:a]atempo=1.3[a]" -map "[v]" -map "[a]" output.mp4
   ffmpeg -i "$1" \
     -filter_complex "[0:v]setpts=PTS/$speed[v];[0:a]atempo=$speed[a]" -map "[v]" -map "[a]" \
@@ -204,5 +204,32 @@ ffmpeg_changeSpeed32k44khz() {
 
 mp4ToLow() {
   mkdir -p "conv"
-  ffmpeg -i "$i" -preset ultrafast -c:v libx265 -crf 20 -r 10 -c:a libmp3lame -ac 1 -b:a 64k -ar 32000 "conv/$1"
+  ffmpeg -i "$1" -preset ultrafast -c:v libx265 -crf 20 -r 10 -c:a libmp3lame -ac 1 -b:a 64k -ar 32000 "conv/$1"
+}
+
+# https://trac.ffmpeg.org/wiki/How%20to%20speed%20up%20/%20slow%20down%20a%20video
+# The atempo filter is limited to using values between 0.5 and 2.0 
+# (so it can slow it down to no less than half the original speed, and speed up 
+# to no more than double the input). If you need to, you can get around this limitation 
+# by stringing multiple atempo filters together. The following with quadruple the audio speed:
+mp3ChangeSpeedCurrentFolder() {
+  local speed="$1"
+  local folderOut=conv$speed
+  mkdir -p $folderOut
+  for i in *.mp3
+  do
+    if test ! -f "$folderOut/$i" 
+     then
+      echo "============ $i ================"
+      _mp3ChangeSpeed "$i" $speed
+    fi
+  done
+}
+
+_mp3ChangeSpeed() {
+  local file="$1"
+  local speed=$2
+  local folderOut=conv$speed
+
+  ffmpeg -i "$file" -filter:a "atempo=$speed,atempo=$speed" -c:a libmp3lame -ac 1 -b:a 64k -ar 32000 -vn "$folderOut/$file"
 }
