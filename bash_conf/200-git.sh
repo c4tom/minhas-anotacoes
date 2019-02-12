@@ -28,9 +28,9 @@ ct_gitResetTocommit() {
 }
 
 # https://stackoverflow.com/questions/4858047/the-following-untracked-working-tree-files-would-be-overwritten-by-checkout
-# Limpar todas alteraÃ§Ãµes do commit atual.
+# Limpar todas alterações do commit atual.
 ct_gitClean() {
-	git clean  -d  -fx ""
+	git clean  -d  -fx
 }
 
 ### LOCAL ####
