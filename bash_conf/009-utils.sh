@@ -1,5 +1,4 @@
-
-
+HIST_PWD=$(pwd)
 
 # download arquivos no site da source forge
 # Use: download_source_forge <url>
@@ -150,3 +149,10 @@ autoEnableProxy() {
 }
 
 autoEnableProxy
+
+lastLocalFolder() {
+	cd $HIST_PWD
+}
+saveFolder() {
+	HIST_PWD=$(pwd)
+}
