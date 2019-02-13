@@ -49,6 +49,19 @@ ct_gitDesfazUltimoCommit() {
 }
 
 
+ct_gitListaTodasBranchs() {
+	git branch -vv
+}
+
+# Remove todas as branchs local, que foram deletadas no remoto 
+# Obs: Branchs locais que nunca foram para o remoto, não serão removidas
+# http://erikaybar.name/git-deleting-old-local-branches/
+ct_gitSyncRemoteBranchToLocal() {
+	git remote prune origin  
+	git branch -vv | grep 'origin/.*: gone]' | awk '{print $1}' | xargs git branch -D
+}
+
+
 #### REMOTO ####
 ct_gitRemotoDeleteBranch()
 {
