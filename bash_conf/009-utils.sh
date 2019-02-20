@@ -150,7 +150,6 @@ autoEnableProxy() {
 
 autoEnableProxy
 
-<<<<<<< HEAD
 
 ### Password
 
@@ -163,11 +162,11 @@ ct_genPassword() {
         let n+=1
     done
     echo "$PASS"
-=======
+}
+
 lastLocalFolder() {
 	cd $HIST_PWD
 }
 saveFolder() {
 	HIST_PWD=$(pwd)
->>>>>>> a11564c2a12bb20123d38e0be923664cde124ef1
 }
