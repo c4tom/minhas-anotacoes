@@ -28,9 +28,9 @@ ct_gitResetTocommit() {
 }
 
 # https://stackoverflow.com/questions/4858047/the-following-untracked-working-tree-files-would-be-overwritten-by-checkout
-# Limpar todas alteraÃ§Ãµes do commit atual.
+# Limpar todas alterações do commit atual.
 ct_gitClean() {
-	git clean  -d  -fx ""
+	git clean  -d  -fx
 }
 
 ### LOCAL ####
@@ -50,6 +50,19 @@ ct_gitDesfazUltimoCommit() {
 
 ct_gitCloneUltimoCommit() {
 	git clone --depth=1 "$1"
+}
+
+
+ct_gitListaTodasBranchs() {
+	git branch -vv
+}
+
+# Remove todas as branchs local, que foram deletadas no remoto 
+# Obs: Branchs locais que nunca foram para o remoto, n�o ser�o removidas
+# http://erikaybar.name/git-deleting-old-local-branches/
+ct_gitSyncRemoteBranchToLocal() {
+	git remote prune origin  
+	git branch -vv | grep 'origin/.*: gone]' | awk '{print $1}' | xargs git branch -D
 }
 
 

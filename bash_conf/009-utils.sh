@@ -1,5 +1,4 @@
-
-
+HIST_PWD=$(pwd)
 
 # download arquivos no site da source forge
 # Use: download_source_forge <url>
@@ -28,7 +27,14 @@ __pause(){
 }
 
 
-
+isWin() {
+	if test -z $WINDIR
+		then
+			echo 0
+		else
+			echo 1
+	fi
+}
 
 
 ### Open AnyFile ####
@@ -144,6 +150,7 @@ autoEnableProxy() {
 
 autoEnableProxy
 
+<<<<<<< HEAD
 
 ### Password
 
@@ -156,4 +163,11 @@ ct_genPassword() {
         let n+=1
     done
     echo "$PASS"
+=======
+lastLocalFolder() {
+	cd $HIST_PWD
+}
+saveFolder() {
+	HIST_PWD=$(pwd)
+>>>>>>> a11564c2a12bb20123d38e0be923664cde124ef1
 }

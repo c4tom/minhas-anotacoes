@@ -15,7 +15,7 @@ alias mvnreset="mvnclean; mvneclipseclean; mvninstall; mvneclipseeclipse; mvnpic
 alias mvncleaninstall="$MVN clean install $MVN_SKIP_TESTS"
 alias mvneclipseeclipse="$MVN eclipse:eclipse -Dwtpversion=2.0"
 alias mvnpiceclipse="$MVN picEclipse:corrige"
-alias mvneclipseclean="$MVN eclipse:clean"
+alias mvneclipseclean="$MVN eclipse:clean; rm -fr target bin"
 alias mvnDeploy="$MVN deploy $MVN_SKIP_TESTS"
 alias mvnVersion="$MVN -v"
 alias mvnpackage="$MVN clean package $MVN_SKIP_TESTS"
