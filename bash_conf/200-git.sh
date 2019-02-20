@@ -48,6 +48,10 @@ ct_gitDesfazUltimoCommit() {
 	git reset HEAD~
 }
 
+ct_gitCloneUltimoCommit() {
+	git clone --depth=1 "$1"
+}
+
 
 #### REMOTO ####
 ct_gitRemotoDeleteBranch()
