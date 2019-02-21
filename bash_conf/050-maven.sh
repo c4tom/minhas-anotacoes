@@ -10,9 +10,10 @@ export MVN=mvn
 MVN_SKIP_TESTS="-DskipTests=true"
 MVN_WTPVERSION="-Dwtpversion=2.0"
 
+alias mvninstall="$MVN install"
 alias mvnclean="$MVN clean"
 alias mvnpackage="$MVN install $MVN_SKIP_TESTS"
-alias mvnreset="mvnclean; mvneclipseclean; mvnpackage; mvneclipseeclipse; mvnpiceclipse"
+alias mvnreset="mvnclean; mvninstall; mvneclipseclean; mvneclipseeclipse; mvnpiceclipse"
 alias mvncleanpackage="$MVN clean package $MVN_SKIP_TESTS"
 alias mvneclipseeclipse="$MVN eclipse:eclipse $MVN_WTPVERSION"
 alias mvnpiceclipse="$MVN picEclipse:corrige"
