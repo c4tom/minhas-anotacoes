@@ -8,17 +8,18 @@
 export MVN=mvn
 
 MVN_SKIP_TESTS="-DskipTests=true"
+MVN_WTPVERSION="-Dwtpversion=2.0"
 
+alias mvninstall="$MVN install"
 alias mvnclean="$MVN clean"
-alias mvninstall="$MVN install $MVN_SKIP_TESTS"
-alias mvnreset="mvnclean; mvneclipseclean; mvninstall; mvneclipseeclipse; mvnpiceclipse"
-alias mvncleaninstall="$MVN clean install $MVN_SKIP_TESTS"
-alias mvneclipseeclipse="$MVN eclipse:eclipse -Dwtpversion=2.0"
+alias mvnpackage="$MVN install $MVN_SKIP_TESTS"
+alias mvnreset="mvnclean; mvninstall; mvneclipseclean; mvneclipseeclipse; mvnpiceclipse"
+alias mvncleanpackage="$MVN clean package $MVN_SKIP_TESTS"
+alias mvneclipseeclipse="$MVN eclipse:eclipse $MVN_WTPVERSION"
 alias mvnpiceclipse="$MVN picEclipse:corrige"
 alias mvneclipseclean="$MVN eclipse:clean; rm -fr target bin"
 alias mvnDeploy="$MVN deploy $MVN_SKIP_TESTS"
 alias mvnVersion="$MVN -v"
-alias mvnpackage="$MVN clean package $MVN_SKIP_TESTS"
 
 alias mvnDependencyTree="$MVN dependency:tree"
 alias mvnDependencyList="$MVN dependency:list"
