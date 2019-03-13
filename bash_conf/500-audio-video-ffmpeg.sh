@@ -207,6 +207,11 @@ mp4ToLow() {
   ffmpeg -i "$1" -preset ultrafast -c:v libx265 -crf 20 -r 10 -c:a libmp3lame -ac 1 -b:a 64k -ar 32000 "conv/$1"
 }
 
+mp4ToScale320x240() {
+  mkdir -p "conv"
+  ffmpeg -i "$1" -vf scale=320:240 "conv/$1"
+}
+
 # https://trac.ffmpeg.org/wiki/How%20to%20speed%20up%20/%20slow%20down%20a%20video
 # The atempo filter is limited to using values between 0.5 and 2.0 
 # (so it can slow it down to no less than half the original speed, and speed up 
@@ -233,3 +238,4 @@ _mp3ChangeSpeed() {
 
   ffmpeg -i "$file" -filter:a "atempo=$speed,atempo=$speed" -c:a libmp3lame -ac 1 -b:a 64k -ar 32000 -vn "$folderOut/$file"
 }
+
