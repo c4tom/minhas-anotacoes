@@ -65,7 +65,7 @@ ct_charsetConvertListFROM_TO(){
 		tmp_result=$(ct_fileChartSet "$i")
 		tmp_file=$(echo $tmp_result | cut -f1 -d':')
 		tmp_charset=$(echo $tmp_result | cut -f2 -d':' | xargs)
-		tmp_charset=$(toUpperCase $tmp_charset)
+		tmp_charset=$(ct_toUpperCase $tmp_charset)
 	
 		echo -n "- $tmp_file tem charset: '$tmp_charset'";
 		
@@ -83,6 +83,12 @@ ct_charsetConvertListFROM_TO(){
 ct_charsetConvertListISO88591_TO_UTF8() {
 	ct_charsetConvertListFROM_TO ISO-8859-1 UTF-8 "$1"
 }
+
+# Convert uma lista de arquivos de ISO-8859-1 para UTF-8
+ct_charsetConvertListUS-ASCII_TO_UTF8() {
+	ct_charsetConvertListFROM_TO US-ASCII UTF-8 "$1"
+}
+
 
 
 # Converte todos arquivos *.properties para caracteres unicode, recursivamente
