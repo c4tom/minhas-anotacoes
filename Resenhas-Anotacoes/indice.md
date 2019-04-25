@@ -1,1 +1,0 @@
-- [SAD - DW - OLAP - BI](./SAD-DW-OLAP-BI/SAD-DW-OLAP-BI.md)
