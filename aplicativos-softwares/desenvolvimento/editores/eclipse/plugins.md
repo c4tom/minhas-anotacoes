@@ -89,6 +89,7 @@ Please take a look at our FAQ page and our forum if you have any questions or pr
 
 ### DEBUG e BUGS
  - [spot bugs](http://spotbugs.readthedocs.io/en/latest/eclipse.html)
+ - [Sonar Lint](https://eclipse-uc.sonarlint.org)
 
 ### CHARSET
  - Autodetect Encoding - https://cypher256.github.io/eclipse-encoding-plugin/
