@@ -8,33 +8,58 @@ code --list-extensions
 Para Instalar via linha de comandos
 `code --install <extensao>`
 
-
 ```
-ckolkman.vscode-postgres
-dansilver.typewriter
-DavidAnson.vscode-markdownlint
-electrotype.windows-explorer-context-menu
-felixfbecker.php-debug
-formulahendry.vscode-mysql
-guosong.vscode-util
-idleberg.emoji-code
-idleberg.nsis
-ionutvmi.reg
-jaskang.jkformat
-jebbs.markdown-extended
-josefpihrt-vscode.snippetica-markdown
-kaishuu0123.vscode-erd-preview
-Kelvin.vscode-sshfs
-negokaz.live-server-preview
-okazuki.okazukiplantuml
-PeterJausovec.vscode-docker
+2019 - Extensões
+
+--- JAVA
+vscjava.vscode-java-pack
+sohibe.java-generate-setters-getters
+
+adashen.vscode-tomcat
+
+--- PHP
+felixfbecker.php-pack
+
+--- Python
+
+
+--- JS / CSS / HTML
+waderyan.nodejs-extension-pack
 speks.flowmaker
 tandemcode.tandem-vscode-extension
-tht13.html-preview-vscode
-yzhang.markdown-all-in-one
+gencer.html-slim-scss-css-class-completion
+
+--- DATABASE
+formulahendry.vscode-mysql
+ckolkman.vscode-postgres
+mtxr.sqltools
+
+--- XML
+dotjoshjohnson.xml
+
+--- MarkDown
+bat67.markdown-extension-pack
+  davidanson.vscode-markdownlint
+  romanpeshkov.vscode-text-tables
+
+--- Outras
+ritwickdey.liveserver
+yeluoqiuzhi.vscode-detect-charset
+electrotype.windows-explorer-context-menu
+ionutvmi.reg
+coenraads.bracket-pair-colorizer-2
+idleberg.emoji-code
+ibm.output-colorizer
+roscop.activefileinstatusbar
+ryu1kn.text-marker
+adamwalzer.string-converter
+sonarsource.sonarlint-vscode
 ```
 
 
+
+
+```
 TESTAR NOVAMENTE
 4tron.angular-material-snippets
 AlanWalk.markdown-toc
