@@ -165,8 +165,8 @@ ct_genPassword() {
 }
 
 lastLocalFolder() {
-	cd $HIST_PWD
+	cd "$HIST_PWD"
 }
 saveFolder() {
-	HIST_PWD=$(pwd)
+	HIST_PWD="$(pwd)"
 }
