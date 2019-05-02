@@ -7,6 +7,7 @@ description: "Lista de plugins utilizados no eclipse IDE"
 ## Plugins
 ### Temas
 
+ - [Color IDE Pack](https://marketplace.eclipse.org/content/color-ide-pack)
  - Darkest Dark Theme
 
  - Webclipse CI Update Site  http://www.genuitec.com/updates/webclipse/ci/
@@ -14,10 +15,12 @@ description: "Lista de plugins utilizados no eclipse IDE"
 
 
 ### Market Place
- - http://download.eclipse.org/releases/oxygen
+Acesse o endereço e escolha a versão do eclipse
+ - http://download.eclipse.org/releases/
 
 ### Decompilador
-
+ - Enhanced Class Decompiler
+ - Import Jar As Project
  - JD-Eclipse
 <pre>
 Release
@@ -43,12 +46,14 @@ Para instalar: http://raw.githubusercontent.com/cnfree/eclipse/master/decompiler
 
 ### Diagramas
 - Umbrello
-- objectAid (install http://www.objectaid.com/update/current)
-- ModelGoon UML4Java ***** (install  http://www.modelgoon.org/update) - Não faz eng. reversa
+- Umple (install <http://cruise.eecs.uottawa.ca/org.cruise.umple.eclipse.plugin.update.site>)
+  - [Como instalar no Eclipse](https://github.com/umple/umple/wiki/InstallEclipsePlugin)
+- objectAid (install <http://www.objectaid.com/update/current>)
+- ModelGoon UML4Java ***** (install  <http://www.modelgoon.org/update>) - Não faz eng. reversa
 - Achitexa
 - [AgileJ](http://www.agilej.com/) - UML (comercial)
 - UML Lab (comercial)
-- eUML2 (Free/Comercial) (install http://www.soyatec.com/update)
+- eUML2 (Free/Comercial) (install <http://www.soyatec.com/update>)
 <pre>
 Achitexa is currently available as a Java plugin for the Eclipse IDE.  Use the following update site url to install Architexa from within  Eclipse.
 For Eclipse 4.2:
@@ -105,3 +110,8 @@ Please take a look at our FAQ page and our forum if you have any questions or pr
 ### Editor
  - Nodeclipse Editobox (verdinho)
  - Java Mission Control	http://download.oracle.com/technology/products/missioncontrol/updatesites/experimental/5.5.0/eclipse/
+
+
+### LogViewer
+ - http://anb0s.github.io/LogViewer
+ - Mihai (https://www.mihai-nita.net/eclipse)

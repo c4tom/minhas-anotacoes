@@ -19,6 +19,7 @@ adashen.vscode-tomcat
 
 --- PHP
 felixfbecker.php-pack
+rifi2k.format-html-in-php
 
 --- Python
 
