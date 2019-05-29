@@ -1,5 +1,7 @@
+#Node JS - Node.js is a platform built on Chrome's JavaScript runtime for easily building fast, scalable network applications. Real-Time services (Chat, Games etc)
+#NPM is a package manager. Typically this software is installed to build Node applications.
 
-
+#It let's you install software (libraries, plugins, frameworks and applications).
 # https://www.tecmint.com/install-nodejs-npm-in-centos-ubuntu/
 # Veja tambem: https://nodejs.org/en/download/
 nodejsInstallLinuxMint() {
