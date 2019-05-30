@@ -16,7 +16,7 @@ nodejsInstallLinuxMint() {
 #	
 
 
-nodejsCorrecoesProblemas() {
+ct_npmCorrigeISSUER_CERT_LOCALLY() {
 	
 	#npm ERR! code UNABLE_TO_GET_ISSUER_CERT_LOCALLY
 	#npm ERR! errno UNABLE_TO_GET_ISSUER_CERT_LOCALLY
