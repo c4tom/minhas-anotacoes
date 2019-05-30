@@ -10,7 +10,7 @@ ct_vboxCreateRawDisk() {
     local partition="$3"
     local outros=""
 
-    if test -z $partition
+    if test ! -z $partition
         then
             outros=" -partitions $partition"
         fi
