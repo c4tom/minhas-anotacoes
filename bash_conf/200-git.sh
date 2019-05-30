@@ -3,6 +3,7 @@
 # sudo apt-get install git-extras
 [[ -f /usr/bin/git ]] || { return ; }
 
+## Config ##
 ct_git_config_ignore_chmod()
 {
 	git config --global core.fileMode false
@@ -12,6 +13,13 @@ ct_git_config_ignore_chmod()
 _gitParseBranch() {
      git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
 }
+
+# https://www.jamescoyle.net/how-to/1891-git-ssl-certificate-problem-caused-by-self-signed-certificates
+ct_gitSSLIgnore() {
+	git config --global http.sslVerify false
+}
+
+
 
 # mostra branch atual
 #export PS1="\n\w $(_gitParseBranch)\n${CCyan}\u@\h${NC} >${NC}"
@@ -58,7 +66,7 @@ ct_gitListaTodasBranchs() {
 }
 
 # Remove todas as branchs local, que foram deletadas no remoto 
-# Obs: Branchs locais que nunca foram para o remoto, não serão removidas
+# Obs: Branchs locais que nunca foram para o remoto, nï¿½o serï¿½o removidas
 # http://erikaybar.name/git-deleting-old-local-branches/
 ct_gitSyncRemoteBranchToLocal() {
 	git remote prune origin  
