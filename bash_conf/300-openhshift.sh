@@ -36,11 +36,14 @@ ct_ocLogin() {
 
 			if [ `isWin` == "1" ] 
 				then
-					LOGNAME=$USENAME
+					LOGNAME=$USERNAME
 			fi
 
 			echoColor "Logando em: $OC_SERVER_ADDR como: $LOGNAME"
-			$OC login --insecure-skip-tls-verify --username=$LOGNAME $OC_SERVER_ADDR
+
+			echo "Digite a senha: "
+			read -s password 
+			$OC login --insecure-skip-tls-verify --username=$LOGNAME $OC_SERVER_ADDRct_ -p $password
 			$OC project $1
 		else
 			echo ">>> Já esta logado";
@@ -150,7 +153,7 @@ ct_ocDebug() {
 # $1 = container name (ou nome do projeto, ex.: doahml, atihml, etc)
 ct_ocServerLog()
 {
-		$OC logs -f dc/$1
+	$OC logs -f dc/$1
 }
 
 
@@ -180,7 +183,7 @@ ct_ocRSYNC_REMOTO2LOCAL() {
 
 # Verifica se esta logado no servidor do openshift
 ct_ocIsLogged() {
-	result=`$OC status 2>&1 | grep error`
+	result=`$OC status 2>&1 | grep -i error`
 	if [ -n "$result" ]
 		then
 			echo 0
