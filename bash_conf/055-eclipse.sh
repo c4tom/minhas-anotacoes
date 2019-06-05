@@ -1,4 +1,4 @@
-eclipseCleanProject() {
+ct_eclipseCleanProject() {
 	find ./ -name .settings  -exec rm -fr {} \;
 	find ./ -name .tern-project  -exec rm {} \;
 	find ./ -name .project  -exec rm {} \;
