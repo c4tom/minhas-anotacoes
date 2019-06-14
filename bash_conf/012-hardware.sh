@@ -1,37 +1,42 @@
 
-ct_perifericosListar() {
+ct_hwPerifericosListar() {
 	echo 'Relatorio dos perifericos do linux'
 	inxi -FxZ
 }
 
-
-
-ct_hardDiskInfo() {
+ct_hwDiskInfo() {
 	sudo hdparm -I /dev/sda1
 }
 
 ### PC Info
-ct_hardInfo() {
+ct_hwInfo() {
 	inxi -Fz
 }
 
 # Com mais detalhes, pode instalar um visual apt-get install hardinfo sysinfo
-ct_hardInfoLSHW()
+ct_hwInfoLSHW()
 {
 	sudo lshw
 }
 
 ### System Info
 
-diskInfoPartition() {
+ct_hwDiskInfoPartition() {
 	lsblk -o "NAME,MAJ:MIN,RM,SIZE,RO,FSTYPE,MOUNTPOINT,UUID"
 }
 
-diskInfomation(){
+ct_hwDiskInfomation(){
 	local DISK_DEV=$1 #/dev/sda
 	hdparm -I $DISK_DEV
 }
 
-ct_hardBiosInfo() {
+ct_hwBiosInfo() {
 	sudo dmidecode
+}
+
+ct_hwWifiModulosListar() {
+	lspci | grep Network
+	dmesg | grep iwlwifi
+	iwconfig
+	modinfo iwlwifi
 }
