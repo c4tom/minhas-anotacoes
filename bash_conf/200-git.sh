@@ -8,6 +8,9 @@ ct_git_config_ignore_chmod()
 {
 	git config --global core.fileMode false
 }
+ct_git_config_auto_linefeed() {
+	git config --global core.autocrlf true
+}
 
 # usado para o prompt PS1
 _gitParseBranch() {
