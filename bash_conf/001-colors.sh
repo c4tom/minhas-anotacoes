@@ -79,3 +79,21 @@ echoColor() {
 echoColorn() {
 	echo -e -n "$Color_Off$1$Color_Off"
 }
+
+### 1-Text Color, 2 BGColor
+echoRedBlack() {
+	echo -e "$CRed$On_Black$1$Color_Off"
+}
+
+echoGreenBlack() 
+{
+	echo -e "$CGreen$On_Black$1$Color_Off"
+}
+
+echoWhiteBlack() {
+	echo -e "$CWhite$On_Black$1$Color_Off"
+}
+
+echoYellowBlack() {
+	echo -e "$CYellow$On_Black$1$Color_Off"
+}

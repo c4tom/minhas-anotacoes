@@ -134,3 +134,13 @@ ct_dockerCheckStatusWeb() {
 
 }
 
+
+ct_dockerSetAutoStart() {
+	docker ps
+	echoYellowBlack "Digite o CONTAINER_ID: "
+	read dockerID
+
+	docker update --restart=always $dockerID
+
+
+}
