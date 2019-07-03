@@ -63,3 +63,12 @@ procuraJarsNoSistema() {
 	done
 
 }
+
+# https://www.logicbig.com/how-to/java-command/jvm-option-list.html
+ct_java_PrintFlagsFinal() {
+	java -XX:+PrintFlagsFinal -version
+}
+
+ct_java_ListProcess() {
+	jps -v
+}
