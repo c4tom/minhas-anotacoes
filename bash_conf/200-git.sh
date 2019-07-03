@@ -99,4 +99,50 @@ ct_gitDeleteLocalBranch() {
 	git branch --delete "$BRANCH_NAME"
 }
 
+ct_gitMakeIgnoreFile() {
+	echo "
+# Develop #
+.classpath
+.project
+target
 
+# Compiled source #
+###################
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+
+# Temporary files #
+###################
+*.swp
+*.swo
+*~
+
+# Packages #
+############
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# Logs and databases #
+######################
+*.log
+*.sql
+*.sqlite
+
+# OS generated files #
+######################
+.DS_Store*
+ehthumbs.db
+Icon?
+Thumbs.db
+" > .gitignore
+}
