@@ -40,3 +40,10 @@ ct_hwWifiModulosListar() {
 	iwconfig
 	modinfo iwlwifi
 }
+
+
+### Batery Info
+
+ct_hwBatteryInfo() {
+	upower -i /org/freedesktop/UPower/devices/battery_BAT0
+}
