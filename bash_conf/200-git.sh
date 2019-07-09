@@ -8,10 +8,13 @@ ct_git_config_ignore_chmod()
 {
 	git config --global core.fileMode false
 }
+ct_git_config_auto_linefeed() {
+	git config --global core.autocrlf true
+}
 
 # usado para o prompt PS1
 _gitParseBranch() {
-     git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+     git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ [\1]/'
 }
 
 # https://www.jamescoyle.net/how-to/1891-git-ssl-certificate-problem-caused-by-self-signed-certificates
@@ -22,10 +25,11 @@ ct_gitSSLIgnore() {
 
 
 # mostra branch atual
-#export PS1="\n\w $(_gitParseBranch)\n${CCyan}\u@\h${NC} >${NC}"
+export PS1="\n\w $(_gitParseBranch)\n${CCyan}\u@\h${NC} >${NC}"
 #export PS1="$CCyan\u@\h>\[\033[32m\]\w$BIYellow\$(_gitParseBranch)\[\033[00m\]>"
 #export PS1="\$(_gitParseBranch)\n\u@\h \w >"
 #export PS1="\u@\h\n\w\$(_gitParseBranch)>"
+
 
 
 # $1 (Hash do commit a qual voce que voltar, ver 'git log')
@@ -95,4 +99,50 @@ ct_gitDeleteLocalBranch() {
 	git branch --delete "$BRANCH_NAME"
 }
 
+ct_gitMakeIgnoreFile() {
+	echo "
+# Develop #
+.classpath
+.project
+target
 
+# Compiled source #
+###################
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+
+# Temporary files #
+###################
+*.swp
+*.swo
+*~
+
+# Packages #
+############
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# Logs and databases #
+######################
+*.log
+*.sql
+*.sqlite
+
+# OS generated files #
+######################
+.DS_Store*
+ehthumbs.db
+Icon?
+Thumbs.db
+" > .gitignore
+}
