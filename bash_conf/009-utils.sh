@@ -65,6 +65,13 @@ ct_randomStringGen() {
 	cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1
 }
 
+# bash random generator between two numbers
+ct_rand() {
+	local int1=$1
+	local int2=$2
+	shuf -i $int1-$int2 -n 1
+}
+
 # bash generate random number between 0 and 9
 ct_rand0_9() {
 	cat /dev/urandom | tr -dc '0-9' | fold -w 256 | head -n 1 | head --bytes 1
