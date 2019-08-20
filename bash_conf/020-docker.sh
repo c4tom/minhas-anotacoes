@@ -12,7 +12,7 @@
 		sudo apt-get update
 		sudo apt-get install docker-ce docker-ce-cli containerd.io
 
-		sudo usermod -G docker $USER
+		sudo usermod -a -G docker $USER
 	}
 	return ; 
 
@@ -80,7 +80,7 @@ ct_dockerBestPratice(){
 
 #https://docs.docker.com/config/pruning/#prune-everything
 ct_dockerRemoveTudo() {
-	echo "ATEN��O: Isso remover� tudo, desde imagens, containers e cache"
+	echo "ATENÇÃO: Isso removerá tudo, desde imagens, containers e cache"
 	docker system prune --all
 }
 
