@@ -47,3 +47,11 @@ ct_hwWifiModulosListar() {
 ct_hwBatteryInfo() {
 	upower -i /org/freedesktop/UPower/devices/battery_BAT0
 }
+
+
+### Hibernate
+
+ct_hwHabilitarHibernate()
+{
+	xdg-open https://forums.linuxmint.com/viewtopic.php?t=277510
+}
