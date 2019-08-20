@@ -177,3 +177,17 @@ lastLocalFolder() {
 saveFolder() {
 	HIST_PWD="$(pwd)"
 }
+
+# https://www.tecmint.com/create-a-shared-directory-in-linux/
+ct_createDeveloperFolderShared() {
+	local FOLDER="$1"
+	local GROUP="desenv"
+
+	sudo mkdir -p "$1"
+
+	sudo groupadd $GROUP
+	sudo usermod -a -G $GROUP $USER
+
+	sudo chgrp -R $GROUP $FOLDER
+	sudo chmod -R 2775 $FOLDER
+}
