@@ -1,7 +1,9 @@
 # Baixar arquivos antigos: http://www.oracle.com/technetwork/java/javase/archive-139210.html
+export CXF_HOME=/desenv/java/apache-cxf-3.3.3
+
 
 JDK_HOME="/desenv/jdk/jdk8"
-JAVA_HOME=$JAVA_HOME;
+JAVA_HOME=$JDK_HOME;
 
 jdk8()
 {
