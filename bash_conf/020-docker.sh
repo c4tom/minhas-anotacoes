@@ -80,7 +80,8 @@ ct_dockerBestPratice(){
 
 #https://docs.docker.com/config/pruning/#prune-everything
 ct_dockerRemoveTudo() {
-	echo "ATENÇÃO: Isso removerá tudo, desde imagens, containers e cache"
+	echo "ATENÇÃO: Isso removerá tudo, desde imagens, containers e cache\nCTRL+c para abortar"
+	read tmp
 	docker system prune --all
 }
 
