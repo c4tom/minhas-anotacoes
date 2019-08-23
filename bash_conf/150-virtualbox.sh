@@ -4,6 +4,8 @@
 
 [[ -f /usr/bin/VBoxManage ]] || { return ; }
 
+
+# Para windows $devicd = \\.\physicaldrive0
 ct_vboxCreateRawDisk() {
     local nome_do_arquivo="$1"
     local device="$2"
@@ -18,6 +20,8 @@ ct_vboxCreateRawDisk() {
     VBoxManage internalcommands createrawvmdk -filename "$nome_do_arquivo" -rawdisk $device $outros
 }
 
+
+# Para windows $device = \\.\physicaldrive0
 ct_vboxListPartition() {
     local device="$1"
     VBoxManage internalcommands listpartitions -rawdisk "$device"
