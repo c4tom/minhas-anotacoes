@@ -191,3 +191,7 @@ ct_createDeveloperFolderShared() {
 	sudo chgrp -R $GROUP $FOLDER
 	sudo chmod -R 2775 $FOLDER
 }
+
+ct_monitorDesliga() {
+	xset dpms force off
+}
