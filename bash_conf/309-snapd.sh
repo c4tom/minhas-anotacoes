@@ -15,8 +15,8 @@ ct_snapInstallAndroidStudio() {
 }
 
 ct_snapInstallAllDesenv() {
-    local CLASSIC="code code-insiders eclipse intellij-idea-community intellij-idea-ultimate netbeans node phpstorm powershell pycharm-educational rider "
-    local EDGE="dbeaver-ce"
+    local CLASSIC="code code-insiders eclipse intellij-idea-community intellij-idea-ultimate netbeans phpstorm powershell pycharm-educational rider"
+    local EDGE="dbeaver-ce node"
 
     for i in $CLASSIC
         do
