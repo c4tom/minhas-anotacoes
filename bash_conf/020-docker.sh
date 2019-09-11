@@ -46,10 +46,19 @@ ct_dockerKitematicLauncher() {
  -v /var/run/docker.sock:/var/run/docker.sock --privileged=true jonadev95/kitematic-docker
 }
 
+ct_dockerKitematicInstall() {
+	local VERSION="0.17.7"
+	curl -L -o /tmp/kitematic.zip https://github.com/docker/kitematic/releases/download/v$VERSION/Kitematic-$VERSION-Ubuntu.zip
+	cd /tmp
+	unzip kitematic.zip 
+	sudo dpkg -i "Kitematic-"$VERSION"_amd64.deb"
+}
+
 # https://docs.docker.com/compose/install/#upgrading
 ct_dockerComposeDownloadInstall() {
 	cd /tmp/
-	sudo curl -L https://github.com/docker/compose/releases/download/1.19.0/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose && sudo chmod +x /usr/local/bin/docker-compose && docker-compose --version
+	local VERSION="1.24.1"
+	sudo curl -L https://github.com/docker/compose/releases/download/$VERSION/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose && sudo chmod +x /usr/local/bin/docker-compose && docker-compose --version
 
 }
 
