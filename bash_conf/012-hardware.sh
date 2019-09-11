@@ -54,4 +54,5 @@ ct_hwBatteryInfo() {
 ct_hwHabilitarHibernate()
 {
 	xdg-open https://forums.linuxmint.com/viewtopic.php?t=277510
+	xdg-open https://forums.linuxmint.com/viewtopic.php?f=42&t=273202
 }
