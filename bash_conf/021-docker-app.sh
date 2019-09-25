@@ -15,7 +15,23 @@ ct_docker_AppSublimeText3() {
 	$DOCKER_X11_SHORT -v "$PWD":/home --name sublime$RAND jess/sublime-text-3
 }
 
+ct_docker_AppLXDEWine() {
+	$DOCKER_X11_SHORT --name lxdewine$RAND x11docker/lxde-wine
+}
+ct_docker_AppXFCEWine() {
+	$DOCKER_X11_SHORT --name lxdewine$RAND x11docker/xfce-wine-playonlinux
+}
+
+ct_docker_AppDBSchema() {
+	$DOCKER_X11_SHORT --name dbschema$RAND dbschema:latest
+}
+
+
 
 ct_docker_AppApachePHP5() {
 	docker run -d --name apache-php5 -v "$PWD":/web nimmis/alpine-apache-php5
+}
+
+ct_docker_AppCrossOver() {
+	$DOCKER_X11_SHORT --name crossover$RAND crossover:latest
 }
