@@ -1,4 +1,5 @@
-echoColor "Olá, como vai $BGreen$USER?$Color_Off Hora: $CCyan`date`"
+nixName="`uname -n`/`uname -r`"
+echoColor "Olá, como vai $BGreen$USER?$Color_Off Hora: $CCyan`date` :: $nixName"
 
 function child() {
     local parent_pid="$1"
