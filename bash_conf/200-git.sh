@@ -25,7 +25,7 @@ ct_gitSSLIgnore() {
 
 
 # mostra branch atual
-export PS1="\n\w $(_gitParseBranch)\n${CCyan}\u@\h${NC} >${NC}"
+#export PS1="\n\w $(_gitParseBranch)\n${CCyan}\u@\h${NC} >${NC}"
 #export PS1="$CCyan\u@\h>\[\033[32m\]\w$BIYellow\$(_gitParseBranch)\[\033[00m\]>"
 #export PS1="\$(_gitParseBranch)\n\u@\h \w >"
 #export PS1="\u@\h\n\w\$(_gitParseBranch)>"
@@ -76,6 +76,17 @@ ct_gitSyncRemoteBranchToLocal() {
 	git remote prune origin  
 	git branch -vv | grep 'origin/.*: gone]' | awk '{print $1}' | xargs git branch -D
 }
+
+ct_gitStashSalvar() {
+	local NOME="$1"
+	echo "Salvo todos itens modificados ou criados"
+	git stash push -m "$NOME"
+}
+ct_gitStashRestauraUltimo() {
+	echo "Recuperado último stash gravado"
+	git stash apply
+}
+
 
 
 #### REMOTO ####
