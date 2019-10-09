@@ -9,7 +9,7 @@
 wifiRepeater() {
 	local ssid=$1
 	local pass=$2
-	local ifaceWIFI=$(ifconfig | grep wlp | awk '{ print $1 }' | sed 's/://')
+	local ifaceWIFI=$(ifconfig | grep wlx | awk '{ print $1 }' | sed 's/://')
 	local ifaceWithInternet=$(route -n | grep UG | head -n 1 | awk '{print $8}')
 	#local mac=$(echo "`ct_rand0_99`:`ct_rand0_99`:`ct_rand0_99`:`ct_rand0_99`:`ct_rand0_99`:`ct_rand0_99`")
 	local mac=`__macAddrGen`
