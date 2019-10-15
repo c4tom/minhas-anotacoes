@@ -46,20 +46,24 @@ ct_dockerKitematicLauncher() {
  -v /var/run/docker.sock:/var/run/docker.sock --privileged=true jonadev95/kitematic-docker
 }
 
-ct_dockerKitematicInstall() {
-	local VERSION="0.17.7"
-	curl -L -o /tmp/kitematic.zip https://github.com/docker/kitematic/releases/download/v$VERSION/Kitematic-$VERSION-Ubuntu.zip
-	cd /tmp
-	unzip kitematic.zip 
-	sudo dpkg -i "Kitematic-"$VERSION"_amd64.deb"
+[[ -f /usr/bin/kitematic ]] || { 
+	ct_dockerKitematicInstall() {
+		local VERSION="0.17.7"
+		curl -L -o /tmp/kitematic.zip https://github.com/docker/kitematic/releases/download/v$VERSION/Kitematic-$VERSION-Ubuntu.zip
+		cd /tmp
+		unzip kitematic.zip 
+		sudo dpkg -i "Kitematic-"$VERSION"_amd64.deb"
+	}
 }
 
-# https://docs.docker.com/compose/install/#upgrading
-ct_dockerComposeDownloadInstall() {
-	cd /tmp/
-	local VERSION="1.24.1"
-	sudo curl -L https://github.com/docker/compose/releases/download/$VERSION/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose && sudo chmod +x /usr/local/bin/docker-compose && docker-compose --version
+[[ -f /usr/bin/docker-compose ]] || { 
+	# https://docs.docker.com/compose/install/#upgrading
+	ct_dockerComposeDownloadInstall() {
+		cd /tmp/
+		local VERSION="1.25.0-rc2"
+		sudo curl -L https://github.com/docker/compose/releases/download/$VERSION/docker-compose-`uname -s`-`uname -m` -o /usr/bin/docker-compose && sudo chmod +x /usr/local/bin/docker-compose && docker-compose --version
 
+	}
 }
 
 # $1 nome do container
@@ -101,26 +105,6 @@ ct_dockerRemoveContainers() {
 	$DOCKER container prune
 }
 
-
-
-#$ docker login -u {docker-hub-username}
-#<enter user name and password for Docker Hub Repository>
-#$ docker tag first-image {docker-hub-username}/{default-repo-folder-name}:first-image
-#$ docker push {docker-hub-username}/{default-repo-folder-name}:first-image
-#
-# ou configure $HOME/.docker/config.json em 
-# https://docs.docker.com/engine/reference/commandline/login/#default-behavior
-ct_dockerPush() {
-	[ ! -z $DOCKERHUB_LOGIN ] || { echo "Defina DOCKERHUB_LOGIN, ou adicione em .bashrc ou .profile"; return; }
-	
-	local NOME_TAG=$1
-	local NOME_REPO=$(dirname `pwd`/a)
-	echo "Senha para logar no hub.docker.com"
-	#docker login -u $DOCKERHUB_LOGIN
-	echo $NOME_REPO
-
-}
-
 ct_dockerInfoAdicionarRepoBrasilDebian() {
 	echo "
 	\`RUN cat /etc/apt/sources.list | \
@@ -151,6 +135,33 @@ ct_dockerSetAutoStart() {
 	read dockerID
 
 	docker update --restart=always $dockerID
+}
 
+
+
+
+
+
+
+
+
+
+
+# PULL Docker Image
+#$ docker login -u {docker-hub-username}
+#<enter user name and password for Docker Hub Repository>
+#$ docker tag first-image {docker-hub-username}/{default-repo-folder-name}:first-image
+#$ docker push {docker-hub-username}/{default-repo-folder-name}:first-image
+#
+# ou configure $HOME/.docker/config.json em 
+# https://docs.docker.com/engine/reference/commandline/login/#default-behavior
+ct_dockerPush() {
+	[ ! -z $DOCKERHUB_LOGIN ] || { echo "Defina DOCKERHUB_LOGIN, ou adicione em .bashrc ou .profile"; return; }
+	
+	local NOME_TAG=$1
+	local NOME_REPO=$(dirname `pwd`/a)
+	echo "Senha para logar no hub.docker.com"
+	#docker login -u $DOCKERHUB_LOGIN
+	echo $NOME_REPO
 
 }
