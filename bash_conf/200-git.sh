@@ -30,7 +30,13 @@ ct_gitSSLIgnore() {
 #export PS1="\$(_gitParseBranch)\n\u@\h \w >"
 #export PS1="\u@\h\n\w\$(_gitParseBranch)>"
 
+ct_gitMantemForkedAtualizado() {
+	local REMOTO_ORIGNAL_GIT_REPOSITORY="$1"
+	git remote add upstream "$REMOTO_ORIGNAL_GIT_REPOSITORY"
+	git fetch upstream
 
+	git pull upstream master
+}
 
 # $1 (Hash do commit a qual voce que voltar, ver 'git log')
 ct_gitResetTocommit() {
