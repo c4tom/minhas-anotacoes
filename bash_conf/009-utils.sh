@@ -179,8 +179,10 @@ saveFolder() {
 }
 
 # https://www.tecmint.com/create-a-shared-directory-in-linux/
+# As root, execute this
 ct_createDeveloperFolderShared() {
 	local FOLDER="$1"
+	local USER="$2"
 	local GROUP="desenv"
 
 	sudo mkdir -p "$1"
