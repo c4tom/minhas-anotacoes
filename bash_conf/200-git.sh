@@ -22,7 +22,20 @@ ct_gitSSLIgnore() {
 	git config --global http.sslVerify false
 }
 
+ct_git_config_default_global() {
+	# Allow Extended Regular Expressions
+	git config --global grep.extendRegexp true
+	# Always Include Line Numbers
+	git config --global grep.lineNumber true
 
+	# Last commit
+	git config --global alias.last 'log -1 HEAD'
+	
+	git config --global alias.co checkout
+	git config --global alias.br branch
+	git config --global alias.ci commit
+	git config --global alias.st status	
+}
 
 # mostra branch atual
 #export PS1="\n\w $(_gitParseBranch)\n${CCyan}\u@\h${NC} >${NC}"
