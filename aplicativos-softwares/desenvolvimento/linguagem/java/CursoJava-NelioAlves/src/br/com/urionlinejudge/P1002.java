@@ -1,4 +1,3 @@
-package br.com.urionlinejudge;
 
 public class P1002 {
 

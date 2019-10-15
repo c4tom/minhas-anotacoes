@@ -1,5 +1,3 @@
-package br.com.urionlinejudge;
-
 import java.util.Scanner;
 
 public class P1001 {
