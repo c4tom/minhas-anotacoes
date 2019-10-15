@@ -4,3 +4,4 @@
 settings.json
 tasks.json
 .vs
+*.class
