@@ -49,4 +49,10 @@ order by ind.table_owner,
          ind.table_name,
          ind.index_name,
          ind_col.column_position;
+
+
+--- Drop All Tables With Cascate Constraints
+select 'DROP TABLE ' || TABLE_NAME || ' cascade constraints;' FROM USER_TABLES;
+
 ```
+
