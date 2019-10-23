@@ -7,18 +7,22 @@ lampp_set_php5() {
     export LAMPP=/desenv/lampp-php5
     export LD_LIBRARY_PATH=$LAMPP/lib
     export PATH=$PATH_ORIGINAL:$LAMPP/bin:$LAMPP/sbin
+    lampp_manager
 }
 
 lampp_set_php7() {
     export LAMPP=/desenv/lampp-php7
     export LD_LIBRARY_PATH=$LAMPP/lib
     export PATH=$PATH_ORIGINAL:$LAMPP/bin:$LAMPP/sbin
+    lampp_manager
 }
 
 lampp_manager()
 {
+    echo $LAMPP
+    
     sudo ldconfig
-    rm -f /opt/lampp
+    sudo rm -f /opt/lampp
     sudo ln -sf $LAMPP /opt/lampp
     cd $LAMPP
     sudo $LAMPP/manager-linux-x64.run

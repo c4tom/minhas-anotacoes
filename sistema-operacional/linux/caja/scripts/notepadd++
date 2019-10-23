@@ -10,5 +10,5 @@ PWD=`pwd`
 file1=`_winepath "$PWD/$1"`;
 
 
-/usr/share/playonlinux/playonlinux --run "Notepad Plus Plus" "$file1"
+/usr/share/playonlinux/playonlinux --run "notepad++" "$file1"
 

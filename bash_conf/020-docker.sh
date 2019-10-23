@@ -79,6 +79,7 @@ ct_dockerExec() {
 	$DOCKER exec -ti $CONTAINER_NAME $CMD
 }
 
+# sem TTY
 ct_dockerExecNoTI() {
 	local CONTAINER_NAME=$1
 	local CMD="$2"
