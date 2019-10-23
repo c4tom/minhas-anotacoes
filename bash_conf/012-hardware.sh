@@ -53,6 +53,24 @@ ct_hwBatteryInfo() {
 
 ct_hwHabilitarHibernate()
 {
-	xdg-open https://forums.linuxmint.com/viewtopic.php?t=277510
-	xdg-open https://forums.linuxmint.com/viewtopic.php?f=42&t=273202
+	#xdg-open https://forums.linuxmint.com/viewtopic.php?t=277510
+	#xdg-open https://forums.linuxmint.com/viewtopic.php?f=42&t=273202
+
+	echo "[Re-enable hibernate by default]
+Identity=unix-user:*
+Action=org.freedesktop.upower.hibernate
+ResultActive=yes
+
+[Re-enable hibernate by default in logind]
+Identity=unix-user:*
+Action=org.freedesktop.login1.hibernate
+ResultActive=yes" | sudo tee --append /etc/polkit-1/localauthority/50-local.d/com.ubuntu.enable-hibernate.pkla > /dev/null
+
+	local UUID=`blkid | grep swap | sed 's/.* UUID="\(.*\)" TYPE.*/\1/'`;
+
+	echo $UUID;
+
+	sudo sed -i "s/quiet splash/resume=UUID=$UUID/" /etc/default/grub
+
+
 }
