@@ -11,3 +11,17 @@ ct_systemdDisableDNS() {
     rm /etc/resolv.conf
     sudo service network-manager restart
 }
+
+ct_systemdListaServicosHabilitados() {
+    #systemctl list-unit-files | grep enabled
+    systemctl list-unit-files --state=enabled
+}
+
+ct_systemdListaRunning() {
+    #systemctl | grep running
+    systemctl list-units --type=service --state=running
+}
+
+ct_systemdRunningAndFail(){
+    systemctl list-units --type service --state running,failed
+}
