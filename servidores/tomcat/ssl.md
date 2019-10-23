@@ -1,5 +1,7 @@
 
 
+## Gerando Propria Chave
+
 To create a new JKS keystore from scratch, containing a single self-signed Certificate, execute the following from a terminal command line:
 
 `type -p keytool`  -genkey -alias tomcat -keyalg RSA -keystore tomcat.key
@@ -20,6 +22,12 @@ Descomente e adicione certificateKeystorePassword
 
 reiniciar
 
+## Usando CRT Fornecido
+keytool -import -trustcacerts -alias server -file seu_dominio_com_br.crt -keystore minha_keystore.jks
+
+
 
 ## Referencia
 - https://tomcat.apache.org/tomcat-9.0-doc/ssl-howto.html#Configuration
+- https://clientes.globessl.com.br/knowledgebase.php?action=displayarticle&id=5
+- https://o7planning.org/en/12243/install-a-free-ssl-certificate-lets-encrypt-for-tomcat-server-on-ubuntu#a36099252
