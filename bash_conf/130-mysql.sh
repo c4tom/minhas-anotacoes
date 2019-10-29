@@ -1,3 +1,9 @@
+ct_mysqlAddUserLinux() {
+	local ID=$1
+	sudo groupadd -g $ID mysql
+	sudo useradd -u $ID mysql -M -g mysql
+}
+
 
 
 ct_mysqlAdmAddUserOnlyDataAccess() {
