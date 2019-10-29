@@ -21,6 +21,8 @@ lampp_manager()
 {
     echo $LAMPP
     
+    sudo ln -sf $LAMPP/lampp /usr/bin/lampp
+
     sudo ldconfig
     sudo rm -f /opt/lampp
     sudo ln -sf $LAMPP /opt/lampp
