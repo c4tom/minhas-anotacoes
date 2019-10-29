@@ -23,3 +23,17 @@ ct_grepInFileExtension() {
     local tmp="'"$1"'"
     grep -ir $tmp --include \*.$2
 }
+
+
+ct_chmodRecursiveSomenteFolder() {
+	local CAMINHO="$1"
+	local PERMSOCTAL=$2
+	find $CAMINHO -type d -exec sudo chmod $PERMSOCTAL {} \;
+}
+
+ct_chmodRecursiveSomenteFiles() {
+	local CAMINHO="$1"
+	local PERMSOCTAL=$2
+
+    find $CAMINHO -type f -exec sudo chmod $PERMSOCTAL {} \;
+}
