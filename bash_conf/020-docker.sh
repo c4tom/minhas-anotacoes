@@ -19,7 +19,7 @@
 }
 DOCKER=/usr/bin/docker
 
-# Lista a quantidade de memoria utilizada para cada container em execu��o
+# Lista a quantidade de memoria utilizada para cada container em execu??o
 ct_dockerTotalMemory(){
 	for line in `$DOCKER ps | awk '{print $1}' | grep -v CONTAINER`; do $DOCKER ps | grep $line | awk '{printf $NF" "}' && echo $(( `cat /sys/fs/cgroup/memory/docker/$line*/memory.usage_in_bytes` / 1024 / 1024 ))MB ; done
 }
@@ -61,7 +61,7 @@ ct_dockerKitematicLauncher() {
 	ct_dockerComposeDownloadInstall() {
 		cd /tmp/
 		local VERSION="1.25.0-rc2"
-		sudo curl -L https://github.com/docker/compose/releases/download/$VERSION/docker-compose-`uname -s`-`uname -m` -o /usr/bin/docker-compose && sudo chmod +x /usr/local/bin/docker-compose && docker-compose --version
+		sudo curl -L https://github.com/docker/compose/releases/download/$VERSION/docker-compose-`uname -s`-`uname -m` -o /usr/bin/docker-compose && sudo chmod +x /usr/bin/docker-compose && docker-compose --version
 
 	}
 }
