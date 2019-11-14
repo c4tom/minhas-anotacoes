@@ -9,13 +9,23 @@
 wifiRepeater() {
 	local ssid=$1
 	local pass=$2
-	local ifaceWIFI=$(ifconfig | grep wlx | awk '{ print $1 }' | sed 's/://')
+
+	if [ -z $ssid ] 
+		then
+			echo "Informe o SSID:"
+			read ssid
+			echo "Informe a senha:"
+			read pass
+		fi
+
+	#local ifaceWIFI=$(ifconfig | grep wlx | awk '{ print $1 }' | sed 's/://')
+	local ifaceWIFI="$(iw dev | awk '$1=="Interface"{print $2}')"
 	local ifaceWithInternet=$(route -n | grep UG | head -n 1 | awk '{print $8}')
 	#local mac=$(echo "`ct_rand0_99`:`ct_rand0_99`:`ct_rand0_99`:`ct_rand0_99`:`ct_rand0_99`:`ct_rand0_99`")
 	local mac=`__macAddrGen`
 	local channel=`ct_rand 1 11`
 
-	echo "create_ap $ifaceWIFI $ifaceWithInternet $ssid $pass"
+	echo "create_ap -c $channel -dd --mac $mac $ifaceWIFI $ifaceWithInternet $ssid $pass $3 $4 $5"
 	create_ap -c $channel -dd --mac $mac $ifaceWIFI $ifaceWithInternet $ssid $pass $3 $4 $5
 }
 
