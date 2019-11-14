@@ -197,3 +197,11 @@ ct_createDeveloperFolderShared() {
 ct_monitorDesliga() {
 	xset dpms force off
 }
+
+
+ct_parseINI() {
+    local INIFILE="$1"
+    local SECTION=$2
+    local SECTION_PARAM=$3
+    sed -nr "/^\[$SECTION\]/ { :l /^$SECTION_PARAM[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b l;}" "$INIFILE"
+}
