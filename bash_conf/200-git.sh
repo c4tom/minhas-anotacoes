@@ -43,6 +43,11 @@ ct_git_config_default_global() {
 #export PS1="\$(_gitParseBranch)\n\u@\h \w >"
 #export PS1="\u@\h\n\w\$(_gitParseBranch)>"
 
+
+ct_gitPS1() {
+	export PS1="$CCyan\u@\h>\[\033[32m\]\w$BIYellow\$(_gitParseBranch)\[\033[00m\]>"
+}
+
 ct_gitMantemForkedAtualizado() {
 	local REMOTO_ORIGNAL_GIT_REPOSITORY="$1"
 	git remote add upstream "$REMOTO_ORIGNAL_GIT_REPOSITORY"
