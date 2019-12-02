@@ -101,6 +101,13 @@ ct_gitSyncRemoteBranchToLocal() {
 	git branch -vv | grep 'origin/.*: gone]' | awk '{print $1}' | xargs git branch -D
 }
 
+
+# Remove todas as branchs locais e sincroniza com as do remoto, deixando todas as branchs remota com as locais
+ct_gitSyncRemoteBranch2LocalAll() {
+	git branch --merged master | grep -v '^[ *]*master$' | xargs git branch -d
+	git branch -a
+}
+
 ct_gitStashSalvar() {
 	local NOME="$1"
 	echo "Salvo todos itens modificados ou criados"
