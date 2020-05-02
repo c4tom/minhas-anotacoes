@@ -151,3 +151,15 @@ SYSAUX</td>
 </tr>
 </tbody>
 </table>
+
+My Cheats
+<table border="1">
+<tbody>
+<tr>
+<td>List all tables and rows</td>
+<td>
+select TABLE_NAME, NUM_ROWS from all_tables  where OWNER like 'ORC';
+</td>
+<tr>
+</tbody>
+</table>
