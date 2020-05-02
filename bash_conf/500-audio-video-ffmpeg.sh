@@ -14,7 +14,7 @@
 # H.265 https://trac.ffmpeg.org/wiki/Encode/H.265 (HEVC)
 # 
 # Parametros mais comuns:
-# Videos 
+# Videos https://trac.ffmpeg.org/wiki/Encode/H.264
 # -c:v libx265 
 # -preset ultrafast (ultrafast, superfast, veryfast, faster, fast, medium, slow, slower, veryslow and placebo)
 # 
@@ -26,10 +26,13 @@
 # -ar 44100 (frequencia, )
 #
 
+# ATEMPO range 05 ... 2
+
+
 [[ -f /usr/bin/ffmpeg ]] || { return ; }
 
 # https://unix.stackexchange.com/questions/283878/ffmpeg-creating-a-video-clip-of-approx-10-seconds-when-video-duration-is-unkn
-FFMPEG_CLIP10s=" -threads 3 -ss 00:00:0.0 -t 10 -a"
+FFMPEG_CLIP10s=" -threads 6 -ss 00:00:0.0 -t 10 -a"
 
 
 ct_mp4tohevc1() {
@@ -204,13 +207,29 @@ ffmpeg_changeSpeed32k44khz() {
 
 mp4ToLow() {
   mkdir -p "conv"
-  ffmpeg -i "$1" -preset ultrafast -c:v libx265 -crf 20 -r 10 -c:a libmp3lame -ac 1 -b:a 64k -ar 32000 "conv/$1"
+  ffmpeg -i "$1" -preset faster -c:v libx265 -crf 22 -r 10 -c:a libmp3lame -ac 1 -b:a 64k -ar 32000 "conv/$1"
 }
+
+
+mp4ToLow4fps() {
+  mkdir -p "conv"
+  ffmpeg -i "$1" -preset faster -c:v libx265 -crf 22 -r 4 -c:a libmp3lame -ac 1 -b:a 64k -ar 32000 "conv/$1"
+}
+
 
 mp4ToScale320x240() {
   mkdir -p "conv"
   ffmpeg -i "$1" -vf scale=320:240 "conv/$1"
 }
+
+
+mp4ToScale320x240Low() {
+  mkdir -p "conv"
+  ffmpeg -i "$1" -vf scale=320:240 -preset ultrafast -c:v libx265 -crf 20 -r 10 -c:a libmp3lame -ac 1 -b:a 64k -ar 32000 "conv/$1"
+}
+
+
+
 
 # https://trac.ffmpeg.org/wiki/How%20to%20speed%20up%20/%20slow%20down%20a%20video
 # The atempo filter is limited to using values between 0.5 and 2.0 
@@ -239,3 +258,20 @@ _mp3ChangeSpeed() {
   ffmpeg -i "$file" -filter:a "atempo=$speed,atempo=$speed" -c:a libmp3lame -ac 1 -b:a 64k -ar 32000 -vn "$folderOut/$file"
 }
 
+
+
+
+_videoChangeSpeed() {
+  local file="$1"
+  local speed=$2
+  mkdir -p "conv";
+  
+  ffmpeg -i "$file" -filter_complex "[0:v]setpts=$speed*PTS[v];[0:a]atempo=$speed[a]" -map "[v]" -map "[a]" "conv/$file";
+}
+
+ct_mencoderChangeSpeedVideo() {
+  local file="$1"
+  local speed=$2
+  mkdir -p "conv";
+  mencoder -speed $speed -o "$file" -ovc lavc "conv/$file";
+}

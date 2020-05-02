@@ -26,12 +26,14 @@ ct_docker_AppDBSchema() {
 	$DOCKER_X11_SHORT --name dbschema$RAND dbschema:latest
 }
 
-
-
 ct_docker_AppApachePHP5() {
 	docker run -d --name apache-php5 -v "$PWD":/web nimmis/alpine-apache-php5
 }
 
 ct_docker_AppCrossOver() {
 	$DOCKER_X11_SHORT --name crossover$RAND crossover:latest
+}
+
+ct_dockerDeezLoaderMX() {
+	$DOCKER_X11_SHORT --name deezloader$RAND bocki/deezloaderrmx
 }

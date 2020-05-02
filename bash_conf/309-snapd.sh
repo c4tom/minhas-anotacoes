@@ -11,12 +11,16 @@ ct_snapdInstall() {
 ct_snapInstallAndroidStudio() {
     sudo apt-get install qemu-kvm
 
+    #TODO: adicionar usuario ao grupo KVM
+
     sudo snap install android-studio --classic
+
+    sudo usermod -a -G kvm $USER
 }
 
 ct_snapInstallAllDesenv() {
-    local CLASSIC="code code-insiders eclipse intellij-idea-community intellij-idea-ultimate netbeans phpstorm powershell pycharm-educational rider"
-    local EDGE="dbeaver-ce node"
+    local CLASSIC="android-studio code-insiders intellij-idea-community intellij-idea-ultimate phpstorm pycharm-educational rider"
+    local EDGE=" node"
 
     for i in $CLASSIC
         do

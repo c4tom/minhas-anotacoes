@@ -29,6 +29,26 @@ wifiRepeater() {
 	create_ap -c $channel -dd --mac $mac $ifaceWIFI $ifaceWithInternet $ssid $pass $3 $4 $5
 }
 
+wifi2wifiTransmiter() {
+	local ssid=$1
+	local pass=$2
+
+	if [ -z $ssid ] 
+		then
+			echo "Informe o SSID:"
+			read ssid
+			echo "Informe a senha:"
+			read pass
+		fi
+
+	local ifaceWIFI="$(iw dev | awk '$1=="Interface"{print $2}')"
+	local mac=`__macAddrGen`
+	local channel=`ct_rand 1 11`
+
+	echo "create_ap -c $channel -dd --mac $mac $ifaceWIFI $ifaceWIFI $ssid $pass $3 $4 $5"
+	create_ap -c $channel -dd --mac $mac $ifaceWIFI $ifaceWIFI $ssid $pass $3 $4 $5
+}
+
 ct_wifiRepeaterListarClientes(){
 	local hapID=`create_ap --list-running | grep ^[0-9] | awk -F' ' '{print $1}'`
 

@@ -4,10 +4,10 @@
 
 [[ -f /usr/bin/code ]] || { return ; }
 
-alias code="code -p"
+#alias code="code -p"
 
 ct_codeExecutaSemExtensoes() {
-    code -p --disable-extensions "$@"
+    code --disable-extensions "$@"
 }
 
 ct_codeListaExtensoes() {

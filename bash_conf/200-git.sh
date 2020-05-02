@@ -48,6 +48,7 @@ ct_gitPS1() {
 	export PS1="$CCyan\u@\h>\[\033[32m\]\w$BIYellow\$(_gitParseBranch)\[\033[00m\]>"
 }
 
+## Atualiza o repositorio forked com o original
 ct_gitMantemForkedAtualizado() {
 	local REMOTO_ORIGNAL_GIT_REPOSITORY="$1"
 	git remote add upstream "$REMOTO_ORIGNAL_GIT_REPOSITORY"
@@ -116,6 +117,12 @@ ct_gitStashSalvar() {
 ct_gitStashRestauraUltimo() {
 	echo "Recuperado último stash gravado"
 	git stash apply
+}
+
+
+ct_gitSearchAllBranches() {
+	local STRING_SEARCH="$1"
+	 git grep "$1" $(git rev-list --all)
 }
 
 

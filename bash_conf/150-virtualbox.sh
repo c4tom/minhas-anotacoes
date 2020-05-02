@@ -5,6 +5,13 @@
 [[ -f /usr/bin/VBoxManage ]] || { return ; }
 
 
+
+ct_vboxInstallAutoComplete() {
+    local outputfile=/tmp/vboxmanage
+    curl -o $outputfile https://raw.githubusercontent.com/gryf/vboxmanage-bash-completion/master/VBoxManage
+    chmod +x $outputfile; sudo cp $outputfile /etc/bash_completion.d/
+}
+
 # Para windows $devicd = \\.\physicaldrive0
 ct_vboxCreateRawDisk() {
     local nome_do_arquivo="$1"
@@ -46,4 +53,28 @@ ct_vboxSetExtraData() {
 
     vboxmanage setextradata $VM_NAME "VBoxInternal/Devices/pcbios/0/Config/DmiSystemUuid" "$SYSTEM_UUID"
     vboxmanage setextradata $VM_NAME  "VBoxInternal/Devices/pcbios/0/Config/DmiSystemSerial" "$SYSTEM_SERIAL"
+}
+
+ct_vboxListAllVMs() {
+    vboxmanage list vms
+}
+
+
+# https://superuser.com/questions/472951/make-a-clone-of-virtualbox-machine-that-doesnt-cause-windows-re-activation-afte
+ct_vboxCloneHWID() {
+
+    vboxmanage list vms
+    echo "De qual VM quer Clonar (copiar o UUID)?\n";
+    local VM1_SOURCE=""
+
+    read VM1_SOURCE
+
+    echo "Para qual VM quer clonar (copiar o UUID)\n";
+    local VM2_TARGET=""
+
+    read VM2_TARGET
+
+    vboxmanage modifyvm 
+
+
 }
