@@ -139,6 +139,9 @@ ct_ocCPLocal2Remoto(){
 # $1 nome do projeto (opcional)
 # https://blog.openshift.com/debugging-java-applications-on-openshift-kubernetes/
 # Adicione um novo "Remote Java Aplication" e setar a porta 8787
+
+# https://tools.jboss.org/documentation/howto/openshift_debug.html
+# https://servicesblog.redhat.com/2019/03/06/remote-debugging-of-java-applications-on-openshift/
 ct_ocDebug() {
 	echo 'https://blog.openshift.com/debugging-java-applications-on-openshift-kubernetes/'
 	echo 'Adicione um novo "Remote Java Aplication" e setar a porta 8787'
