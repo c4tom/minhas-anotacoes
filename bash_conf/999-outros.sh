@@ -19,3 +19,10 @@ ct_youtubeDownloadLiveVideo() {
 
     streamlink ${URL} ${QUALITY} -o ${FILE_NAME}
 }
+
+
+
+ct_totalSizeDir() {
+    local dir="$1";
+    find ${dir} -exec du -s {} + | awk '{total = total + $1}END{print total}'
+}

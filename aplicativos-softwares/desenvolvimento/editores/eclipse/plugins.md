@@ -88,6 +88,7 @@ Please take a look at our FAQ page and our forum if you have any questions or pr
 - JBoss Tools - Core + Central Update Site http://download.jboss.org/jbosstools/updates/webtools/neon/
 
 ### PHP
+- 
 
 ### Docker
 - Linux Tools Docker p2 Repository  http://download.eclipse.org/linuxtools/update-docker-neon3respinb
@@ -115,3 +116,7 @@ Please take a look at our FAQ page and our forum if you have any questions or pr
 ### LogViewer
  - http://anb0s.github.io/LogViewer
  - Mihai (https://www.mihai-nita.net/eclipse)
+
+
+### Outros
+ - Fremarker IDE

@@ -1,7 +1,14 @@
 
 
+## CheatSheet & Sites
+- https://www.uml-diagrams.org/index-references.html
+
+
 ## Online
  - [draw.io](draw.io) - Grátis, salva no Gdrive, Onedrive.
+ - [Visual Paradigm](https://online.visual-paradigm.com/).
+ - https://www.guru99.com/uml-cheatsheet-reference-guide.html
+ - [Umple Online](https://cruise.eecs.uottawa.ca/umpleonline/)
 
 
 ## Para Eclipse

@@ -66,6 +66,12 @@ ct_dockerKitematicLauncher() {
 	}
 }
 
+
+ct_dockerDashboard() {
+	docker ps 
+}
+
+
 # $1 nome do container
 # execute: docker ps -a
 ct_dockerBash() {
@@ -99,12 +105,6 @@ ct_dockerRemoveTudo() {
 	docker system prune --all
 }
 
-ct_dockerRemoveNetwork() {
-	$DOCKER network prune
-}
-ct_dockerRemoveContainers() {
-	$DOCKER container prune
-}
 
 ct_dockerInfoAdicionarRepoBrasilDebian() {
 	echo "
@@ -140,13 +140,15 @@ ct_dockerSetAutoStart() {
 
 
 
+## docker volume
+
+# https://howchoo.com/g/zgrmzguwztv/how-to-remove-orphaned-volumes-in-docker
+ct_dockerVolumeDeleteOrphan() {
+	$DOCKER volume rm $($DOCKER volume ls -qf dangling=true)
+}
 
 
-
-
-
-
-
+## docker image
 
 # PULL Docker Image
 #$ docker login -u {docker-hub-username}
@@ -165,4 +167,61 @@ ct_dockerPush() {
 	#docker login -u $DOCKERHUB_LOGIN
 	echo $NOME_REPO
 
+}
+
+
+
+## docker container
+ct_dockerContainerListAllStopped() {
+	$DOCKER ps -a | grep Exited
+}
+
+ct_dockerContainerRemoveAll() {
+	$DOCKER container prune
+}
+
+## docker network
+ct_dockerNetworkRemoveAll() {
+	$DOCKER network prune
+}
+
+
+
+
+
+## docker network
+
+ct_dockerNetworkCreateDevelop() {
+	$DOCKER network create develop --driver bridge
+}
+
+
+## Utils docker pronto
+DOCKER_NET_DEV=develop
+
+ct_dockerMyMariaDB() {
+	ct_dockerNetworkCreateDevelop
+
+	local ROOT_PASSWORD="senhasenha"
+	local PORT_TO_LISTEN=$1
+
+	$DOCKER run -d --name mariadb-server-develop \
+    --network $DOCKER_NET_DEV \
+	-e MYSQL_ROOT_PASSWORD=$ROOT_PASSWORD \
+	-v "/home/docker/mysql/bancodedados":/var/lib/mysql -v "/home/docker/mysql/dump":/dump \
+	-p $PORT_TO_LISTEN:3306
+    pluie/alpine-mysql
+
+}
+
+ct_dockerMyApachePhp56() {
+	local DOCKER_NAME=$1
+	local LOCAL_PATH="$2"
+	local PORT_TO_LISTEN=$3
+
+	$DOCKER run -d --name $DOCKER_NAME --network $DOCKER_NET_DEV \
+	-it --link=mariadb-server-develop \
+	-v "$LOCAL_PATH":/app/www \
+	-p $PORT_TO_LISTEN:80 \
+	cht_webphp5
 }

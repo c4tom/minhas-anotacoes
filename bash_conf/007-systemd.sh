@@ -25,3 +25,15 @@ ct_systemdListaRunning() {
 ct_systemdRunningAndFail(){
     systemctl list-units --type service --state running,failed
 }
+
+ct_systemdStopService() {
+    local service_name="$1"
+    echo "Parando serviço: ${service_name}" 
+    systemctl stop ${service_name}
+}
+
+ct_systemdDisableService() {
+    local service_name="$1"
+    echo "Desabilita serviço no inicio do sistema: ${service_name}" 
+    systemctl stop ${service_name}
+}

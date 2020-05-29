@@ -1,6 +1,12 @@
 {
     "configurations": [
-        
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - OutrosTestes",
+            "request": "launch",
+            "mainClass": "OutrosTestes",
+            "projectName": "minhas-anotacoes_57eaeaf0"
+        },
         {
             "type": "java",
             "name": "CodeLens (Launch) - OutrosTestes",
@@ -13,7 +19,7 @@
             "type": "php",
             "request": "launch",
             "port": 9000,
-            "log" : true,
+            "log": true,
             "stopOnEntry": false,
             "pathMappings": {
                 "/var/www/html": "/home/apps/php/projetoteste"
