@@ -71,14 +71,15 @@ vob2mp4_templateOA()
   fi
 }
 
-# $1 inicio (formato: hh:mm:ss)
-# $2 final (formato: hh:mm:ss)
-# $3 nome do arquivo
-# ./ffmpeg -i input.mp4 -ss 00:00:05 -c copy -to 00:00:07 sliced-output.mp4
-slice_video() {
+ct_ffmpeg_SliceVideo() {
+  local VIDEO_FILE="$1"
+  local TIME_START="$2" # 00:00:00
+  local TIME_END="$3" # 00:00:00
+
   mkdir -p slice
-  ffmpeg -i "$3" -ss $1 -c copy -to $2 "slice/$3"
+  ffmpeg -i "${VIDEO_FILE}" -ss "${TIME_START}" -c copy -to "${TIME_END}" "slice/${VIDEO_FILE}"
 }
+
 
 evp_metadados() {
 

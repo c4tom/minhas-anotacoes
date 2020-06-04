@@ -2,7 +2,7 @@
 
 
 [[ -f /usr/bin/docker ]] || { 
-	ct_dockerInstall() {
+	ct_docker_Install_DockerCE() {
 		local UBUNTU_RELEASE=bionic
 		sudo apt-get remove docker docker-engine docker.io containerd runc
 		sudo apt-get install apt-transport-https ca-certificates curl gnupg-agent software-properties-common
@@ -19,6 +19,28 @@
 }
 DOCKER=/usr/bin/docker
 
+[[ -f /usr/bin/kitematic ]] || { 
+	ct_docker_Install_Kitematic() {
+		local VERSION="0.17.7"
+		curl -L -o /tmp/kitematic.zip https://github.com/docker/kitematic/releases/download/v$VERSION/Kitematic-$VERSION-Ubuntu.zip
+		cd /tmp
+		unzip kitematic.zip 
+		sudo dpkg -i "Kitematic-"$VERSION"_amd64.deb"
+	}
+}
+
+[[ -f /usr/bin/docker-compose ]] || { 
+	# https://docs.docker.com/compose/install/#upgrading
+	ct_docker_Install_ComposeDownload() {
+		cd /tmp/
+		local VERSION="1.25.0-rc2"
+		sudo curl -L https://github.com/docker/compose/releases/download/$VERSION/docker-compose-`uname -s`-`uname -m` -o /usr/bin/docker-compose && sudo chmod +x /usr/bin/docker-compose && docker-compose --version
+
+	}
+}
+
+
+
 # Lista a quantidade de memoria utilizada para cada container em execu??o
 ct_dockerTotalMemory(){
 	for line in `$DOCKER ps | awk '{print $1}' | grep -v CONTAINER`; do $DOCKER ps | grep $line | awk '{printf $NF" "}' && echo $(( `cat /sys/fs/cgroup/memory/docker/$line*/memory.usage_in_bytes` / 1024 / 1024 ))MB ; done
@@ -34,36 +56,11 @@ ct_dockerBuild(){
 # $1 nome da imagem docker
 # docker run -ti --rm  -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix firefox
 # docker run -d --device /dev/snd --name pidgin -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=unix$DISPLAY thshaw/pidgin
-ct_dockerX() {
+ct_dockerRunAnyXApp() {
 	local imagemNome=$1
 	local cmd=$($DOCKER run -d --net host --name $1 -e DISPLAY=unix$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v $HOME/.Xauthority:$HOME/.Xauthority --privileged=true $imagemNome $2 $3 $4)
 	echo $cmd;
 	$cmd
-}
-
-ct_dockerKitematicLauncher() {
-	$DOCKER run -d --net host --name kitematic -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY -v $HOME/.Xauthority:/root/.Xauthority 
- -v /var/run/docker.sock:/var/run/docker.sock --privileged=true jonadev95/kitematic-docker
-}
-
-[[ -f /usr/bin/kitematic ]] || { 
-	ct_dockerKitematicInstall() {
-		local VERSION="0.17.7"
-		curl -L -o /tmp/kitematic.zip https://github.com/docker/kitematic/releases/download/v$VERSION/Kitematic-$VERSION-Ubuntu.zip
-		cd /tmp
-		unzip kitematic.zip 
-		sudo dpkg -i "Kitematic-"$VERSION"_amd64.deb"
-	}
-}
-
-[[ -f /usr/bin/docker-compose ]] || { 
-	# https://docs.docker.com/compose/install/#upgrading
-	ct_dockerComposeDownloadInstall() {
-		cd /tmp/
-		local VERSION="1.25.0-rc2"
-		sudo curl -L https://github.com/docker/compose/releases/download/$VERSION/docker-compose-`uname -s`-`uname -m` -o /usr/bin/docker-compose && sudo chmod +x /usr/bin/docker-compose && docker-compose --version
-
-	}
 }
 
 
@@ -106,7 +103,7 @@ ct_dockerRemoveTudo() {
 }
 
 
-ct_dockerInfoAdicionarRepoBrasilDebian() {
+ct_docker_IntoDocker_AdicionarRepoBrasilDebian() {
 	echo "
 	\`RUN cat /etc/apt/sources.list | \
     sed '1s#.*#deb http://ftp.br.debian.org/debian jessie main contrib non-free#' > /etc/apt/sources.list.new \
@@ -114,7 +111,7 @@ ct_dockerInfoAdicionarRepoBrasilDebian() {
 	"
 }
 
-ct_dockerCheckStatusWeb() {
+ct_docker_IntoDocker_CheckStatusWeb() {
 	local URL="$1"
 	echo "  Wait until redmine be ready (wget required)"
 	wget -w 5 --retry-connrefused --tries=60  $URL 2> /dev/null
@@ -144,7 +141,11 @@ ct_dockerSetAutoStart() {
 
 # https://howchoo.com/g/zgrmzguwztv/how-to-remove-orphaned-volumes-in-docker
 ct_dockerVolumeDeleteOrphan() {
-	$DOCKER volume rm $($DOCKER volume ls -qf dangling=true)
+	$DOCKER volume rm $(ct_dockerVolumeListOrphan)
+}
+
+ct_dockerVolumeListOrphan() {
+	$DOCKER volume ls -qf dangling=true
 }
 
 
@@ -196,32 +197,3 @@ ct_dockerNetworkCreateDevelop() {
 }
 
 
-## Utils docker pronto
-DOCKER_NET_DEV=develop
-
-ct_dockerMyMariaDB() {
-	ct_dockerNetworkCreateDevelop
-
-	local ROOT_PASSWORD="senhasenha"
-	local PORT_TO_LISTEN=$1
-
-	$DOCKER run -d --name mariadb-server-develop \
-    --network $DOCKER_NET_DEV \
-	-e MYSQL_ROOT_PASSWORD=$ROOT_PASSWORD \
-	-v "/home/docker/mysql/bancodedados":/var/lib/mysql -v "/home/docker/mysql/dump":/dump \
-	-p $PORT_TO_LISTEN:3306
-    pluie/alpine-mysql
-
-}
-
-ct_dockerMyApachePhp56() {
-	local DOCKER_NAME=$1
-	local LOCAL_PATH="$2"
-	local PORT_TO_LISTEN=$3
-
-	$DOCKER run -d --name $DOCKER_NAME --network $DOCKER_NET_DEV \
-	-it --link=mariadb-server-develop \
-	-v "$LOCAL_PATH":/app/www \
-	-p $PORT_TO_LISTEN:80 \
-	cht_webphp5
-}
