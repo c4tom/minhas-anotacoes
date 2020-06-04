@@ -3,3 +3,6 @@ export PATH=$PATH:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/
 #[[ $(id -u) -eq 0 ]] || { echo >&2 "Must be root to run this function"; return; }
 
 alias gksu='pkexec env DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY'
+
+
+export PATH_ORIGINAL=$PATH

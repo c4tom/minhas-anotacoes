@@ -1,7 +1,7 @@
 [[ -f /desenv/lampp-php5/bin/php ]] || { return ; }
 [[ -f /desenv/lampp-php7/bin/php ]] || { return ; }
 
-export PATH_ORIGINAL=$PATH
+# PATH_ORIGINAL defined 000-bash
 
 lampp_set_php5() {
     export LAMPP=/desenv/lampp-php5

@@ -5,42 +5,39 @@ export JAXWS_HOME=/desenv/java/jaxws-ri
 JDK_HOME="/desenv/java/jdk8"
 JAVA_HOME=$JDK_HOME
 
-jdk12() {
+
+ct_java_switch_jdk12() {
 	JAVA_HOME=/desenv/java/jdk12
 	JDK_HOME=$JAVA_HOME
-	export PATH=$PATH:$JDK_HOME/bin
+	export PATH=$PATH_ORIGINAL:$JDK_HOME/bin
 }
 
-jdk8() {
+ct_java_switch_jdk8() {
 	JAVA_HOME=/desenv/java/jdk8
 	JDK_HOME=$JAVA_HOME
-	export PATH=$PATH:$JDK_HOME/bin
+	export PATH=$PATH_ORIGINAL:$JDK_HOME/bin
 }
 
-jre8() {
-	JAVA_HOME=/desenv/java/jdk8/jre
-	JDK_HOME=/desenv/java/jdk8
-}
 
 # Lista todas bibliotecas que tem dentro de um arquivo EAR.
 # Obs.: necessario instalar apt-get install jar
 # Use: libIntoEAR <arquivo.ear>
-javaLibsIntoEAR() {
+ct_java_libsIntoEAR() {
 	jar -tvf $1
 }
 
-javaShowManifest() {
+ct_java_showManifest() {
 	local file=$(realpath $1)
 	unzip -q -c $file META-INF/MANIFEST.MF
 }
 
 # http://java-decompiler.github.io/
-javaDecompiler() {
+ct_java_decompiler() {
 	java -jar /desenv/java/decomp/jd-gui-1.6.3.jar "$1"
 }
 
 # Procura bibliotecas JARS que esta esteja no sistema/no computador na pasta contendo EAP
-procuraJarsNoSistema() {
+ct_java_procuraJarsNoSistema() {
 	# $1 - arquivo .war
 	for i in $(unzip -l "$1" | grep WEB-INF/lib | awk -F"/" '{print $3}'); do
 		echo -e $CRed$i$NC
@@ -50,11 +47,11 @@ procuraJarsNoSistema() {
 }
 
 # https://www.logicbig.com/how-to/java-command/jvm-option-list.html
-ct_java_PrintFlagsFinal() {
+ct_java_printFlagsFinal() {
 	java -XX:+PrintFlagsFinal -version
 }
 
-ct_java_ListProcess() {
+ct_java_listProcess() {
 	jps -v
 }
 
