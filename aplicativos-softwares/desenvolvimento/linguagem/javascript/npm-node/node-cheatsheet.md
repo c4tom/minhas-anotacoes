@@ -6,6 +6,8 @@
 ## Linha de Comando
 `npm i -g mocha` - Testes
 
+
+
 ## VS CODE
 - [aslamanver.node-js-dependency-manager](https://marketplace.visualstudio.com/items?itemName=aslamanver.node-js-dependency-manager)
 - [formulahendry.code-runner](https://marketplace.visualstudio.com/items?itemName=formulahendry.code-runner) ![](code-runner-settings.png)
@@ -48,6 +50,11 @@ C:srcmyapp> code . #Inicia o VScode na pasta atual
   - npm i -S exe
 
 
+## Debug
+- VS Code
+  - `npm i -g nodemon` - Debug
+    - ![](nodemon-config.png)
+
 ## Exemplos
 
 execute na linha de comando `node`
@@ -82,14 +89,67 @@ server.listen(port, hostname, () => {
 });
 ```
 
+### Mysql
+
+`npm install mysql` instalação local
+
+```js
+
+var mysql = require('mysql');
+
+var con = mysql.createConnection({
+  host: "localhost",
+  user: "my_user",
+  password: "my_password"
+});
+
+con.connect(function(err) {
+  if (err) throw err;
+  console.log("Connected!");
+
+  con.query("SELECT * FROM mysql.user", function (err, result, fields) {
+  if (err) throw err;
+  console.log(result);
+  });
+});
+
+
+
+```
+
+
 
 ## Audit
 Busca por vulnerabilidades nas bibliotecas
+
 - `npm audit` 
-- `npm audit fix` 
+- `npm audit fix`
 
+# Deveria Ver
 
-## Deveria Ver
+## JS Referencias 
+
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference
+
+- Built-in objects
+- Expressions & operators
+- Statements & declarations
+- Functions
+- Classes
+- Errors
+- Misc
+  
+## Lib
+
+- [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)
+- [Axios]()
+  
+## Tutoriais
+
+- [w3schools.com](https://www.w3schools.com/nodejs/default.asp)
+
+## Artigos
+
 - [How to write a VS Code extension](https://opensource.com/article/20/6/vs-code-extension?utm_campaign=intrel)
 - [Fast data modeling with JavaScript](https://opensource.com/article/20/5/data-modeling-javascript?utm_campaign=intrel)
 - [Build an interactive CLI with Node.js](https://opensource.com/article/18/7/node-js-interactive-cli)
