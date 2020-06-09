@@ -62,23 +62,23 @@ mvnjar_install() {
 #
 #
 #
-mvnjar_install_file(){
+ct_mvn_jar_install_file(){
 	# groupId=$1 artifactId=$2 version=$3 file=$4
 	local cmd="mvn install:install-file -DgroupId=$1 -DartifactId=$2 -Dversion=$3 -Dpackaging=jar -Dfile=$4 -DgeneratePom=true"
 }
 
 # https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-compiler-plugin
 
-mvndependency_resolve_plugins(){
+ct_mvn_dependency_resolve_plugins(){
 	mvn dependency:resolve
 	mvn dependency:resolve-plugins
 }
-mvndisplay_dependency_updates()
+ct_mvn_display_dependency_updates()
 {
 	echo "Exibe as atualizações existentes para as dependências do projeto."
 	mvn versions:display-dependency-updates
 }
-mvndisplay_plugins_updates() {
+ct_mvn_display_plugins_updates() {
 	echo "Exibe as atualizações existentes para os plugins configurados no projeto."
 	mvn versions:display-plugin-updates
 }

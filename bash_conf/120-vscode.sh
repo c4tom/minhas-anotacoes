@@ -6,11 +6,11 @@
 
 #alias code="code -p"
 
-ct_codeExecutaSemExtensoes() {
+ct_code_executaSemExtensoes() {
     code --disable-extensions "$@"
 }
 
-ct_codeListaExtensoes() {
+ct_code_listaExtensoes() {
     code --list-extensions
 }
 
