@@ -1,7 +1,7 @@
 
 # TODO
 
-ct_wf_installMysqlModule() {
+ct_wildfly_installMysqlModule() {
     local VERSION="5.1.47"
     local FILE="mysql-connector-java-$VERSION"
     local URL="https://dev.mysql.com/get/Downloads/Connector-J/$FILE.tar.gz"
