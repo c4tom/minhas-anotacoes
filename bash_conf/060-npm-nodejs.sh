@@ -4,19 +4,20 @@
 #It let's you install software (libraries, plugins, frameworks and applications).
 # https://www.tecmint.com/install-nodejs-npm-in-centos-ubuntu/
 # Veja tambem: https://nodejs.org/en/download/
-nodejsInstallLinuxMint() {
-	sudo curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
-	sudo apt-get install nodejs
-}
 
-[[ -f /usr/bin/nodejs ]] || { return ; }
+if [[ ! -f $(type -p node) ]] 
+then
+	nodejs_installInLinuxMint() {
+		sudo curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+		sudo apt-get install nodejs
+	}
+fi
 
 # Tools
 # https://www.npmjs.com/package/sitemap-generator-cli
 #	
 
-
-ct_npmCorrigeISSUER_CERT_LOCALLY() {
+ct_npm_corrigeISSUER_CERT_LOCALLY() {
 	
 	#npm ERR! code UNABLE_TO_GET_ISSUER_CERT_LOCALLY
 	#npm ERR! errno UNABLE_TO_GET_ISSUER_CERT_LOCALLY
@@ -29,4 +30,19 @@ ct_npmCorrigeISSUER_CERT_LOCALLY() {
     #  at TLSSocket.emit (events.js:193:13)
     #  at TLSSocket._finishInit (_tls_wrap.js:668:8)
 	npm config set strict-ssl false
+}
+
+
+ct_node_npm_linux_info_git_commit() {
+	local finfo=/tmp/info
+	echo -e "lsb_release -a\n" > $finfo
+	lsb_release -a >> $finfo
+	echo -e "\nnpm -v  : `npm -v`" >> $finfo
+	echo "node -v  : `node -v`" >> $finfo
+	echo -e "\n" >> $finfo
+
+	echo "git log -1 | grep commit " >> $finfo
+	git log -1 | grep commit >> $finfo
+
+	cat $finfo
 }
