@@ -41,3 +41,23 @@ ct_chmod_recursiveSomenteFiles() {
 
     find $CAMINHO -type f -exec sudo chmod $PERMSOCTAL {} \;
 }
+
+ct_filename_removeAccents() {
+    local append_text="$1"
+    local preppend_text="$2"
+    
+    for file in *
+    do
+        filename=$(basename -- "$file")
+        extension="${file##*.}"
+    
+        #file_clean=`echo $filename | tr -cs "[:alnum:]_" _ `
+        #file_clean=`echo $filename | iconv -c -f utf8 -t ascii`
+        #file_clean=`echo $filename | iconv -f utf8 -t ascii//TRANSLIT | iconv -c -f utf8 -t ascii`
+    
+        file_clean=`echo $filename | iconv -f utf8 -t ascii//TRANSLIT`
+        final="$append_text$file_clean$preppend_text.$extension"
+        echo "\"$file\" -> \"$final\" "
+        mv "$file" "$final"
+done
+}
