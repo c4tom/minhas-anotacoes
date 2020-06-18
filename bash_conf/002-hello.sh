@@ -10,14 +10,22 @@ function child() {
     fi
 }
 
-
+# Adicione isso, para cada funcao, quando por o primeiro argumento -? ou ?, imprime a ajuda
 ct_help() {
 
-	if [ "-?" == "$1" ]; then
+	if [ "-?" == "$1" ] || [ "?" == "$1" ]; then
 		echo 
 		echo -e $HELPTXT
 		echo 
 
 		kill -INT $$
 	fi
+}
+
+echo_and_run() {
+    if [ $CT_VERBOSE == "true" ]; then 
+        echoColor "$BYellow""command>$IPurple $*" ; "$@" ; 
+    else 
+        "$@" ;
+    fi
 }

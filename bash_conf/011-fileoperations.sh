@@ -48,7 +48,7 @@ ct_filename_removeAccents() {
     
     for file in *
     do
-        filename=$(basename -- "$file")
+        filename=${file%%.*}
         extension="${file##*.}"
     
         #file_clean=`echo $filename | tr -cs "[:alnum:]_" _ `

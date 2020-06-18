@@ -90,3 +90,8 @@ export WINEDEBUG="-all"
 cd "'$EXEPATH'"
 POL_Wine "'$EXEFILE'" "$@"' > /home/$USER/.PlayOnLinux/shortcuts/$EXEFILE
 }
+
+# https://appdb.winehq.org/objectManager.php?sClass=version&iId=17336&iTestingId=106196
+ct_wine_tricks_install() {
+	WINEARCH=win32 WINEPREFIX=~/.wineoffice2010 winetricks dotnet20 msxml6 corefonts
+}

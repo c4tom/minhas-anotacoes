@@ -6,3 +6,5 @@ alias gksu='pkexec env DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY'
 
 
 export PATH_ORIGINAL=$PATH
+
+export CT_VERBOSE=true

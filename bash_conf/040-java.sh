@@ -56,3 +56,8 @@ ct_java_listProcess() {
 }
 
 export PATH=$PATH:$CXF_HOME/bin:$JAXWS_HOME/bin
+
+
+ct_java_removeComments() {
+	sed -i '/\/\*/{:loop;/\/\*.*\*\//{d;b out};N;b loop};:out' "$1"
+}

@@ -32,3 +32,14 @@ ct_snapInstallAllDesenv() {
             sudo snap install $i --edge
         done
 }
+
+ct_snap_getSystemInfo() {
+	local finfo=/tmp/info
+	echo -e "lsb_release -a\n" > $finfo
+	lsb_release -a >> $finfo
+	echo -e "\nsnap version\n" >> $finfo
+	echo "`snap version`" >> $finfo
+	echo -e "\n" >> $finfo
+
+	cat $finfo
+}
