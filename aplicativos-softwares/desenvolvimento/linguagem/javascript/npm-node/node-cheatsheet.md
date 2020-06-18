@@ -113,9 +113,36 @@ con.connect(function(err) {
   });
 });
 
-
-
 ```
+
+## Performance - Tuning
+- Faça caching (Redis)
+- Tenha índices (mongoDB)
+- Logs (Winston, Morgan e Bunyan)
+- Implemente HTTP/2
+```javascript
+const http2 = require('http2');
+const fs = require('fs');
+
+const server = http2.createSecureServer({
+  key: fs.readFileSync('localhost-privkey.pem'),
+  cert: fs.readFileSync('localhost-cert.pem')
+});
+server.on('error', (err) => console.error(err));
+
+server.on('stream', (stream, headers) => {
+  // stream is a Duplex
+  stream.respond({
+    'content-type': 'text/html',
+    ':status': 200
+  });
+  stream.end('<h1>Hello World</h1>');
+});
+
+server.listen(8443);
+```
+- Use um cluster (PM2)
+- Monitore a sua aplicação (New Relic, Dynatrace, Stackify, Ruxit, LogicMonitor e Monitis)
 
 
 
@@ -126,6 +153,8 @@ Busca por vulnerabilidades nas bibliotecas
 - `npm audit fix`
 
 # Deveria Ver
+
+- https://openjsf.org/projects/
 
 ## JS Referencias 
 
@@ -148,7 +177,25 @@ https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference
 
 - [w3schools.com](https://www.w3schools.com/nodejs/default.asp)
 
-## Artigos
+
+## Bot - Bot framework
+
+- https://botkit.ai/getstarted.html
+  - `npm install -g yo generator-botkit`
+- Visual - Conversation Designer - https://botmock.com/ - Not free
+
+- Microsoft Bot Framework
+- DialogFlow
+- [BotPress](https://hub.docker.com/r/botpress/server/tags)
+  - https://botpress.com/learn/how-to-make-a-bot
+  - https://www.youtube.com/watch?v=N-5Pj2NsA3I
+- Amazon Lex
+
+## Chrome Driver - Webdriver
+- https://www.npmjs.com/package/chromedriver
+- `npm install chromedriver -g` ou `npm install chromedriver --chromedriver-force-download -g`
+
+# Artigos
 
 - [How to write a VS Code extension](https://opensource.com/article/20/6/vs-code-extension?utm_campaign=intrel)
 - [Fast data modeling with JavaScript](https://opensource.com/article/20/5/data-modeling-javascript?utm_campaign=intrel)

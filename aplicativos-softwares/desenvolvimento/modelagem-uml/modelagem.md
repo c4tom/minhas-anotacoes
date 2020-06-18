@@ -2,6 +2,22 @@
 
 ## CheatSheet & Sites
 - https://www.uml-diagrams.org/index-references.html
+- https://www.uml-diagrams.org/index-examples.html
+  - Activity diagram examples
+  - Class diagram examples
+  - Communication diagram examples
+  - Component diagram examples
+  - Composite structure diagram examples
+  - Deployment diagram examples
+  - Information flow diagram example
+  - Interaction overview diagram examples
+  - Object diagram example
+  - Package diagram examples
+  - Profile diagram examples
+  - Sequence diagram examples
+  - State machine diagram examples
+  - Timing diagram examples
+  - Use case diagram examples
 
 
 ## Online
