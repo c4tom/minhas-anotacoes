@@ -11,15 +11,16 @@ ct_find_removeOnlyFiles() {
     find . -type f -name $tmp -exec rm -f {} \;
 }
 
+# Remove qualquer arquivo em uma determinada <$1:pasta> com mais de <$2:dias>
 ct_find_removeFilesOlderDays() {
     local EM_QUAL_PASTA="$1"
     local MAIS_QUE_DIAS=$2
-    find "$EM_QUAL_PASTA" -mindepth 1 -mtime +$MAIS_QUE_DIAS -delete
+    echo_and_run find "$EM_QUAL_PASTA" -mindepth 1 -mtime +$MAIS_QUE_DIAS -delete
 }
 
-
-ct_find_onlyTextFiles() {
-    find . -type f -print0 | xargs -0 grep -I "$1"
+# Busca um palavra, somente em arquivos textos
+ct_find_onlyInTextFiles() {
+    echo_and_run find . -type f -print0 | xargs -0 grep -I "$1"
 }
 
 
@@ -42,6 +43,8 @@ ct_chmod_recursiveSomenteFiles() {
     find $CAMINHO -type f -exec sudo chmod $PERMSOCTAL {} \;
 }
 
+
+# Remove acentos do nome do arquivo
 ct_filename_removeAccents() {
     local append_text="$1"
     local preppend_text="$2"

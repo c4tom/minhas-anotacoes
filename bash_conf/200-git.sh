@@ -137,6 +137,8 @@ ct_git_searchText_inAllBranches() {
 
 
 #### REMOTO ####
+
+
 ct_gitRemotoDeleteBranch()
 {
 	HELPTXT="Apaga uma branch remota\n\n${FUNCNAME[0]} <nomeDaBranch>"

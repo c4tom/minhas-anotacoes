@@ -10,7 +10,8 @@ isWSL() {
 
 [[ "`isWSL`" = "0" ]] || { return ; }
 
-wsl_aptInstallBashComplete() {
-  sudo apt-get install --reinstall bash-completion
+
+wsl_reinstallBashCompletion() {
+  ct_apt_installBashComplete
 }
 

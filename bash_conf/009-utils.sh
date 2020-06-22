@@ -168,7 +168,7 @@ ct_proxyDisable() {
 autoEnableProxy() {
     if [[ ! $http_proxy ]]
     then
-        if [ $(ct_netCheckPortIsListen 3128) = "open" ]
+        if [ $(ct_net_checkLocalhostPortIsListen 3128) = "open" ]
         then
             echo "Proxy ON (localhost)"
             ct_proxyDisable
@@ -228,4 +228,44 @@ ct_parseINI() {
 }
 
 
+ct_du_totalDirSizeIgnoreSymLinks(){
+    ct_totalSizeDir "$@"
+}
+ct_totalSizeDir() {
+    local dir="$1";
+    find ${dir} -exec du -s {} + | awk '{total = total + $1}END{print total}'
+}
 
+[[ -f /usr/bin/progress ]] || { 
+    cp_with_progress () {
+        # https://github.com/Xfennec/progress
+        # apt install progress
+
+        local source="$1"
+        local target="$2"
+        cp "$source" "$target" & progress -mp $!
+    }
+}
+
+# Bash, with GNU sleep
+spin() {
+  local i=0
+  local sp='/-\|'
+  local n=${#sp}
+  printf ' '
+  sleep 0.1
+  while true; do
+    printf '\b%s' "${sp:i++%n:1}"
+    sleep 0.1
+  done
+}
+
+
+banner()
+{
+  echo "+------------------------------------------+"
+  printf "| %-40s |\n" "`date`"
+  echo "|                                          |"
+  printf "|`tput bold` %-40s `tput sgr0`|\n" "$@"
+  echo "+------------------------------------------+"
+}

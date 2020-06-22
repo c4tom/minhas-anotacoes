@@ -32,8 +32,11 @@ ct_npm_corrigeISSUER_CERT_LOCALLY() {
 	npm config set strict-ssl false
 }
 
-
+# Gera versão do sistema, npm e node 
 ct_node_npm_linux_info_git_commit() {
+	HELPTXT "Gerar info para escrever num forum/issue"
+	ct_help $1
+
 	local finfo=/tmp/info
 	echo -e "lsb_release -a\n" > $finfo
 	lsb_release -a >> $finfo

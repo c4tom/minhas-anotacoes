@@ -22,6 +22,7 @@ ct_help() {
 	fi
 }
 
+# Imprime o comando e execute-o
 echo_and_run() {
     if [ $CT_VERBOSE == "true" ]; then 
         echoColor "$BYellow""command>$IPurple $*" ; "$@" ; 

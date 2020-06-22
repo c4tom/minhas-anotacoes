@@ -4,7 +4,7 @@ __macAddrGen() {
 
 
 [[ ! -f /bin/netstat ]] || { 
-    ct_netStat() {
+    ct_net_stat() {
         local CMD="netstat -tulpn | grep tcp"
         echoColor $BGreen"$CMD"
         eval $CMD
@@ -12,7 +12,7 @@ __macAddrGen() {
 }
 
 [[ ! -f /bin/nc ]] || { 
-	ct_netWaitServiceConnectPort() {
+	ct_net_waitServiceConnectPort() {
 		local HOST=$1
 		local PORT=$2
 
@@ -27,8 +27,8 @@ __macAddrGen() {
 
 # https://stackoverflow.com/questions/9609130/efficiently-test-if-a-port-is-open-on-linux-without-nmap-or-netcat#9609247
 # retorna closed|open
-ct_netCheckPortIsListen() {
+ct_net_checkLocalhostPortIsListen() {
 	local PORT=$1
-	true &>/dev/null </dev/tcp/127.0.0.1/$PORT && echo open || echo closed
+	true &>/dev/null < /dev/tcp/127.0.0.1/$PORT && echo open || echo closed
 }
 

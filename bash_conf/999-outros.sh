@@ -22,7 +22,3 @@ ct_youtubeDownloadLiveVideo() {
 
 
 
-ct_totalSizeDir() {
-    local dir="$1";
-    find ${dir} -exec du -s {} + | awk '{total = total + $1}END{print total}'
-}
