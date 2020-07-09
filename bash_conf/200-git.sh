@@ -215,3 +215,8 @@ ct_git_listAllUntrackedFiles() {
 ct_git_listAllIgnoredFiles() {
 	echo_and_run git ls-files . --ignored --exclude-standard --others
 }
+
+# Adiciona para o stage somente os arquivos modificados e deletados
+ct_git_add_onlyModifiedDeleted() {
+	echo_and_run git add -a "$@"
+}
