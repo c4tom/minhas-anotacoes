@@ -40,6 +40,15 @@ ct_mysql_adm_addUserWithoutPermission() {
 	echo "CREATE USER '${user}'@'${host}' IDENTIFIED BY '${passwd}';"
 }
 
+# adicionar usuario com permissao para monitorar apenas
+ct_mysql_monitor_addUser() {
+	local user=${1:-"monitor"};
+    local passwd=${2:-"password"};
+    local host=${4:-"localhost"};
+	echo "GRANT SELECT, REPLICATION CLIENT, SHOW DATABASES, SUPER, PROCESS ON *.* TO  '${user}'@'${host}' IDENTIFIED BY '${passwd}'";
+}
+
+
 # Data Control Language ( DCL )
 
 # Data Definition Language ( DDL)
