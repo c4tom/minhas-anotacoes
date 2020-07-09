@@ -9,6 +9,7 @@ alias gksu='pkexec env DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY'
 
 export PATH_ORIGINAL=$PATH
 
+# imprime echo
 export CT_VERBOSE=true
 
 
