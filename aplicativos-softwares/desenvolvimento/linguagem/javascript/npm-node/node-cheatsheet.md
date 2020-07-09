@@ -3,9 +3,14 @@
    - Assertion Testing Async Hooks Buffer C++ Addons C/C++ Addons with N-API C++ Embedder API Child Processes Cluster Command Line Options Console Crypto Debugger Deprecated APIs DNS Domain ECMAScript Modules Errors Events File System Globals HTTP HTTP/2 HTTPS Inspector Internationalization Modules Net OS Path Performance Hooks Policies Process Punycode Query Strings Readline REPL Report Stream String Decoder Timers TLS/SSL Trace Events TTY UDP/Datagram URL Utilities V8 VM WASI Worker Threads Zlib
 
 # Ferramentas
-## Linha de Comando
-`npm i -g mocha` - Testes
 
+## Frameworks de Testes
+
+`npm i mocha` - [Mocha is a feature-rich JavaScript test framework running on Node.js and in the browser](https://www.npmjs.com/package/mocha)
+
+`npm -i jest` - [Delightful JavaScript Testing](https://www.npmjs.com/package/jest)
+
+`npm install webdriverio` - [Next-gen browser and mobile automation test framework for Node.js](https://www.npmjs.com/package/webdriverio)
 
 
 ## VS CODE
@@ -20,9 +25,10 @@
 - [WallabyJs.wallaby-vscode](https://marketplace.visualstudio.com/items?itemName=WallabyJs.wallaby-vscode)
   - Semelhante ao quokka, US$500
 - [pack.jade-bootstrap](https://marketplace.visualstudio.com/items?itemName=pack.jade-bootstrap) Snippets para Template Jade
-
-
 - https://marketplace.visualstudio.com/items?itemName=howardzuo.vscode-npm-dependency
+- [StandardJS - JavaScript Standard Style](https://marketplace.visualstudio.com/items?itemName=chenxsan.vscode-standardjs)
+  - Desabilitar validador interno do VSCODE
+    - Edite as configurações e setar `"javascript.validate.enable": false` em *settings.json*
 
 ## Criar um projeto
 

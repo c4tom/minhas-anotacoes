@@ -49,3 +49,101 @@ ct_node_npm_linux_info_git_commit() {
 
 	cat $finfo
 }
+
+# instala um ambiente de desenvolvimento, requisito: npm nodejs e vscode
+ct_nodejs_vscode_complementos() {
+	# gerar um ambiente de desenvolvimento vscode + node + npm
+
+	# instalar plugins para vscode
+	local VSCODE_PLUGINS="chenxsan.vscode-standardjs 
+		aslamanver.node-js-dependency-manager 
+		formulahendry.code-runner 
+		DenisGolovin.dependencies-diagram-generator
+		WallabyJs.quokka-vscode
+		WallabyJs.wallaby-vscode
+		pack.jade-bootstrap
+		chenxsan.vscode-standardjs"
+
+
+}
+
+# Atualiza o npm para ultima versao
+ct_npm_update() {
+	sudo npm install npm@latest -g
+}
+
+
+ct_nodejs_install_all_tools() {
+	echo "Mocha é um test framework para nodejs - https://www.npmjs.com/package/mocha"
+	npm install mocha -g --silent
+
+	echo "O Jest é um agradável framework de testes de JavaScript com foco na simplicidade. - https://jestjs.io/"
+	npm install jest -g --silent
+
+	echo "Navegador de última geração e estrutura de teste de automação móvel para Node.js - https://www.npmjs.com/package/webdriverio"
+	npm install webdriverio -g --silent
+
+	echo "Editor de package.json - https://github.com/zeke/npe"
+	npm install npe -g --silent
+
+	echo "Editor de arquivos.json - https://github.com/maikelvl/dot-json"
+	npm install -g dot-json --silent
+}
+
+# Cria um novo projeto
+ct_nodejs_novo_projeto() {
+	echo "Criando repositório git"
+	git init &>/dev/null
+	echo "Criando gitignore"
+	echo "node_modules" > .gitignore
+	git add .gitignore
+	git commit -m "Adicionado .gitignore para ignorar node_modules"
+
+	echo "Iniciando um projeto node"
+	npm init -y &>/dev/null
+
+	read "Qual o nome do projeto?"
+	npe author $USER
+
+	git add package.json 
+	git commit -m "Inicio do projeto"
+
+	echo "Adicionando modulos"
+	echo " - Standard (padrão javascript)"
+	npm i standard -D --silent &>/dev/null
+	
+	echo " - lint-staged (executa os script na area de stage - validar"
+	npm i lint-staged -D --silent &>/dev/null
+	echo "   - criando arquivo .lintstagedrc.json"
+	echo "\"lint-staged\": {
+	\"*.js\": [
+		\"standard --fix\",
+		\"git add\"
+		]
+	}" > .lintstagedrc.json
+
+
+	echo " - Husky (Rodar script antes de fazer um commit)"
+	npm i husky -D --silent &>/dev/null
+	echo "   - criando arquivo .huskyrc.json"
+	dot-json .huskyrc.json husky.hooks.pre-commit lint-staged
+	
+	echo " - Jest (Framework de test)"
+	npm i jest -D --silent &>/dev/null
+	npe scripts.test jest
+
+	# https://jestjs.io/docs/en/configuration
+	#echo "Gerar o arquivo de configuração do JEST, Responder as 4 perguntas: node y v8 n"
+	#jest --init
+
+	echo "   - Criando o arquivo de configuração jest.config.js"
+	echo "// For a detailed explanation regarding each configuration property, visit:
+// https://jestjs.io/docs/en/configuration.html
+module.exports = {
+  coverageDirectory: \"coverage\",
+  coverageProvider: \"v8\",
+  testEnvironment: \"node\",
+};
+" > jest.config.js
+
+}
