@@ -73,3 +73,40 @@ HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FileSystem
 NtfsDisable8dot3NameCreation =3 
 NtfsMftZoneReservation = 4
 ```
+
+## Schedule
+
+- Desativar WinSat
+  > taskschd.msc >  Biblioteca do Agendador de Tarefas > Windows > Maintenence
+
+
+## services.msc
+
+services.msc > 
+
+## God Mode
+
+Criar uma pasta no desktop, depois renomear (F2) para **GodMode.{ED7BA470-8E54-465E-825C-99712043E01C}**
+
+## Remover Apps Windows 10
+
+- https://tecnoblog.net/278076/como-desinstalar-aplicativos-nativos-do-windows-10/
+
+- No campo de busca do Windows 10, digite PowerShell;
+- Clique com o botão direito do mouse sobre o resultado Windows PowerShell;
+- Selecione Executar como administrador;
+- O Windows vai perguntar se deseja fazer alterações, clique em Sim;
+- Para cada aplicativo nativo que deseja remover, digite o comando “Get-AppxPackage - *nomedoapp* | Remove-AppxPackage” (sem as aspas), e tecle Enter.
+- Para reinstalar todos os apps de uma vez, use o comando “Get-AppxPackage -AllUsers| Foreach - {Add-AppxPackage -DisableDevelopmentMode -Register “$($_.InstallLocation)AppXManifest.xml”}” - (sem as aspas externas), e tecle Enter.
+
+Os parâmetros para cada app são os seguintes (substitua o campo “nomedoapp”, mas mantenha os asteriscos):
+
+- *YourPhone*
+- *GetHelp*
+- *MicrosoftStickyNotes*
+- *XboxGamingOverlay*
+- *XboxSpeechToTextOverlay*
+- *XboxIdentityProvider*
+- *XboxGameOverlay*
+- *CloudExperienceHost*
+- *MicrosoftEdge*
