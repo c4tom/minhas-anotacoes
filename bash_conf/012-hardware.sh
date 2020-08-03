@@ -1,40 +1,40 @@
 
-ct_hwPerifericosListar() {
+ct_hw_listarTodosPerifericos() {
 	echo 'Relatorio dos perifericos do linux'
 	inxi -FxZ
 }
 
-ct_hwDiskInfo() {
+ct_hw_disk_infoHDPARM() {
 	sudo hdparm -I /dev/sda1
 }
 
 ### PC Info
-ct_hwInfo() {
+ct_hw_info() {
 	inxi -Fz
 }
 
 # Com mais detalhes, pode instalar um visual apt-get install hardinfo sysinfo
-ct_hwInfoLSHW()
+ct_hw_info_LSHW()
 {
 	sudo lshw
 }
 
 ### System Info
 
-ct_hwDiskInfoPartition() {
+ct_hw_disk_infoPartition() {
 	lsblk -o "NAME,MAJ:MIN,RM,SIZE,RO,FSTYPE,MOUNTPOINT,UUID"
 }
 
-ct_hwDiskInfomation(){
+ct_hw_disk_infomation(){
 	local DISK_DEV=$1 #/dev/sda
 	hdparm -I $DISK_DEV
 }
 
-ct_hwBiosInfo() {
+ct_hw_bios_info() {
 	sudo dmidecode
 }
 
-ct_hwWifiModulosListar() {
+ct_hw_wifi_modulosListar() {
 	lspci | grep Network
 	dmesg | grep iwlwifi
 	iwconfig
@@ -44,14 +44,14 @@ ct_hwWifiModulosListar() {
 
 ### Batery Info
 
-ct_hwBatteryInfo() {
+ct_hw_battery_info() {
 	upower -i /org/freedesktop/UPower/devices/battery_BAT0
 }
 
 
 ### Hibernate
 
-ct_hwHabilitarHibernate()
+ct_hw_hibernate_habilitar()
 {
 	#xdg-open https://forums.linuxmint.com/viewtopic.php?t=277510
 	#xdg-open https://forums.linuxmint.com/viewtopic.php?f=42&t=273202
@@ -74,3 +74,24 @@ ResultActive=yes" | sudo tee --append /etc/polkit-1/localauthority/50-local.d/co
 
 
 }
+
+
+
+
+### Audio
+ct_hw_audio_resetConfiguracoes() {
+	rm -r ~/.config/pulse/
+	pulseaudio -k
+}
+
+#https://diolinux.com.br/2020/06/cancelamento-de-eco-e-ruido-no-linux.html
+ct_hw_audio_cancelamentoRuidoMicrofone() {
+	echo "
+load-module module-echo-cancel aec_args=\"analog_gain_control=0 digital_gain_control=0\" source_name=noiseless
+set-default-source noiseless
+" | sudo tee --append /etc/pulse/default.pa
+
+	pulseaudio -k
+}
+
+
