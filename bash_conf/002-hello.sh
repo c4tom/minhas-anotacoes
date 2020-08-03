@@ -13,7 +13,7 @@ function child() {
 # Adicione isso, para cada funcao, quando por o primeiro argumento -? ou ?, imprime a ajuda
 ct_help() {
 
-	if [ "-?" == "$1" ] || [ "?" == "$1" ]; then
+	if [ "" == "$1" ] || [ "-?" == "$1" ] || [ "?" == "$1" ]; then
 		echo 
 		echo -e $HELPTXT
 		echo 
