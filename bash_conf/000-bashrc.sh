@@ -1,4 +1,5 @@
 ## https://www.davidpashley.com/articles/writing-robust-shell-scripts/
+## https://bash.cyberciti.biz/guide/Main_Page
 
 export PATH=$PATH:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/desenv/java/apache-cxf-3.3.3/bin
 
@@ -12,5 +13,8 @@ export PATH_ORIGINAL=$PATH
 # imprime echo
 export CT_VERBOSE=true
 
+export HISTCONTROL=erasedups
+export HISTSIZE=5000
+export HISTTIMEFORMAT="%d/%m/%y %T "
 
 
