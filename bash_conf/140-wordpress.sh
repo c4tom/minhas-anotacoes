@@ -7,7 +7,7 @@
 if [[ ! -f /usr/bin/wp ]]
 then
     # install https://wp-cli.org/
-	ct_wp_install()
+	ct_wp_cli_install()
 	{
         cd /tmp
         curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
