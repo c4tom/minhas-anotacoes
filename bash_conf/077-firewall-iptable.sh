@@ -1,9 +1,9 @@
 
-[[ -f /sbin/iptables ]] || { return ; }
+[[ -f /usr/sbin/iptables ]] || { return ; }
 # Somente root
-[[ $(id -u) -eq 0 ]] || { return ; }
+# [[ $(id -u) -eq 0 ]] || { return ; }
 
-IPTABLES="/sbin/iptables"
+IPTABLES="sudo /usr/sbin/iptables"
 
 __fwChainsPolicies(){
     # Set Default Chain Policies
@@ -27,7 +27,7 @@ ct_fwStop(){
 ct_fwStopNat() {
     for i in $($IPTABLES -t nat --line-numbers -L | grep ^[0-9] | awk '{ print $1 }' | tac )
     do 
-        iptables -t nat -D PREROUTING $i; 
+        $IPTABLES -t nat -D PREROUTING $i; 
     done
     ct_fwListarNat
 }
@@ -37,20 +37,20 @@ ct_fwStart() {
 }
 
 ct_fwListar() {
-    iptables -L
+    $IPTABLES -L
 }
 
 # https://stackoverflow.com/questions/41479879/how-to-check-prerouting-list-from-iptable-in-linux
 ct_fwListarNat() {
-    iptables -n -t nat --line-numbers -L
+    $IPTABLES -n -t nat --line-numbers -L
 }
 
 # https://askubuntu.com/questions/736413/docker-transparent-squid-proxy
-ct_fwTransparentProxySquidViaDockerSet() {
-    sudo $IPTABLES -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to 3128 -w
+ct_fwTransparentProxySquidSet() {
+    $IPTABLES -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to 3128 -w
 }
-ct_fwTransparentProxySquidViaDockerUnset() {
-    sudo $IPTABLES -t nat -D PREROUTING -p tcp --dport 80 -j REDIRECT --to 3128 -w
+ct_fwTransparentProxySquidUnset() {
+    $IPTABLES -t nat -D PREROUTING -p tcp --dport 80 -j REDIRECT --to 3128 -w
 }
 
 
@@ -59,5 +59,5 @@ ct_fwBloquearTodosRequestDaInterface()
     local IFACE=$1
     local REDE=$2
     echo "Bloqueando todas requisições vinda na interface: $IFACE/$REDE"
-    sudo $IPTABLES -A INPUT -i $IFACE -p tcp --syn -s $REDE/24 -j REJECT
+    $IPTABLES -A INPUT -i $IFACE -p tcp --syn -s $REDE/24 -j REJECT
 }
