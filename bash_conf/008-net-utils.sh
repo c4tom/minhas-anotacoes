@@ -13,6 +13,15 @@ __macAddrGen() {
 
 [[ ! -f /bin/nc ]] || { 
 	ct_net_waitServiceConnectPort() {
+
+	HELPTXT="
+
+${FUNCNAME[0]} <host> <port>"
+	ct_help $1
+
+	: ${1?' host'}
+	: ${2?' port'}
+
 		local HOST=$1
 		local PORT=$2
 
