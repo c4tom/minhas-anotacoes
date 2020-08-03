@@ -14,6 +14,18 @@ ct_vboxInstallAutoComplete() {
 
 # Para windows $devicd = \\.\physicaldrive0
 ct_vboxCreateRawDisk() {
+    isRoot
+    
+	HELPTXT="
+
+${FUNCNAME[0]} <nome_do_arquivo> <device> <partition> [<outros>]"
+	ct_help $1
+
+	: ${1?' nome_do_arquivo'}
+	: ${2?' device'}
+	: ${3?' partition'}
+
+
     local nome_do_arquivo="$1"
     local device="$2"
     local partition="$3"
