@@ -1,3 +1,5 @@
+[[ `isWin` == "1" ]] || { return ; }
+
 CAMEYO_EXE=/d/Downloads/Cameyo/Cameyo.exe
 
 
