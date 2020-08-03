@@ -37,3 +37,32 @@ ct_systemd_disableServiceOnStartSystem() {
     echo "Desabilita serviço no inicio do sistema: ${service_name}" 
     echo_and_run systemctl stop ${service_name}
 }
+
+
+
+ct_systemd_add_rc_local() {
+    local filerc="/etc/systemd/system/rc-local.service"
+    [[ ! -f $filerc ]] || { echo "já existe, você pode editar /etc/rc.local"; return; }
+
+    echo "[Unit]
+ Description=/etc/rc.local Compatibility
+ ConditionPathExists=/etc/rc.local
+
+[Service]
+ Type=forking
+ ExecStart=/etc/rc.local start
+ TimeoutSec=0
+ StandardOutput=tty
+ RemainAfterExit=yes
+ SysVStartPriority=99
+
+[Install]
+ WantedBy=multi-user.target" | sudo tee --append $filerc
+
+echo "" | sudo tee --append /etc/rc.local && sudo chmod + /etc/rc.local && sudo systemctl enable rc-local
+
+echo "Editar /etc/rc.local"
+
+echo ""
+
+}
