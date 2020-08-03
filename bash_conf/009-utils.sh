@@ -11,7 +11,8 @@ HIST_PWD=$(pwd)
 
 # download arquivos no site da source forge
 # Use: download_source_forge <url>
-alias download_source_forge="wget --content-disposition -q "
+alias wget_source_forge='wget --content-disposition -q '
+alias wget_content_disposition='wget --content-disposition -q '
 
 historyOFF() {
     set +o history
@@ -57,11 +58,17 @@ isWin() {
     fi
 }
 
+isRoot() {
+    [[ $(id -u) -eq 0 ]] || { echo >&2 "Must be root to run this function"; kill -INT $$; }
+}
+
 
 ### Open AnyFile ####
 openAnyFile() {
     xdg-open "$1"
 }
+
+alias open=openAnyFile
 
 ### Lista todos arquivos da pasta com seu caminho relativo, em forma de lista
 ct_ls2lista(){
@@ -150,33 +157,6 @@ ct_replaceTwoOrMoreBlankLinesToOneFromFile() {
         meld /tmp/pasta1-$rand /tmp/pasta2-$rand
     }
 }
-
-
-
-
-### Proxy ###
-ct_proxyEnable() {
-    export http_proxy=http://localhost:3128/
-    export https_proxy=http://localhost:3128/
-}
-
-ct_proxyDisable() {
-    unset http_proxy
-    unset https_proxy
-}
-
-autoEnableProxy() {
-    if [[ ! $http_proxy ]]
-    then
-        if [ $(ct_net_checkLocalhostPortIsListen 3128) = "open" ]
-        then
-            echo "Proxy ON (localhost)"
-            ct_proxyDisable
-        fi
-    fi
-}
-
-autoEnableProxy
 
 
 ### Password
@@ -268,4 +248,16 @@ banner()
   echo "|                                          |"
   printf "|`tput bold` %-40s `tput sgr0`|\n" "$@"
   echo "+------------------------------------------+"
+}
+
+# listar funcoes e alias setados
+function ct_listar_funcoes_e_alias() {
+    echo
+    echo -e "$On_IRed Funções:$CGreen"
+    compgen -A function
+    echo
+    echo -e "$On_IGreen Aliases:$CYellow"
+    compgen -A alias
+    echo
+    echo -e "$Color_Off"
 }
