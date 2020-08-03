@@ -3,7 +3,7 @@
 DOCKER_X11="/tmp/.X11-unix:/tmp/.X11-unix"
 DOCKER_DISPLAY="DISPLAY=unix$DISPLAY"
 
-DOCKER_X11_SHORT="docker run -ti --rm -v $DOCKER_X11 -e $DOCKER_DISPLAY --device /dev/dri --net=host"
+DOCKER_X11_SHORT="$DOCKER run -ti --rm -v $DOCKER_X11 -e $DOCKER_DISPLAY --device /dev/dri --net=host"
 
 ct_docker_XApp_VisualStudioCodePHP() {
 	# Execute na pasta aonde quer o document_root
@@ -57,9 +57,20 @@ ct_docker_ServerApp_MariaDB() {
 }
 
 ct_docker_ServerApp_ApachePhp56() {
+	HELPTXT="
+
+${FUNCNAME[0]} <docker_name> <path> <port_to_listen> [<network>(default:$DOCKER_NET_DEV)]"
+	ct_help $1
+
+	: ${1?' docker_name'}
+	: ${2?' path'}
+	: ${3?' port_to_listen'}
+
+
 	local DOCKER_NAME=$1
 	local LOCAL_PATH="$2"
 	local PORT_TO_LISTEN=$3
+	local NETWORK==${4:-"$DOCKER_NET_DEV"};
 
 	$DOCKER run -d --name $DOCKER_NAME --network $DOCKER_NET_DEV \
 	-it --link=mariadb-server-develop \
@@ -80,12 +91,28 @@ ct_docker_WebApp_DeezLoaderMX() {
 ### My Develop
 
 #https://hub.docker.com/_/node
-ct_docker_app_node(){
-	$DOCKER run -d -it --name node node:14-alpine
+ct_docker_base_node(){
+	echo_and_run $DOCKER run -d -it --name node node:14-alpine
 }
 
 # https://hub.docker.com/r/adoptopenjdk/openjdk12
-ct_docker_app_openJDK12() {
-	$DOCKER run -d -it --name openJDK12 adoptopenjdk/openjdk12
+ct_docker_base_openJDK12() {
+	echo_and_run $DOCKER run -d -it --name openJDK12 adoptopenjdk/openjdk12
 }
 
+# Ubuntu 20.4
+ct_docker_base_ubuntu_Focal() {
+	echo_and_run $DOCKER run -d -it --name ubuntu_focal_20_4 ubuntu:focal
+}
+
+
+ct_docker_base_alpine_any() {
+	local container_name=${1:-"alpine_latest"};
+	local image_name=${2:-"alpine:latest"};
+	echo_and_run $DOCKER run -d -it --name  $container_name $image_name
+}
+
+# Alpine 3.12
+ct_docker_base_alpine_3_12() {
+	ct_docker_base_alpine_any alpine_3_12 alpine:3.12
+}

@@ -1,9 +1,10 @@
-
+# TODO https://docs.docker.com/storage/storagedriver/btrfs-driver/
 
 
 [[ -f /usr/bin/docker ]] || { 
 	ct_docker_install_DockerCE() {
-		local UBUNTU_RELEASE=bionic
+		export $(cat /etc/os-release | grep UBU)
+		local UBUNTU_RELEASE=$UBUNTU_CODENAME
 		sudo apt-get remove docker docker-engine docker.io containerd runc
 		sudo apt-get install apt-transport-https ca-certificates curl gnupg-agent software-properties-common
 		curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
@@ -18,6 +19,8 @@
 
 }
 DOCKER=/usr/bin/docker
+DOCKER_VERSION=`docker version --format '{{.Server.Version}}'`
+DOCKER_BUILDKIT=1
 
 [[ -f /usr/bin/kitematic ]] || { 
 	ct_docker_install_Kitematic() {
@@ -50,7 +53,7 @@ ct_docker_totalMemory(){
 ct_docker_buildImage(){
 	local CONTAINER_NAME=$1
 	#docker build -t $1 - < Dockerfile
-	$DOCKER build -t $CONTAINER_NAME .
+	echo_and_run $DOCKER build -t $CONTAINER_NAME .
 }
 
 # $1 nome da imagem docker
@@ -60,33 +63,33 @@ ct_docker_runAnyXApp() {
 	local imagemNome=$1
 	local cmd=$($DOCKER run -d --net host --name $1 -e DISPLAY=unix$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v $HOME/.Xauthority:$HOME/.Xauthority --privileged=true $imagemNome $2 $3 $4)
 	echo $cmd;
-	$cmd
+	echo_and_run $cmd
 }
 
 
 ct_docker_dashboard() {
-	docker ps 
+	$DOCKER ps 
 }
 
-
+## docker run -it --entrypoint /bin/bash [docker_image]
 # $1 nome do container
 # execute: docker ps -a
 ct_docker_bash() {
 	local CONTAINER_NAME=$1
-	$DOCKER exec -ti $CONTAINER_NAME bash
+	echo_and_run $DOCKER exec -ti $CONTAINER_NAME /bin/sh -c "[ -e /bin/bash ] && /bin/bash || /bin/sh"
 }
 
 ct_docker_exec() {
 	local CONTAINER_NAME=$1
 	local CMD="$2"
-	$DOCKER exec -ti $CONTAINER_NAME $CMD
+	echo_and_run $DOCKER exec -ti $CONTAINER_NAME $CMD
 }
 
 # sem TTY
 ct_docker_exec_noTI() {
 	local CONTAINER_NAME=$1
 	local CMD="$2"
-	$DOCKER exec $CONTAINER_NAME $CMD
+	echo_and_run $DOCKER exec $CONTAINER_NAME $CMD
 }
 
 # Conteudo para usar as melhores praticas ao criar Dockfile
@@ -99,7 +102,7 @@ ct_docker_bestPratice(){
 ct_docker_removeTudo() {
 	echo "ATENÇÃO: Isso removerá tudo, desde imagens, containers e cache\nCTRL+c para abortar"
 	read tmp
-	docker system prune --all
+	echo_and_run $DOCKER system prune --all
 }
 
 
@@ -128,11 +131,11 @@ ct_docker_intoDocker_aheckStatusWeb() {
 
 
 ct_docker_setAutoStart() {
-	docker ps
+	$DOCKER ps
 	echoYellowBlack "Digite o CONTAINER_ID: "
 	read dockerID
 
-	docker update --restart=always $dockerID
+	echo_and_run $DOCKER update --restart=always $dockerID
 }
 
 
@@ -141,11 +144,11 @@ ct_docker_setAutoStart() {
 
 # https://howchoo.com/g/zgrmzguwztv/how-to-remove-orphaned-volumes-in-docker
 ct_docker_volume_deleteOrphan() {
-	$DOCKER volume rm $(ct_dockerVolumeListOrphan)
+	echo_and_run $DOCKER volume rm $(ct_dockerVolumeListOrphan)
 }
 
 ct_docker_volume_listOrphan() {
-	$DOCKER volume ls -qf dangling=true
+	echo_and_run $DOCKER volume ls -qf dangling=true
 }
 
 
@@ -165,9 +168,21 @@ ct_docker_push() {
 	local NOME_TAG=$1
 	local NOME_REPO=$(dirname `pwd`/a)
 	echo "Senha para logar no hub.docker.com"
-	#docker login -u $DOCKERHUB_LOGIN
+	$DOCKER login -u $DOCKERHUB_LOGIN
 	echo $NOME_REPO
 
+}
+
+# run this in image with problem to up
+ct_docker_image_bash_entrypoint() {
+		HELPTXT="
+${FUNCNAME[0]} <image_name>"
+	ct_help $1
+
+	: ${1?' image_name'}
+
+	local IMAGE_NAME=$1
+	echo_and_run $DOCKER run -it --entrypoint /bin/bash $IMAGE_NAME
 }
 
 
@@ -178,12 +193,12 @@ ct_docker_container_listAllStopped() {
 }
 
 ct_docker_container_removeAll() {
-	$DOCKER container prune
+	echo_and_run $DOCKER container prune
 }
 
 ## docker network
 ct_docker_network_removeAll() {
-	$DOCKER network prune
+	echo_and_run $DOCKER network prune
 }
 
 
@@ -193,7 +208,33 @@ ct_docker_network_removeAll() {
 ## docker network
 
 ct_docker_network_createDevelop() {
-	$DOCKER network create develop --driver bridge
+	echo_and_run $DOCKER network create develop --driver bridge
 }
 
 
+
+
+
+## Para Utilizar dentro dos DOCKER
+# https://askubuntu.com/questions/541055/installing-packages-without-docs
+
+ct_docker_interno_apt_ignorarInstalarDocs() {
+	echo "
+path-exclude /usr/share/doc/*
+# we need to keep copyright files for legal reasons
+path-include /usr/share/doc/*/copyright
+path-exclude /usr/share/man/*
+path-exclude /usr/share/groff/*
+path-exclude /usr/share/info/*
+# lintian stuff is small, but really unnecessary
+path-exclude /usr/share/lintian/*
+path-exclude /usr/share/linda/*	
+" > /etc/dpkg/dpkg.cfg.d/01_nodoc
+}
+
+ct_docker_intern_apt_reduzir_footprint() {
+	echo "
+Acquire::GzipIndexes \"true\";
+Acquire::CompressionTypes::Order:: \"gz\";	
+" > /etc/apt/apt.conf.d/02compress-indexes
+}
