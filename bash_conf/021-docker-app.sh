@@ -41,19 +41,18 @@ ct_docker_XApp_Kitematic() {
 DOCKER_NET_DEV=develop
 
 ct_docker_ServerApp_MariaDB() {
-	ct_dockerNetworkCreateDevelop
+	ct_docker_network_createDevelop
 
-	local ROOT_PASSWORD="senhasenha"
-	local PORT_TO_LISTEN=$1
+	local ROOT_PASSWORD=${1:-"senhasenha"};
+	local PORT_TO_LISTEN=${2:-"3306"};
 
-	$DOCKER run -d --name mariadb-server-develop \
+	echo_and_run $DOCKER run -d --name mariadb-server-develop \
     	--network $DOCKER_NET_DEV \
 		-e MYSQL_ROOT_PASSWORD=$ROOT_PASSWORD \
 		-v "/home/docker/mysql/bancodedados":/var/lib/mysql \
 		-v "/home/docker/mysql/dump":/dump \
 		-p $PORT_TO_LISTEN:3306 \
-    	pluie/alpine-mysql
-
+    	mariadb:latest
 }
 
 ct_docker_ServerApp_ApachePhp56() {
@@ -86,7 +85,27 @@ ct_docker_WebApp_DeezLoaderMX() {
 	$DOCKER_X11_SHORT --name deezloader$RAND bocki/deezloaderrmx
 }
 
+ct_docker_WebApp_Wordpress() {
+	echo -e "Você está montando a pasta $CGreen$PWD$Color_Off, se não conter os arquivos padrões do wordpress, será populado"
+	: ${1?' docker_name'}
 
+	__qualquerTeclaContinuar
+
+
+	: ${2?' WORDPRESS_DB_HOST'}
+	: ${3?' WORDPRESS_DB_USER'}
+	: ${4?' WORDPRESS_DB_PASSWORD'}
+	: ${5?' WORDPRESS_DB_NAME'}
+	: ${6?' PORT'}
+
+	echo_and_run $DOCKER run -d -it --name "$1" -p $6:80 \
+		-e WORDPRESS_DB_HOST=$2 \
+		-e WORDPRESS_DB_USER=$3 \
+		-e WORDPRESS_DB_PASSWORD=$4 \
+		-e WORDPRESS_DB_NAME=$5 "$7" \
+		-v "$PWD":/var/www/html \
+		'wordpress:5.4.2-php7.3-apache'
+}
 
 ### My Develop
 
@@ -100,12 +119,17 @@ ct_docker_base_openJDK12() {
 	echo_and_run $DOCKER run -d -it --name openJDK12 adoptopenjdk/openjdk12
 }
 
-# Ubuntu 20.4
-ct_docker_base_ubuntu_Focal() {
-	echo_and_run $DOCKER run -d -it --name ubuntu_focal_20_4 ubuntu:focal
+# Ubuntu 20.04
+ct_docker_base_ubuntu_20() {
+	echo_and_run $DOCKER run -d -it --name ubuntu_focal_20_4 ubuntu:20_04
+}
+
+ct_docker_base_ubuntu_18() {
+	echo_and_run $DOCKER run -d -it --name ubuntu_bionic_18_04 ubuntu:18.04
 }
 
 
+#### ALPINE #####
 ct_docker_base_alpine_any() {
 	local container_name=${1:-"alpine_latest"};
 	local image_name=${2:-"alpine:latest"};
@@ -116,3 +140,25 @@ ct_docker_base_alpine_any() {
 ct_docker_base_alpine_3_12() {
 	ct_docker_base_alpine_any alpine_3_12 alpine:3.12
 }
+
+#### CentOS #####
+ct_docker_base_centOS() {
+	echo_and_run $DOCKER run -d -it --name 	centos:latest
+}
+
+#### Debian #####
+ct_docker_base_debian_any() {
+	local container_name=${1:-"debian_latest"};
+	local image_name=${2:-"debian:latest"};
+	echo_and_run $DOCKER run -d -it --name  $container_name $image_name
+}
+
+ct_docker_base_debian_10() {
+	ct_docker_base_debian_any debian_buster debian:10-slim
+}
+
+ct_docker_base_debian_8() {
+	ct_docker_base_debian_any debian_jessie_8 debian:8-slim
+}
+
+#### Mint #####
