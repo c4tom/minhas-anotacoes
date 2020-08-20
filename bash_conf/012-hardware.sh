@@ -49,6 +49,12 @@ ct_hw_battery_info() {
 }
 
 
+### Sensors
+# ve a temperatura da CPU
+ct_hw_temperature() {
+	watch -n 2 sensors
+}
+
 ### Hibernate
 
 ct_hw_hibernate_habilitar()
@@ -93,5 +99,3 @@ set-default-source noiseless
 
 	pulseaudio -k
 }
-
-
