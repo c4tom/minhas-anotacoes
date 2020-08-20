@@ -207,8 +207,11 @@ ct_docker_network_removeAll() {
 
 ## docker network
 
-ct_docker_network_createDevelop() {
-	echo_and_run $DOCKER network create develop --driver bridge
+ct_docker_network_createDevelop(){
+	if [[ ! -n $($DOCKER network ls | grep develop) ]];
+	then
+		echo_and_run $DOCKER network create develop --driver bridge
+	fi
 }
 
 
@@ -237,4 +240,22 @@ ct_docker_intern_apt_reduzir_footprint() {
 Acquire::GzipIndexes \"true\";
 Acquire::CompressionTypes::Order:: \"gz\";	
 " > /etc/apt/apt.conf.d/02compress-indexes
+}
+
+
+
+
+### UTILS
+
+# https://docs.docker.com/storage/storagedriver/btrfs-driver/
+ct_docker_storage_fs_overlay_to_brtfs() {
+	 sudo cat /proc/filesystems | grep btrfs
+
+	 sudo service docker stop
+
+	 sudo cp -au /var/lib/docker /var/lib/docker.bk
+	 sudo rm -rf /var/lib/docker/*
+	 
+
+	 # TODO
 }
