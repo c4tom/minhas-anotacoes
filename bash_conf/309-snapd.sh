@@ -1,12 +1,27 @@
 
-[[ -f /usr/bin/snap ]] || { return ; }
-
-# https://docs.snapcraft.io/core/usage
-# https://docs.snapcraft.io/core/install-ubuntu
-# https://snapcraft.io/store (Loja)
-ct_snapdInstall() {
-    sudo apt-get install snapd
+[[ -f /usr/bin/snap ]] || { 
+    # https://docs.snapcraft.io/core/usage
+    # https://docs.snapcraft.io/core/install-ubuntu
+    # https://snapcraft.io/store (Loja)
+    ct_snapdInstall() {
+        sudo apt-get install snapd
+    }
+    return ; 
 }
+
+# if you need move cache to another partition, it's needed move "snaps" and "cache" together
+ct_snap_move_cache_another_partition() {
+    : ${1?' inform location, please without spaces. Example: /diskD/snap'}
+
+    sudo service snapd stop;
+    sudo mkdir -p "$1/cache"
+    sudo mv /var/lib/snapd/snaps "$1"
+    sudo rm -fr /var/lib/snapd/cache
+    sudo ln -sf "$1/cache" /var/lib/snapd/cache
+
+    sudo service snapd start;
+}
+
 
 ct_snapInstallAndroidStudio() {
     sudo apt-get install qemu-kvm
@@ -19,8 +34,8 @@ ct_snapInstallAndroidStudio() {
 }
 
 ct_snapInstallAllDesenv() {
-    local CLASSIC="android-studio code-insiders intellij-idea-community intellij-idea-ultimate phpstorm pycharm-educational rider"
-    local EDGE=" node"
+    local CLASSIC="android-studio code-insiders intellij-idea-community intellij-idea-ultimate phpstorm pycharm-educational rider powershell flutter"
+    local EDGE=" notekit"
 
     for i in $CLASSIC
         do
