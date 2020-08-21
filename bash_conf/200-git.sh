@@ -51,7 +51,7 @@ ct_git_config_listarConfiguracao() {
 }
 
 ## Atualiza o repositorio forked com o original
-ct_gitMantemForkedAtualizado() {
+ct_git_mantemForkedRepositoryUpdate() {
 	local REMOTO_ORIGNAL_GIT_REPOSITORY="$1"
 	git remote add upstream "$REMOTO_ORIGNAL_GIT_REPOSITORY"
 	git fetch upstream
@@ -75,7 +75,7 @@ ct_git_clean() {
 }
 
 ### LOCAL ####
-ct_gitResetCopiaBranchParaOutro()
+ct_git_reset_copiaBranchParaOutro()
 {
 	HELPTXT="Copia a branch <param1> para a branch corrente\n\n${FUNCNAME[0]} <nomeDaBranch>"
 	ct_help $1
@@ -100,7 +100,7 @@ ct_git_branch_listaTodas() {
 	echo_and_run git branch -vv
 }
 
-ct_git_syncRemoteBranchToLocal() {
+ct_git_sync_remoteBranchToLocal() {
 	HELPTXT="Remove todas as branchs local, que foram deletadas no remoto \n Obs: Branchs locais que nunca foram para o remoto, não serão removidas \n http://erikaybar.name/git-deleting-old-local-branches/"
 	ct_help $1
 
@@ -110,7 +110,7 @@ ct_git_syncRemoteBranchToLocal() {
 
 
 
-ct_git_syncRemoteWithBranch2LocalAll() {
+ct_git_sync_remoteWithBranch2LocalAll() {
 	HELPTXT="Remove todas as branchs locais e sincroniza com as do remoto, deixando todas as branchs remota com as locais"
 	ct_help $1
 
@@ -139,7 +139,7 @@ ct_git_searchText_inAllBranches() {
 #### REMOTO ####
 
 
-ct_gitRemotoDeleteBranch()
+ct_git_remote_DeleteBranch()
 {
 	HELPTXT="Apaga uma branch remota\n\n${FUNCNAME[0]} <nomeDaBranch>"
 	ct_help $1
@@ -216,7 +216,19 @@ ct_git_listAllIgnoredFiles() {
 	echo_and_run git ls-files . --ignored --exclude-standard --others
 }
 
+# git add -A stages All (include new files, modified and deleted)
+# git add . stages new and modified, without deleted
+# git add -u stages modified and deleted, without new
+
 # Adiciona para o stage somente os arquivos modificados e deletados
-ct_git_add_onlyModifiedDeleted() {
-	echo_and_run git add -a "$@"
+ct_git_add_NewModifiedDeleted() {
+	echo_and_run git add -A "$@"
+}
+
+ct_git_add_NewModfied() {
+	echo_and_run git add . "$@"
+}
+
+ct_git_add_ModifiedDeleted() {
+	echo_and_run git add -u "$@"
 }
