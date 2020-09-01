@@ -34,7 +34,15 @@ ct_snapInstallAndroidStudio() {
 }
 
 ct_snapInstallAllDesenv() {
-    local CLASSIC="android-studio code-insiders intellij-idea-community intellij-idea-ultimate phpstorm pycharm-educational rider powershell flutter"
+    local CLASSIC="android-studio 
+        code-insiders 
+        freemind
+        intellij-idea-community intellij-idea-ultimate phpstorm pycharm-educational rider 
+        opera
+        postman
+        powershell 
+        speedy-duplicate-finder
+        flutter"
     local EDGE=" notekit"
 
     for i in $CLASSIC
