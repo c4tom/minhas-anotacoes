@@ -66,3 +66,15 @@ echo "Editar /etc/rc.local"
 echo ""
 
 }
+
+ct_systemd_list_dependency() {
+    echo_and_run sudo systemctl list-dependencies 
+}
+
+ct_systemd_critical_chain() {
+    echo_and_run systemd-analyze critical-chain network.target local-fs.target
+}
+
+ct_systemd_status() {
+    echo_and_run sudo systemctl status
+}
