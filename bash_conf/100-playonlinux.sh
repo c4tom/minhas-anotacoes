@@ -95,3 +95,19 @@ POL_Wine "'$EXEFILE'" "$@"' > /home/$USER/.PlayOnLinux/shortcuts/$EXEFILE
 ct_wine_tricks_install() {
 	WINEARCH=win32 WINEPREFIX=~/.wineoffice2010 winetricks dotnet20 msxml6 corefonts
 }
+
+[[ ! -f /usr/bin/meld ]] || {
+    ct_compareFolders() {
+        local pasta1="$1"
+        local pasta2="$2"
+        local rand=`randomStringGen`
+        
+        pasta1=`realpath $pasta1`;
+        pasta2=`realpath $pasta2`;
+        
+        find $pasta1 -type f | sed "s#$pasta1##" | sort > /tmp/pasta1-$rand
+        find $pasta2 -type f | sed "s#$pasta2##" | sort > /tmp/pasta2-$rand
+        
+        meld /tmp/pasta1-$rand /tmp/pasta2-$rand
+    }
+}
