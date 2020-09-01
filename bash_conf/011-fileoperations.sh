@@ -24,6 +24,16 @@ ct_find_onlyInTextFiles() {
 }
 
 
+ct_find_top_size_files_in_dir() {
+    : ${1?: '<caminho>'}
+    : ${2?: '<quantidade>'}
+    find $1 -type f -exec du -Sh {} + | sort -rh | head -n $2
+}
+
+ct_find_top_size_dirs() {
+    : ${1?: '<caminho>'}
+    du -hs "$1/*" | sort -rh | head -5
+}
 ct_grep_inFileExtension() {
     local tmp="'"$1"'"
     grep -ir $tmp --include \*.$2
@@ -63,4 +73,18 @@ ct_filename_removeAccents() {
         echo "\"$file\" -> \"$final\" "
         mv "$file" "$final"
 done
+}
+
+
+ct_ls_com_octal() {
+    stat -c '%n|%a|%A|%F|%U|%G|%s' * | column -t -s "|"
+}
+
+
+
+# Show CSV and similar in columns
+ct_csv_view() {
+    : ${1?: "<filename>"}
+    : ${2?: "<separator>"}
+    cat "$1"  | column -t -s $2
 }
