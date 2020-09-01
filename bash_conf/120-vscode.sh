@@ -16,7 +16,7 @@ ct_code_listaExtensoes() {
 
 ct_code_install_my_extension() {
     local VSCODE_EXT=""
-    
+
     vsadd() {
         VSCODE_EXT="$VSCODE_EXT $@"
     }
@@ -48,7 +48,7 @@ ct_code_install_my_extension() {
     # Docker
     vsadd ms-azuretools.vscode-docker #
 
-    # Javascript & Type Script 
+    # Javascript & Type Script
     vsadd chenxsan.vscode-standardjs # Integrates JavaScript Standard Style into VS Code.
     vsadd DenisGolovin.dependencies-diagram-generator # Dependencies Diagram Generator
     vsadd xabikos.JavaScriptSnippets # code snippets for JavaScript in ES6 syntax
@@ -64,7 +64,7 @@ ct_code_install_my_extension() {
     vsadd jebbs.markdown-extended # Export in HTML / PDF / PNG / JPEG, many shortcut, table tools
 
     # NPM - NODE
-    vsadd howardzuo.vscode-npm-dependency # 
+    vsadd howardzuo.vscode-npm-dependency #
     vsadd chris-noring.node-snippets # digite node-*
     vsadd aslamanver.node-js-dependency-manager # npm manager
     vsadd herrmannplatz.npm-dependency-links # link directly with site pkg in file package.json
@@ -84,7 +84,7 @@ ct_code_install_my_extension() {
     vsadd DaGhostman.vs-treeview # Tree View extension providing an overview of the main file symbols (seems outline function)
 
     vsadd SonarSource.sonarlint-vscode #;
-    
+
     vsadd roscop.activefileinstatusbar # show full path file in status bar
     vsadd sandcastle.vscode-open # show in menu, option to "open with default application" alt+ctrl+o, alternative (YuTengjing.open-in-external-app)
     vsadd esbenp.prettier-vscode # Formatador de codigo JavaScript · TypeScript · Flow · JSX · JSON, CSS · SCSS · Less, HTML · Vue · Angular, GraphQL · Markdown · YAML (alternative: HookyQR.beautify)
@@ -95,6 +95,7 @@ ct_code_install_my_extension() {
     vsadd formulahendry.code-runner # run php, js etc
 
     vsadd ms-vscode-remote.remote-ssh # edit remote file via ssh
+    vsadd ybaumes.highlight-trailing-white-spaces # Highlite spaces
 
     # Corretor
     vsadd adamvoss.vscode-languagetool-pt # Language Tool, idioma pt e pt-br
