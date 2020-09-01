@@ -89,8 +89,13 @@ ct_uuidGen() {
 }
 
 # bash generate random 32 character alphanumeric string (lowercase only)
+# obs: se for passar ! na regra, precisa escapar, ou seja, usar \!
 ct_randomStringGen() {
-    cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1
+    local tamanho=${1:-"32"}; # tamanho
+    local quantidade=${2:-"1"} # quantidade de linhas geradas
+    local regra=${3:-"a-zA-Z0-9!@#$%*()-=[]}"}; # caracteres 
+    
+    cat /dev/urandom | tr -dc $regra | fold -w $tamanho | head -n $quantidade
 }
 
 # bash random generator between two numbers
@@ -162,14 +167,7 @@ ct_replaceTwoOrMoreBlankLinesToOneFromFile() {
 ### Password
 
 ct_genPassword() {
-    local MATRIX='0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
-    local LENGTH=10
-    local rand=`ct_rand0_999`
-    while [ ${n:=1} -le $LENGTH ]; do
-        PASS="$PASS${MATRIX:$(($rand%${#MATRIX})):1}"
-        let n+=1
-    done
-    echo "$PASS"
+    ct_randomStringGen 16 1 'a-zA-Z0-9'
 }
 
 lastLocalFolder() {
@@ -240,7 +238,7 @@ spin() {
   done
 }
 
-
+# imprime uma mensagem
 banner()
 {
   echo "+------------------------------------------+"
