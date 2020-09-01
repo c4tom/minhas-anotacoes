@@ -99,3 +99,12 @@ set-default-source noiseless
 
 	pulseaudio -k
 }
+
+
+
+## HD SDD
+
+# lista inodes, tipo
+ct_hw_inodes_list() {
+	echo_and_run df -iT
+}
