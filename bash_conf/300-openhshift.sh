@@ -146,11 +146,13 @@ ct_ocDebug() {
 	echo 'https://blog.openshift.com/debugging-java-applications-on-openshift-kubernetes/'
 	echo 'Adicione um novo "Remote Java Aplication" e setar a porta 8787'
 	
-	local pod=`_ocGetRunningPOD`
-	$OC set env dc/$1 DEBUG=true
+	local portas=${1:-"8787:8787"};
+
+	local pod=$(_ocGetRunningPOD)
+	local projeto=$($OC project -q)
+	$OC set env dc/$projeto DEBUG=true
 	echo "$OC POD: $pod"
-	$OC port-forward $pod 8787:8787 
-	
+	$OC port-forward $pod $portas
 }
 
 # $1 = container name (ou nome do projeto, ex.: doahml, atihml, etc)
