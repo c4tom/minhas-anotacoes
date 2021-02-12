@@ -60,6 +60,7 @@ ct_code_install_my_extension() {
     vsadd davidanson.vscode-markdownlint # Markdown linting and style checking for Visual Studio Code
     vsadd jayfidev.markdown-touchbar # Testar se ele nao zua com o codigo
     vsadd bierner.markdown-preview-github-styles # view in github style
+    vsadd telesoho.vscode-markdown-paste-image # Paste image, ask for name image
 
     vsadd jebbs.markdown-extended # Export in HTML / PDF / PNG / JPEG, many shortcut, table tools
 

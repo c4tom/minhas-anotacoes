@@ -5,8 +5,6 @@
 # Define path emulator
 ANDROID_EMULATOR="/Android/Sdk/emulator/emulator"
 
-
-
 ct_androidRunEmulatorAVD() {
     echo "Escolha qual AVD?"
     echo 
@@ -16,4 +14,3 @@ ct_androidRunEmulatorAVD() {
     echo ""
     $ANDROID_EMULATOR -verbose -avd $AVD
 }
-

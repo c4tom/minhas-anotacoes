@@ -15,3 +15,8 @@
 - https://www.2mhost.com/compare-litespeed-hosting-plans.html
 - https://www.hawkhost.com/cloud-hosting
 - https://www.knownhost.com/managed-wordpress-hosting.html
+
+
+## Hosting Para Instalar
+
+- https://www.hetzner.com/cloud (CPU - AMD)

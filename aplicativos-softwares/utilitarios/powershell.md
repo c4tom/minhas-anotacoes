@@ -39,5 +39,12 @@ If you need to uninstall the preinstalled apps for another user: `Get-AppXPackag
 
 uninstall all apps for all Windows 10 users, run this command: `Get-AppxPackage -AllUsers | Remove-AppxPackage`
 
+wsreset.exe
+
+Reinstalar Microsoft Store
+Como admin no powershell 
+`Get-AppXPackage *WindowsStore* -AllUsers | Foreach {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}`
+
+
 # GUI
 - https://poshgui.com/ - Online GUI Designer

@@ -62,6 +62,23 @@ isRoot() {
     [[ $(id -u) -eq 0 ]] || { echo >&2 "Must be root to run this function"; kill -INT $$; }
 }
 
+# https://stackoverflow.com/a/1923893/6709209
+askToPassword()
+{
+    local password
+    prompt=${1:-"Enter Password:"};
+    while IFS= read -p "$prompt" -r -s -n 1 char
+    do
+        if [[ $char == $'\0' ]]
+        then
+            break
+        fi
+        prompt='*'
+        password+="$char"
+    done
+    echo $password
+}
+
 
 ### Open AnyFile ####
 openAnyFile() {
@@ -258,4 +275,39 @@ function ct_listar_funcoes_e_alias() {
     compgen -A alias
     echo
     echo -e "$Color_Off"
+}
+
+
+
+### RSYNC
+# https://superuser.com/questions/109780/how-to-speed-up-rsync
+
+ct_rsync_firstCopy() {
+    : ${1?' source_dir'}
+	: ${2?' destiny'}
+    : ${2?' destiny'}
+    rsync -aP -r --inplace --del --exclude-from=$TO_EXCLUDE "$source_dir" "$destiny"
+}
+
+ct_rsync_firstCopy() {
+    : ${1?' source_dir'}
+	: ${2?' destiny'}
+    rsync -arPS --no-whole-file --del --exclude-from=$TO_EXCLUDE "$source_dir" "$destiny"
+}
+
+ct_rsync_overNetworkSSH() {
+    : ${1?' source_dir'}
+	: ${2?' destiny'}
+
+    rsync -aHAXxv --numeric-ids --delete --progress -e "ssh -T -c arcfour -o Compression=no -x" "$source_dir" "$destiny"
+}
+
+
+### CHATTR
+# https://en.wikipedia.org/wiki/Chattr
+
+ct_chattr_readOnly() {
+    : ${1?' Yes=+ or Not=-'}
+    : ${2?' filename'}
+    sudo chattr $1i "$2" ; lsattr "$2"
 }

@@ -147,3 +147,32 @@ module.exports = {
 " > jest.config.js
 
 }
+
+
+
+
+
+
+ct_npm_listarTodasConfiguracoes() {
+	echo_and_run npm config ls -l
+}
+
+ct_npm_setarConfiguracoesPadroes() {
+	q
+}
+
+
+
+
+
+
+
+
+
+
+## Outros commandos
+
+# URL encode
+ct_node_uriEncode() {
+  node -p "encodeURIComponent('${1//\'/\\\'}')"
+}

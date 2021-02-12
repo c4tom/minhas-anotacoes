@@ -79,8 +79,15 @@ ${FUNCNAME[0]} <docker_name> <path> <port_to_listen> [<network>(default:$DOCKER_
 }
 
 ct_docker_WebApp_ApachePHP5() {
-	docker run -d --name apache-php5 -v "$PWD":/web nimmis/alpine-apache-php5
+	: ${1?' port_to_listen'}
+	docker run -d --name apache-php5 -p $1:80 -v "$PWD":/web nimmis/alpine-apache-php5
 }
+
+ct_docker_WebApp_AlpineApachePHP7() {
+	: ${1?' port_to_listen'}
+	docker run -d --name apache-php7 -p $1:80 -v "$PWD":/app ulsmith/alpine-apache-php7
+}
+
 ct_docker_WebApp_DeezLoaderMX() {
 	$DOCKER_X11_SHORT --name deezloader$RAND bocki/deezloaderrmx
 }
@@ -105,6 +112,22 @@ ct_docker_WebApp_Wordpress() {
 		-e WORDPRESS_DB_NAME=$5 "$7" \
 		-v "$PWD":/var/www/html \
 		'wordpress:5.4.2-php7.3-apache'
+}
+
+
+# https://docs.litespeedtech.com/cloud/docker/
+# https://docs.litespeedtech.com/cloud/docker/openlitespeed/
+# https://docs.litespeedtech.com/cloud/docker/litespeed/
+ct_docker_OLS() {
+	docker run -d --name openlitespeed -p 7080:7080 -p 80:80 -p 443:443 -it litespeedtech/openlitespeed:latest
+}
+
+# https://docs.litespeedtech.com/cloud/docker/ols+wordpress/
+ct_docker_OLS_Download_Git_And_Run_docker_compose() {
+	cd /projetos;
+	git clone https://github.com/c4tom/ols-docker-env
+	cd ols-docker-env
+	docker-compose up
 }
 
 ### My Develop

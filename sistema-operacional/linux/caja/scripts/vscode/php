@@ -1,0 +1,4 @@
+#!/bin/bash
+
+code --extensions-dir /dados/vscode/php "$1"
+

@@ -1,7 +1,10 @@
 # bindfs
 
+## Permissions
 
-bindfs --create-for-group=developer -gdeveloper --create-with-perms=u+rw,g+rw,o+r -pu+rw,g+rw,o+r,o-w /home/projetos /home/projetos/
+https://bindfs.org/docs/bindfs.1.html#sect13
+
+bindfs --create-for-group=developer -gdeveloper --create-with-perms=u+rw,g+rw,o+r -p ud+rwx,gd+rwx,od+rx,uf+rw,ug+rw,uf+r /home/projetos /home/projetos/
 
 This ensures that:
 - All files will be created with group: "local-users"
@@ -15,4 +18,6 @@ Exemplos:
 bindfs --create-for-group=www-data -gwww-data /win/desenv/__desenv_zips /var/www/html/__desenv
 
 bindfs --create-for-user=www-data -uwww-data --create-for-group=www-data -gwww-data /win/Projetos/php /webphp
+
+bindfs --create-for-user=www-data -uwww-data --create-for-group=www-data -gwww-data -p od+rx,of+r /projetos /www-data
 ```

@@ -118,6 +118,8 @@ ct_git_sync_remoteWithBranch2LocalAll() {
 	echo_and_run git branch -a
 }
 
+
+### STASH
 ct_git_stash_salvar() {
 	local NOME="$1"
 	echo "Salvo todos itens modificados ou criados"
@@ -129,6 +131,8 @@ ct_git_stash_restauraUltimo() {
 }
 
 
+### SEARCH
+
 ct_git_searchText_inAllBranches() {
 	local STRING_SEARCH="$1"
 	echo_and_run git grep "$1" $(git rev-list --all)
@@ -137,7 +141,6 @@ ct_git_searchText_inAllBranches() {
 
 
 #### REMOTO ####
-
 
 ct_git_remote_DeleteBranch()
 {
@@ -208,12 +211,17 @@ Thumbs.db
 }
 
 
-ct_git_listAllUntrackedFiles() {
-	echo_and_run git ls-files . --exclude-standard --others
+#### FETCH
+
+ct_git_fetchSubmodules() {
+	echo_and_run git fetch -j8 --multiple --recurse-submodules
 }
 
-ct_git_listAllIgnoredFiles() {
-	echo_and_run git ls-files . --ignored --exclude-standard --others
+
+
+#### Stage / ADD
+ct_git_removeFromGitAllDeleteFiles() {
+	git ls-files --deleted -z | xargs -r0 git rm
 }
 
 # git add -A stages All (include new files, modified and deleted)
@@ -231,4 +239,16 @@ ct_git_add_NewModfied() {
 
 ct_git_add_ModifiedDeleted() {
 	echo_and_run git add -u "$@"
+}
+
+
+
+
+
+ct_git_listAllUntrackedFiles() {
+	echo_and_run git ls-files . --exclude-standard --others
+}
+
+ct_git_listAllIgnoredFiles() {
+	echo_and_run git ls-files . --ignored --exclude-standard --others
 }

@@ -19,7 +19,7 @@
 
 }
 DOCKER=/usr/bin/docker
-DOCKER_VERSION=`docker version --format '{{.Server.Version}}'`
+DOCKER_VERSION=$(docker version --format '{{.Server.Version}}')
 DOCKER_BUILDKIT=1
 
 [[ -f /usr/bin/kitematic ]] || { 
@@ -194,6 +194,12 @@ ct_docker_container_listAllStopped() {
 
 ct_docker_container_removeAll() {
 	echo_and_run $DOCKER container prune
+}
+
+ct_docker_container_rm() {
+	: ${1?' container_ID'}
+	echo_and_run $DOCKER container stop $1
+	echo_and_run $DOCKER container rm $1
 }
 
 ## docker network

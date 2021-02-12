@@ -71,13 +71,23 @@ vob2mp4_templateOA()
   fi
 }
 
+
 ct_ffmpeg_SliceVideo() {
   local VIDEO_FILE="$1"
   local TIME_START="$2" # 00:00:00
   local TIME_END="$3" # 00:00:00
 
   mkdir -p slice
-  ffmpeg -i "${VIDEO_FILE}" -ss "${TIME_START}" -c copy -to "${TIME_END}" "slice/${VIDEO_FILE}"
+  echo_and_run ffmpeg -i "${VIDEO_FILE}" -ss "${TIME_START}" -c copy -to "${TIME_END}" "slice/${VIDEO_FILE}"
+}
+
+## https://superuser.com/questions/624563/how-to-resize-a-video-to-make-it-smaller-with-ffmpeg
+ct_ffmpeg_Scale() {
+  ${1?' video_source'}
+  ${2?' video_output'}
+  local scale=${3:-"1980:1020"};
+
+  echo_and_run ffmpeg -i "$1" -vf scale=$scale,setsar=1:1 "$2"
 }
 
 

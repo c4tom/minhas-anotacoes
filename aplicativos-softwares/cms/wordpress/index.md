@@ -15,9 +15,19 @@ Gerenciador de sites wordpress
 
 - LiteSpeed Cache - Funciona extremamente melhor, quando utilizado com o próprio [servidor](https://www.litespeedtech.com/products/litespeed-web-server)
 
+
+### CRM
+
+### Campanhas
+- Groundhogg — Marketing Automation & CRM for WordPress
+
+### Chat
+
 ### Diversos
 
-- [ManageWP - Worker](https://wordpress.org/plugins/worker/) - Conecta com o site managewp.com
+### Formulários
+- weForms – Construtor de formulários de contato do tipo arrastar e soltar para WordPress
+
 
 ## Outros Conteúdos
 

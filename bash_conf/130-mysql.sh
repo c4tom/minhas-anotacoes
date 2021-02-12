@@ -34,8 +34,8 @@ ${FUNCNAME[0]} <user> <host> <pass>"
 
 ct_mysql_adm_addUserWithoutPermission() {
 	local user=${1:-"root"};
-    local passwd=${2:-"password"};
-    local host=${4:-"localhost"};
+   local passwd=${2:-"password"};
+   local host=${4:-"localhost"};
 
 	echo "CREATE USER '${user}'@'${host}' IDENTIFIED BY '${passwd}';"
 }
@@ -46,6 +46,18 @@ ct_mysql_monitor_addUser() {
     local passwd=${2:-"password"};
     local host=${4:-"localhost"};
 	echo "GRANT SELECT, REPLICATION CLIENT, SHOW DATABASES, SUPER, PROCESS ON *.* TO  '${user}'@'${host}' IDENTIFIED BY '${passwd}'";
+}
+
+
+ct_mysql_addUserCreateTableGivePermission() {
+	local user=${1:-"root"};
+   local passwd=${2:-"password"};
+   local host=${4:-"localhost"};
+
+	echo "CREATE USER '$user'@'$host' IDENTIFIED VIA mysql_native_password USING password('$passwd');
+GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, FILE, INDEX, ALTER, CREATE TEMPORARY TABLES, CREATE VIEW, EVENT, TRIGGER, SHOW VIEW, CREATE ROUTINE, ALTER ROUTINE, EXECUTE ON *.* TO '$user'@'$host' REQUIRE NONE WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0 MAX_USER_CONNECTIONS 0;
+CREATE DATABASE IF NOT EXISTS $user;
+GRANT ALL PRIVILEGES ON $user.* TO '$user'@'$host';"
 }
 
 
