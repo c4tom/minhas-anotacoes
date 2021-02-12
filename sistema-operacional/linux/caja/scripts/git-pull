@@ -1,6 +1,0 @@
-#!/bin/sh
-
-OUTPUT=$(git pull)
-
-gdialog --infobox "$OUTPUT" 300 200
-
