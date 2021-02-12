@@ -31,10 +31,10 @@ ct_ocLogin() {
 	fi
 
 	# Fazer login no openshift
-	if [  `ct_ocIsLogged` = "0" ]
+	if [  $(ct_ocIsLogged) = "0" ]
 		then
 
-			if [ `isWin` == "1" ] 
+			if [ $(isWin) == "1" ] 
 				then
 					LOGNAME=$USERNAME
 			fi
@@ -104,35 +104,35 @@ ct_ocDescribeProject() {
 
 # abre ssh no pod do PHP
 ct_ocSSHPHP() {
-	$OC rsh `_ocGetRunningPODPHP`
+	$OC rsh $(_ocGetRunningPODPHP)
 }
 
 # Mapeia uma porta do POD para Host
 ct_ocFORWARDMYSQL() {
-	$OC port-forward `_ocGetRunningPOD` 3307:3306
+	$OC port-forward $(_ocGetRunningPOD) 3307:3306
 }
 
 
 _ocGetRunningPODPHP() {
-	echo `$OC get pod | grep php | grep Running | awk '{print $1}'`
+	echo $($OC get pod | grep php | grep Running | awk '{print $1}')
 }
 
 _ocGetRunningPOD() {
-	echo `$OC get pod --sort-by={metadata.creationTimestamp} | grep -v "deploy" | grep Running | awk '{print $1}' | head -n 1 	`
+	echo $($OC get pod --sort-by={metadata.creationTimestamp} | grep -v "deploy" | grep Running | awk '{print $1}' | head -n 1)
 }
 
 # abre ssh no pod do PHP
 ct_ocSSH() {
-	$OC rsh `_ocGetRunningPOD`
+	$OC rsh $(_ocGetRunningPOD)
 }
 
 # executa o bash no POD
 ct_ocExec() {
-	$OC exec `_ocGetRunningPOD` -- $1
+	$OC exec $(_ocGetRunningPOD) -- $1
 }
 
 ct_ocCPLocal2Remoto(){
-	$OC cp $1 `_ocGetRunningPOD`:$2
+	$OC cp $1 $(_ocGetRunningPOD):$2
 }
 
 # Abre a porta 8787 para fazer debug com um POD
@@ -146,11 +146,13 @@ ct_ocDebug() {
 	echo 'https://blog.openshift.com/debugging-java-applications-on-openshift-kubernetes/'
 	echo 'Adicione um novo "Remote Java Aplication" e setar a porta 8787'
 	
-	local pod=`_ocGetRunningPOD`
-	$OC set env dc/$1 DEBUG=true
+	local portas=${1:-"8787:8787"};
+
+	local pod=$(_ocGetRunningPOD)
+	local projeto=$($OC project -q)
+	$OC set env dc/$projeto DEBUG=true
 	echo "$OC POD: $pod"
-	$OC port-forward $pod 8787:8787 
-	
+	$OC port-forward $pod $portas
 }
 
 # $1 = container name (ou nome do projeto, ex.: doahml, atihml, etc)
@@ -161,11 +163,11 @@ ct_ocServerLog()
 
 
 ct_ocRSYNCPHPSEND() {
-	$OC rsync $1 `_ocGetRunningPODPHP`:$2 $3 $4 $5
+	$OC rsync $1 $(_ocGetRunningPODPHP):$2 $3 $4 $5
 }
 
 ct_ocRSYNCPHPGET() {
-	$OC rsync `_ocGetRunningPODPHP`:$1 $2 $3 $4 $5
+	$OC rsync $(_ocGetRunningPODPHP):$1 $2 $3 $4 $5
 }
 
 # faz um rsync do host para guest (pod)
@@ -174,19 +176,19 @@ ct_ocRSYNCPHPGET() {
 ct_ocRSYNC() {
 	local PASTA_LOCAL=$1
 	local PASTA_REMOTO=$2
-	$OC rsync $PASTA_LOCAL `_ocGetRunningPOD`:$PASTA_REMOTO
+	$OC rsync $PASTA_LOCAL $(_ocGetRunningPOD):$PASTA_REMOTO
 }
 
 
 ct_ocRSYNC_REMOTO2LOCAL() {
 	local PASTA_LOCAL=$1
 	local PASTA_REMOTO=$2
-	$OC rsync `_ocGetRunningPOD`:$PASTA_REMOTO $PASTA_LOCAL
+	$OC rsync $(_ocGetRunningPOD):$PASTA_REMOTO $PASTA_LOCAL
 }
 
 # Verifica se esta logado no servidor do openshift
 ct_ocIsLogged() {
-	result=`$OC status 2>&1 | grep -i error`
+	result=$($OC status 2>&1 | grep -i error)
 	if [ -n "$result" ]
 		then
 			echo 0
