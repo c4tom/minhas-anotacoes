@@ -23,5 +23,5 @@ export PATH_ORIGINAL=$PATH
 export CT_VERBOSE=true
 
 export HISTCONTROL=erasedups
-export HISTSIZE=5000
+export HISTSIZE=9000
 export HISTTIMEFORMAT="%d/%m/%y %T "
