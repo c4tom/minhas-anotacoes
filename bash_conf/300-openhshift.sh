@@ -5,7 +5,9 @@
 
 # Cliente OpenShift
 # Baixe em https://github.com/openshift/origin/releases ou https://www.openshift.org/download.html
-# Referencia https://docs.openshift.com/container-platform/3.3/cli_reference/basic_cli_operations.html
+
+# Versão 4
+# https://docs.openshift.com/container-platform/4.6/cli_reference/openshift_cli/developer-cli-commands.html
 
 ## Utilizado a versao
 ## https://github.com/openshift/origin/releases/download/v3.9.0/openshift-origin-client-tools-v3.9.0-191fece-linux-64bit.tar.gz
@@ -20,9 +22,42 @@
 [[ -f /usr/bin/oc ]] || { return ; }
 OC="/usr/bin/oc"
 
+ct_oc_info_install() {
+	echo "- baixar e descompactar o oc.exe
+- adicionar o caminho no PATH do sistema, da pasta aonde esta o oc.exe
+- aqui no bash execute o comando: type oc.exe
+- criar um link simbolico: ln -sf /caminho/do/oc.exe /usr/bin/oc
+- setar nas variaveis de ambiente OC_SERVER_ADDR=https://endereco.da.API.do.servidor
+"
+}
 
-# $1 = projeto
-ct_ocLogin() {
+# Autocomplete para o comando oc , no bash
+ct_oc_bashEnableCompletion() {
+	local command=$($OC completion bash > /tmp/bash_completion.sh)
+	echoColor $cmd
+	$(command)
+  	echo_and_run source /tmp/bash_completion.sh
+}
+
+
+__askToPassword() {
+	local password
+	local prompt=${1:-"Enter Password:"}
+	while IFS= read -p "$prompt" -r -s -n 1 char
+	do
+		if [[ $char == $'\0' ]]
+		then
+			break
+		fi
+		prompt="*"
+		password+=$char
+	done
+	echo $password
+}
+
+
+# Login com usuario e senha
+ct_oc_login() {
 
 	if test -z $OC_SERVER_ADDR 
 		then
@@ -31,7 +66,7 @@ ct_ocLogin() {
 	fi
 
 	# Fazer login no openshift
-	if [  $(ct_ocIsLogged) = "0" ]
+	if [  $(_oc_isLogged) = "0" ]
 		then
 
 			if [ $(isWin) == "1" ] 
@@ -41,9 +76,9 @@ ct_ocLogin() {
 
 			echoColor "Logando em: $OC_SERVER_ADDR como: $LOGNAME"
 
-			echo "Digite a senha: "
-			read -s password 
-			$OC login --insecure-skip-tls-verify --username=$LOGNAME $OC_SERVER_ADDRct_ -p $password
+			password=$(__askToPassword "Digite a senha: ")
+
+			$OC login --insecure-skip-tls-verify --username=$LOGNAME $OC_SERVER_ADDR -p $password
 			$OC project $1
 		else
 			echo ">>> Já esta logado";
@@ -51,18 +86,11 @@ ct_ocLogin() {
 }
 
 
-ct_extractCookieFirefox() {
-	cd /tmp/
-	wget https://gist.githubusercontent.com/hackerb9/d382e09683a52dcac492ebcdaf1b79af/raw/fced8cae8fd1f9573646336dcc8093a10e373e03/extract_cookies.sh
-	sh extract_cookies.sh  > cookies.txt
-	
-}
-
 # Login via Token, get it from
 # https://<URL-openshift-server>/console/command-line
-ct_ocLoginToken() {
-	$OC login $OC_SERVER_ADDR --token=$OC_TOKEN
-	$OC project $1
+ct_oc_loginByToken() {
+	: ${1?' <token>'}
+	$OC login $OC_SERVER_ADDR --token=$1
 }
 
 
@@ -70,7 +98,7 @@ ct_ocLoginToken() {
 
 # $1 = Registro do usuario com C
 # $2 = Nome do projeto
-ct_ocAddRole () { 
+ct_oc_addRole () { 
 	local REGISTRO=$1
 	local PROJETO=$2
 	$OC project $PROJETO; $OC policy add-role-to-user admin $REGISTRO -n $PROJETO
@@ -79,7 +107,7 @@ ct_ocAddRole () {
 # Apaga um usuario do projeto
 # $1 chave/registro do usuário
 # $2 nome do projeto
-ct_ocDelRole() { 
+ct_oc_delRole() { 
 	local REGISTRO=$1
 	local PROJETO=$2
 	$OC project $PROJETO; $OC policy remove-role-from-user admin $REGISTRO -n $PROJETO
@@ -87,52 +115,47 @@ ct_ocDelRole() {
 
 # Lista as permissoes de um determinado projeto
 # $1 = Nome do projeto
-ct_ocListRole() {
+ct_oc_listRole() {
 	$OC describe policyBindings :default -n $1
 }
 
 # $1 = Nome do projeto
-ct_ocDescribeProject() {
-	local PROJETO=$1
-	ct_ocListRole $PROJETO
+ct_oc_describeProject() {
+	: ${1?' <project>'}
+	ct_oc_listRole $1
 }
 
-
-
-######### PHP ###########
-
-
-# abre ssh no pod do PHP
-ct_ocSSHPHP() {
-	$OC rsh $(_ocGetRunningPODPHP)
-}
-
-# Mapeia uma porta do POD para Host
-ct_ocFORWARDMYSQL() {
-	$OC port-forward $(_ocGetRunningPOD) 3307:3306
-}
-
-
-_ocGetRunningPODPHP() {
-	echo $($OC get pod | grep php | grep Running | awk '{print $1}')
-}
 
 _ocGetRunningPOD() {
 	echo $($OC get pod --sort-by={metadata.creationTimestamp} | grep -v "deploy" | grep Running | awk '{print $1}' | head -n 1)
 }
+# Verifica se esta logado no servidor do openshift
+_oc_isLogged() {
+	result=$($OC status 2>&1 | grep -i error)
+	if [ -n "$result" ]
+		then
+			echo 0
+		else
+			echo 1
+	fi
+}
+
 
 # abre ssh no pod do PHP
-ct_ocSSH() {
+ct_oc_ssh() {
 	$OC rsh $(_ocGetRunningPOD)
 }
 
 # executa o bash no POD
-ct_ocExec() {
-	$OC exec $(_ocGetRunningPOD) -- $1
+ct_oc_exec() {
+	: ${1?' <comando>'}
+	echo_and_run $OC exec $(_ocGetRunningPOD) -- $1
 }
 
-ct_ocCPLocal2Remoto(){
-	$OC cp $1 $(_ocGetRunningPOD):$2
+ct_oc_copyLocal2Remote(){
+	: ${1?' <local folder>'}
+	: ${2?' <remote folder>'}
+	echo_and_run $OC cp $1 "$(_ocGetRunningPOD):$2"
 }
 
 # Abre a porta 8787 para fazer debug com um POD
@@ -142,7 +165,7 @@ ct_ocCPLocal2Remoto(){
 
 # https://tools.jboss.org/documentation/howto/openshift_debug.html
 # https://servicesblog.redhat.com/2019/03/06/remote-debugging-of-java-applications-on-openshift/
-ct_ocDebug() {
+ct_oc_debug() {
 	echo 'https://blog.openshift.com/debugging-java-applications-on-openshift-kubernetes/'
 	echo 'Adicione um novo "Remote Java Aplication" e setar a porta 8787'
 	
@@ -156,51 +179,32 @@ ct_ocDebug() {
 }
 
 # $1 = container name (ou nome do projeto, ex.: doahml, atihml, etc)
-ct_ocServerLog()
+ct_oc_serverLog()
 {
-	$OC logs -f dc/$1
+	local projeto=$($OC project -q)
+	$OC logs -f dc/$projeto
 }
 
-
-ct_ocRSYNCPHPSEND() {
-	$OC rsync $1 $(_ocGetRunningPODPHP):$2 $3 $4 $5
-}
-
-ct_ocRSYNCPHPGET() {
-	$OC rsync $(_ocGetRunningPODPHP):$1 $2 $3 $4 $5
+ifSet() {
+	: ${1?' <default value>'}
+	${2:-""};
+	local any=$()
 }
 
 # faz um rsync do host para guest (pod)
 # $1 pasta local (host)
 # $2 pasta guest (pod)
-ct_ocRSYNC() {
-	local PASTA_LOCAL=$1
-	local PASTA_REMOTO=$2
-	$OC rsync $PASTA_LOCAL $(_ocGetRunningPOD):$PASTA_REMOTO
+ct_oc_rsyncLocalToRemote() {
+	: ${1?' <local folder>'}
+	: ${2?' <remote folder>'}
+	$OC rsync "$1" "$(_ocGetRunningPOD):$2"
 }
 
 
-ct_ocRSYNC_REMOTO2LOCAL() {
-	local PASTA_LOCAL=$1
-	local PASTA_REMOTO=$2
-	$OC rsync $(_ocGetRunningPOD):$PASTA_REMOTO $PASTA_LOCAL
-}
-
-# Verifica se esta logado no servidor do openshift
-ct_ocIsLogged() {
-	result=$($OC status 2>&1 | grep -i error)
-	if [ -n "$result" ]
-		then
-			echo 0
-		else
-			echo 1
-	fi
-}
-
-# argumentos usados para montar pacote no maven para openshift
-ct_mvn_package_openshift()
-{
-	mvn -e -Popenshift -DskipTests -Dcom.redhat.xpaas.repo.redhatga package -Djava.net.preferIPv4Stack=true 
+ct_oc_rsysnRemoteToLocal() {
+	: ${1?' <local folder>'}
+	: ${2?' <remote folder>'}
+	$OC rsync "$(_ocGetRunningPOD):$2" "$1"
 }
 
 
@@ -213,10 +217,62 @@ ct_ocClusterUp(){
 }
 
 
-ct_ocCompletionInstall() {
-	sudo $OC completion bash > /tmp/bash_completion.sh
-  	source /tmp/bash_completion.sh
+ct_oc_portForward() {
+	: ${1?' portToListenOnLocal:portToConnectRemote'}
+	$OC port-forward $(_ocGetRunningPOD) $1
 }
+
+ct_oc_scaleSet()
+ {
+	: ${1?' <quantidade de pods>'}
+	local projeto=$($OC project -q)
+	echo_and_run $OC scale --replicas=$1 dc --all -n $projeto
+ }
+
+
+ct_oc_projectStatus()
+{
+	local projeto=$($OC project -q)
+	echo_and_run $OC describe dc/$projeto
+}
+
+
+ct_oc_envList() {
+	echo_and_run $OC set env pod/$(_ocGetRunningPOD) --list
+}
+
+_oc_project() {
+	echo $($OC project -q)
+}
+
+ct_oc_envSet() {
+	: ${1?' <key=value>'}
+	local project=${2:-$(_oc_project)};
+	echo_and_run $OC set env dc $project $1 -n $project
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
