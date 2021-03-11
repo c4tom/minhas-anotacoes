@@ -7,3 +7,12 @@ ct_sambaViewNetworkFolder()
 	echo $PASTA;
 	caja smb:$PASTA;
 }
+
+ct_samba_mount() {
+	: ${1?:' <windows share  //host/folder>'}
+	: ${2?:' </mount/dir>'}
+	: ${3?:' <user>'}
+
+	echo_and_run sudo mount -t cifs -o user=$3 "$1" "$2"
+
+}
