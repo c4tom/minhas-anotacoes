@@ -1,5 +1,5 @@
 [[ -f /usr/bin/nmap ]] || { 
-	ct_nmapInstall() {
+	ct_nmap_install() {
 		sudo apt-get install nmap
 	}
 	return ; 
@@ -9,8 +9,14 @@ ct_nmap_listaTodosSubDominios() {
 	nmap -script dns-brute -v -sn $1;
 }
 
-ct_nmap_liveHostOnNetwork() {
-    # 192.168.1.1/24
-    local IP_NETWORK="$1/24"
-    nmap $1 -n -sP | grep report | awk '{print $5}'
+ct_nmap_scan_network() {
+   : ${1?' <network 192.168.1.0/24>'}
+
+   echo_and_run nmap -sP $1
+}
+
+ct_nmap_scan_network_os() {
+   : ${1?' <network 192.168.1.0/24>'}
+
+   echo_and_run sudo nmap -sP -0 $1
 }
