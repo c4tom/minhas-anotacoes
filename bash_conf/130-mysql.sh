@@ -1,4 +1,11 @@
 
+ct_mysql_alias() {
+	local user=${1:-"root"};
+   local passwd=${2:-"senhasenha"};
+   local host=${3:-"127.0.0.1"};
+
+	alias mysql_alias="mysql -h $host -u $user -p$passwd"
+}
 
 ct_mysql_add_MySqlUserOnLinux() {
 	local ID=$1
