@@ -10,7 +10,18 @@
 ## Pede o parametro 1
 ## : ${1?' user'}
 
-export PATH=$PATH:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/desenv/java/apache-cxf-3.3.3/bin
+
+## hotkeys
+
+#ctrl-r	to search through your command history in reverse (newest to oldest)
+#ctrl-k	to clear all the text after cursor
+#ctrl-u	to clear all the text before cursor
+#ctrl-a	move to beginning of the current
+#ctrl-e	move to end of the current
+#ctrl-f	move forward one char
+#ctrl-b	move backward one word
+
+export PATH=$PATH:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin
 
 #[[ $(id -u) -eq 0 ]] || { echo >&2 "Must be root to run this function"; return; }
 
