@@ -8,3 +8,16 @@ ct_time_corrigirLinuxEWindows() {
 ct_date_sincWithNTP() {
     sudo ntpdate 1.ro.pool.ntp.org
 }
+
+
+ct_date_now_y-m-d() {
+    date +%F
+}
+
+ct_date_now_ymdhms() {
+    date '+%Y%m%d%H%M%S'
+}
+
+ct_date_now_hms() {
+    date '+%H%M%S'
+}
