@@ -35,6 +35,71 @@
 FFMPEG_CLIP10s=" -threads 6 -ss 00:00:0.0 -t 10 -a"
 
 
+
+ct_ffmpeg_speedUpVideoOnly() {
+  : ${1?' <video input>'}
+  : ${2?' <video output>'}
+  : ${3?' <time to accelerate>'}
+  ffmpeg -i "$1" -filter:v "setpts=PTS/$3" "$2"
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ct_mp4tohevc1() {
   # Video
   # FPS = 10 (-r), codec = libx265, Constant Rate Factor = 25 (0-50 => 0 lowless)
