@@ -50,6 +50,12 @@ ct_git_config_listarConfiguracao() {
 	echo_and_run git config --list
 }
 
+ct_git_repo_infoStats() {
+	echo_and_run git config --get remote.origin.url
+	echo_and_run git config --get remote.origin.fetch
+}
+
+
 ## Atualiza o repositorio forked com o original
 ct_git_mantemForkedRepositoryUpdate() {
 	local REMOTO_ORIGNAL_GIT_REPOSITORY="$1"
@@ -251,4 +257,31 @@ ct_git_listAllUntrackedFiles() {
 
 ct_git_listAllIgnoredFiles() {
 	echo_and_run git ls-files . --ignored --exclude-standard --others
+}
+
+# https://stackoverflow.com/questions/30590083/how-do-i-rename-both-a-git-local-and-remote-branch-name/30590238#30590238
+ct_branch_renameLocalAndRemote() {
+	: ${1: '<old branch name>'}
+	: ${2: '<new branch name>'}
+	local remote_name=${3:-"origin"};
+
+
+	# Rename the local branch to the new name
+	git branch -m $1 $2
+
+	# Delete the old branch on remote - where <remote> is, for example, origin
+	git push $remote_name --delete $1
+
+	# Or shorter way to delete remote branch [:]
+	git push $remote_name :$1
+
+	# Prevent git from using the old name when pushing in the next step.
+	# Otherwise, git will use the old upstream name instead of <new_name>.
+	git branch --unset-upstream $1
+
+	# Push the new branch to remote
+	git push $remote_name $2
+
+	# Reset the upstream branch for the new_name local branch
+	git push $remote_name -u $2
 }
