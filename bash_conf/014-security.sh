@@ -1,3 +1,7 @@
+## https://sectools.org/tag/pass-audit/
+
+
+
 [[ -f /usr/bin/testssl.sh ]] || { 
 	ct_ssl_install_tester() {
         # https://github.com/drwetter/testssl.sh
