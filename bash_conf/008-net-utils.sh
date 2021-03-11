@@ -11,6 +11,7 @@ __macAddrGen() {
     }
 }
 
+# nc into netcat package	
 [[ ! -f /bin/nc ]] || { 
 	ct_net_waitServiceConnectPort() {
 
@@ -40,4 +41,3 @@ ct_net_checkLocalhostPortIsListen() {
 	local PORT=$1
 	true &>/dev/null < /dev/tcp/127.0.0.1/$PORT && echo open || echo closed
 }
-
