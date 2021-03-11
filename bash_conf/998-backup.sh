@@ -2,8 +2,9 @@
 # precisa instalar pigz
 
 ct_backupMyHomeWithEncrypted() {
+    local DATE=$(date '+%Y%m%d%H%M%S')
 
-    tar -cv --use-compress-program=pigz -f backup-$USER.tar.gz \
+    echo_and_run tar -cv --use-compress-program=pigz -f backup-$USER-$DATE.tar.gz \
     --exclude=backup-name.tar.gz\
     --exclude=.cache \
     --exclude=.debug \
@@ -18,6 +19,8 @@ ct_backupMyHomeWithEncrypted() {
     --exclude=.m2 \
     --exclude=Public \
     --exclude=.Private \
+    --exclude=.zohoworkdrive \
+    --exclude=.npm \
     --exclude=".local/share/NuGet/v3-cache" \
     --exclude=".wine/drive_c/users/can/Application Data/VOS" \
     --exclude=Templates /home/$USER
