@@ -50,6 +50,8 @@ __pause(){
 
 
 isWin() {
+    # [[ $OS = "Windows_NT" ]] || { return ; }
+
     if test -z $WINDIR
     then
         echo 0
@@ -181,10 +183,17 @@ ct_replaceTwoOrMoreBlankLinesToOneFromFile() {
 }
 
 
+ct_filepath() {
+    : ${1?' file'}
+
+    echo $(pwd)/$1
+}
+
 ### Password
 
 ct_genPassword() {
-    ct_randomStringGen 16 1 'a-zA-Z0-9'
+    local size=${1:-"16"};
+    ct_randomStringGen $size 1 'a-zA-Z0-9'
 }
 
 lastLocalFolder() {
@@ -310,4 +319,10 @@ ct_chattr_readOnly() {
     : ${1?' Yes=+ or Not=-'}
     : ${2?' filename'}
     sudo chattr $1i "$2" ; lsattr "$2"
+}
+
+
+
+ct_mylinuxInfo() {
+    lsb_release -a
 }
