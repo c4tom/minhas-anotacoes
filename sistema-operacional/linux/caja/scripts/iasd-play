@@ -1,0 +1,11 @@
+#!/bin/sh
+
+pps=$(echo $1 | sed 's/\.pps//')
+
+mp3=$(find ./ -name "$pps*.mp3")
+
+echo "$1 -> $mp3" >> /tmp/iasd_play.log
+
+xdg-open "$1"
+sleep 2
+xdg-open "$mp3"

@@ -326,3 +326,8 @@ ct_chattr_readOnly() {
 ct_mylinuxInfo() {
     lsb_release -a
 }
+
+# https://pt.wikipedia.org/wiki/TMPFS
+ct_tmpfs_info() {
+    echo_and_run df --human-readable --type=tmpfs
+}

@@ -3,12 +3,47 @@
 
 # Pacotes que instalei
 mymint_install_packages() {
+    local APT_PKG=""
 
-    sudo apt-get install afflib-tools calibre ffmpeg filezilla gparted handbrake iotop parallel links maven obs-studio pandoc php-cli libvmdk-utils remmina rclone scite sshfs strace tree vim vokoscreen w3m xdotool bleachbit pavucontrol flameshot bindfs pluma firejail firetools \
-        fdupes \ # find duplicates files
-        pigz \ # compressao, pode usar com tar
-        command-not-found \ # find suggest command to install
-        cpupower-gui # Controlador de Frequencia
+    aptadd() {
+        APT_PKG="$APT_PKG $@"
+    }    
+
+
+    aptadd afflib-tools calibre pandoc
+    # find duplicates files\
+    aptadd fdupes
+    # disk vm utils
+    aptadd libvmdk-utils gparted guestmount bindfs
+    # System Utils
+    aptadd iotop parallel tree
+    # compressao, pode usar com tar
+    aptadd pigz
+    # Internet Tools
+    aptadd filezilla links w3m sshfs remmina
+    # find suggest command to install
+    aptadd command-not-found
+    # Controlador de Frequencia
+    aptadd cpupower-gui
+    # Video Utils
+    aptadd ffmpeg handbrake obs-studio vokoscreen
+    # Cloud Tools
+    aptadd rclone
+    # Dev Tools
+    aptadd strace pluma vim
+    # audio tools
+    aptadd pavucontrol
+    # X utils
+    aptadd flameshot bleachbit xdotool
+    # Security
+    aptadd firejail firetools
+    # Java Dev Utils
+    aptadd maven
+    # Web Dev
+    aptadd php-cli
+
+    sudo apt-get install $APT_PKG
+        
 }
 
 # afflib-tools -> affuse

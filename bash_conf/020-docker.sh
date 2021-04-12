@@ -207,12 +207,6 @@ ct_docker_network_removeAll() {
 	echo_and_run $DOCKER network prune
 }
 
-
-
-
-
-## docker network
-
 ct_docker_network_createDevelop(){
 	if [[ ! -n $($DOCKER network ls | grep develop) ]];
 	then
@@ -221,6 +215,24 @@ ct_docker_network_createDevelop(){
 }
 
 
+ct_docker_network_createMyNetworkBridge(){
+	local subnet=${1:-"192.168.1.0/24"};
+	local gateway=${1:-"192.168.1.254"};
+	local netName=${1:-"minharedeWIFI"};
+	echo_and_run $DOCKER network create -d bridge --subnet $subnet --gateway $gateway $netName
+}
+
+
+## Logs
+
+ct_docker_logs() {
+	docker ps
+	echo "Escolha um CONTAINER ID: "
+
+	read cID
+
+	docker log $cID --tail 100 -f
+}
 
 
 

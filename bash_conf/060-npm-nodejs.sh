@@ -8,10 +8,25 @@
 if [[ ! -f $(type -p node) ]] 
 then
 	nodejs_installInLinuxMint() {
-		sudo curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+		sudo curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
 		sudo apt-get install nodejs
 	}
 fi
+
+export NPM_PREFIX=/desenv/node_global
+export PATH=$PATH:$NPM_PREFIX/bin
+
+### SETAR minhas configuracoes
+
+ct_npm_setar_minhas_configuracoes() {
+	# configuração global para instalação globais
+	npm config set prefix $NPM_PREFIX
+
+	npm config set cache /dados/node_cache
+
+	ct_npm_corrigeISSUER_CERT_LOCALLY
+}
+
 
 # Tools
 # https://www.npmjs.com/package/sitemap-generator-cli
@@ -158,11 +173,28 @@ ct_npm_listarTodasConfiguracoes() {
 }
 
 ct_npm_setarConfiguracoesPadroes() {
-	q
+	npm config edit
 }
 
 
+## Configuraçoes
 
+
+
+### CACHE
+ct_npm_cache_clean() {
+	echo_and_run npm cache clear
+}
+
+### Globals
+ct_npm_modules_listGlobals() {
+	echo_and_run npm -g ls
+}
+
+ct_npm_modules_delete() {
+	: ${1?' <module_name>'}
+	echo_and_run npm -g rm $1
+}
 
 
 

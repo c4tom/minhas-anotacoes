@@ -9,3 +9,7 @@ ct_ssh_socksEnable() {
     local port=${2:-"1080"};
     echo_and_run ssh $1 -D $port -f -C -q -N 
 }
+
+ct_ssh_forward_port() {
+    ssh 
+}

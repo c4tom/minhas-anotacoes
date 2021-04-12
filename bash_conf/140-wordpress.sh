@@ -18,7 +18,7 @@ then
 fi
 
 
-ct_wordpress_setPermissionDirsFiles() {
+ct_wp_setPermissionDirsFiles() {
   : ${1?' <path>'}
    find "$1" -type d -exec chmod 755 {} \;
    find "$1" -type f -exec chmod 644 {} \;
@@ -31,3 +31,17 @@ then
     sudo cp /tmp/wp-completion /etc/bash_completion.d/
   }
 fi
+
+
+
+
+## CLI commands
+
+ct_wp_transient_delete_byPrefix() {
+  : ${1?' <prefix like: ipz* ipz_ or nono_?>'}
+
+  for i in $(wp transient list --search=ipz_*  --fields=name --format=csv | sed -n '1d;p'); 
+  do 
+    echo "DEL key=$i"; wp transient delete $i; 
+  done
+}

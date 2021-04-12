@@ -102,10 +102,6 @@ ct_git_clone_ultimoCommit() {
 }
 
 
-ct_git_branch_listaTodas() {
-	echo_and_run git branch -vv
-}
-
 ct_git_sync_remoteBranchToLocal() {
 	HELPTXT="Remove todas as branchs local, que foram deletadas no remoto \n Obs: Branchs locais que nunca foram para o remoto, não serão removidas \n http://erikaybar.name/git-deleting-old-local-branches/"
 	ct_help $1
@@ -157,6 +153,12 @@ ct_git_remote_DeleteBranch()
 	echo_and_run git push origin --delete $nomeDaBranchRemoto
 }
 
+
+### Branch
+
+ct_git_branch_listaTodas() {
+	echo_and_run git branch -vv
+}
 
 ct_git_branchDeleteRemote() {
 	local REMOTE_BRANCH_NAME="$1"
