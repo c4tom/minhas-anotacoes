@@ -227,11 +227,12 @@ ct_docker_network_createMyNetworkBridge(){
 
 ct_docker_logs() {
 	docker ps
+	echo ""
 	echo "Escolha um CONTAINER ID: "
 
 	read cID
 
-	docker log $cID --tail 100 -f
+	docker logs $cID --tail 100 -f
 }
 
 
