@@ -18,6 +18,7 @@
 	return ; 
 
 }
+
 DOCKER=/usr/bin/docker
 DOCKER_VERSION=$(docker version --format '{{.Server.Version}}')
 DOCKER_BUILDKIT=1
@@ -144,7 +145,14 @@ ct_docker_setAutoStart() {
 
 # https://howchoo.com/g/zgrmzguwztv/how-to-remove-orphaned-volumes-in-docker
 ct_docker_volume_deleteOrphan() {
-	echo_and_run $DOCKER volume rm $(ct_dockerVolumeListOrphan)
+	local lsImgs=$(CT_VERBOSE=false ct_docker_volume_listOrphan)
+
+	if [ -n "$lsImgs" ]
+	then
+		echo_and_run $DOCKER volume rm $lsImgs
+	else
+		echo "Nothing to remove"
+	fi
 }
 
 ct_docker_volume_listOrphan() {
