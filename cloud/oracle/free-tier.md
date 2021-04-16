@@ -9,6 +9,11 @@
 https://www.digitalocean.com/community/tutorials/how-to-set-up-a-firewall-using-firewalld-on-centos-8-pt
 
 
+## Instalação de Pacotes
+
+sudo apt install iputils-ping inetutils-telnet
+
+
 ## Estudar:
 
 https://docs.oracle.com/pt-br/iaas/Content/API/Concepts/cloudshellintro.htm
@@ -35,6 +40,8 @@ oci iam availability-domain list
 
 # oci bv boot-volume list -c <compartimentID> --availability-domain <>
 oci bv boot-volume list -c ocid1.tenancy.oc1..aaaaaaaaizlsuez6vlyop2xlhymzxadp4cbqpcwlsnf2buzsvpgmf47gntia --availability-domain olcZ:US-ASHBURN-AD-3
+
+
 
 
 ```
