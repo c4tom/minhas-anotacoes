@@ -1,23 +1,29 @@
-# Baixar arquivos antigos: http://www.oracle.com/technetwork/java/javase/archive-139210.html
-export CXF_HOME=/desenv/java/apache-cxf-3.3.3
-export JAXWS_HOME=/desenv/java/jaxws-ri
+[[ ! -f /desenv/java/apache-cxf-3.3.3 ]] || {
+	# Baixar arquivos antigos: http://www.oracle.com/technetwork/java/javase/archive-139210.html
+	export CXF_HOME=/desenv/java/apache-cxf-3.3.3
+	export JAXWS_HOME=/desenv/java/jaxws-ri
 
-JDK_HOME="/desenv/java/jdk8"
-JAVA_HOME=$JDK_HOME
-
-
-ct_java_switch_jdk12() {
-	JAVA_HOME=/desenv/java/jdk12
-	JDK_HOME=$JAVA_HOME
-	export PATH=$PATH_ORIGINAL:$JDK_HOME/bin
+	export PATH=$PATH:$CXF_HOME/bin:$JAXWS_HOME/bin
 }
 
-ct_java_switch_jdk8() {
-	JAVA_HOME=/desenv/java/jdk8
-	JDK_HOME=$JAVA_HOME
-	export PATH=$PATH_ORIGINAL:$JDK_HOME/bin
+[[ ! -f /desenv/java/jdk8/bin/java || ! -f /desenv/java/jdk12/bin/java ]] || {
+	JDK_HOME="/desenv/java/jdk8"
+	JAVA_HOME=$JDK_HOME
+
+	ct_java_switch_jdk12() {
+		JAVA_HOME=/desenv/java/jdk12
+		JDK_HOME=$JAVA_HOME
+		export PATH=$PATH_ORIGINAL:$JDK_HOME/bin
+	}
+
+	ct_java_switch_jdk8() {
+		JAVA_HOME=/desenv/java/jdk8
+		JDK_HOME=$JAVA_HOME
+		export PATH=$PATH_ORIGINAL:$JDK_HOME/bin
+	}
 }
 
+[[ -n $(type -P java) ]] || { return; }
 
 # Lista todas bibliotecas que tem dentro de um arquivo EAR.
 # Obs.: necessario instalar apt-get install jar
@@ -54,9 +60,6 @@ ct_java_printFlagsFinal() {
 ct_java_listProcess() {
 	jps -v
 }
-
-export PATH=$PATH:$CXF_HOME/bin:$JAXWS_HOME/bin
-
 
 ct_java_removeComments() {
 	sed -i '/\/\*/{:loop;/\/\*.*\*\//{d;b out};N;b loop};:out' "$1"
