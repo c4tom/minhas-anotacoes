@@ -1,8 +1,28 @@
-
-[[ -f /usr/bin/snap ]] || { 
+[[ -f /usr/bin/snap ]] || {
     # https://docs.snapcraft.io/core/usage
     # https://docs.snapcraft.io/core/install-ubuntu
     # https://snapcraft.io/store (Loja)
+
+    ct_snapd_beforeInstall() {
+        echo "
+[Unit]
+Description=bind mount snapd from /dados/.snapd to /var/lib/snapd
+
+[Mount]
+What=/dados/.snapd
+Where=/var/lib/snapd
+Type=fuse.bindfs
+Options=force-user=root,force-group=root,perms=0775:ug+D
+
+[Install]
+WantedBy=multi-user.target
+RequiredBy=snapd.service        
+" | sudo tee -a /etc/systemd/system/var-lib-snapd.mount
+
+    sudo systemctl enable var-lib-snapd.mount
+    }
+
+
     ct_snapdInstall() {
         sudo apt-get install snapd
     }

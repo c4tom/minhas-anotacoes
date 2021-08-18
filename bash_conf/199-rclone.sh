@@ -21,6 +21,12 @@ ct_rclone_mountAliasAllDrivers() {
 
     ct_bashNaoQuebraLinha
 
+    RCLONE_SCRIPTS=$HOME/.config/caja/scripts/rclone/
+
+    mkdir -p $RCLONE_SCRIPTS
+
+    rm -f $RCLONE_SCRIPTS/*
+
     for i in $DRIVERS 
     do
         tmpdir="$RCLONE_TARGET_DIR/$i"
@@ -45,6 +51,10 @@ ct_rclone_mountAliasAllDrivers() {
         cmd="$cmd --vfs-read-chunk-size 128M"
         cmd="$cmd --log-level DEBUG"
         cmd="$cmd --log-file=/discok/tmp/rclone.log"
+
+
+        ## criar arquivo scripts
+        echo "$cmd" > $HOME/.config/caja/scripts/rclone/$i.sh
 
         echoGreenBlack "alias rclone_mount_$i";
         eval "alias rclone_mount_$i='$cmd'"

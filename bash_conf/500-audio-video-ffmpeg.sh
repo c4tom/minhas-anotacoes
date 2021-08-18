@@ -45,14 +45,10 @@ ct_ffmpeg_speedUpVideoOnly() {
 
 
 
-
-
-
-
-
-
-
-
+# sudo apt install mediainfo
+ct_video_info() {
+  mediainfo "$1"
+}
 
 
 
@@ -147,7 +143,55 @@ ct_ffmpeg_SliceVideo() {
 }
 
 ## https://superuser.com/questions/624563/how-to-resize-a-video-to-make-it-smaller-with-ffmpeg
-ct_ffmpeg_Scale() {
+## https://en.wikipedia.org/wiki/Display_resolution
+ct_ffmpeg_resizeScale() {
+
+	$HELPTXT "Tamanhos: 
+https://en.wikipedia.org/wiki/Graphics_display_resolution#Video_Graphics_Array
+https://en.wikipedia.org/wiki/Display_resolution
+
+Name	H (px)	V (px)	H:V	H × V (Mpx)
+QQVGA	160	120	4:03	19
+HQVGA	240	160	3:02	38
+256	160	16:10	43	
+QVGA	320	240	4:03	77
+WQVGA	384	240	16:10	92
+WQVGA	360	240	3:02	86
+WQVGA	400	240	5:03	96
+HVGA	480	320	3:02	154
+VGA	640	480	4:03	307
+WVGA	768	480	16:10	368
+WVGA	720	480	3:02	345
+WVGA	800	480	5:03	384
+FWVGA	≈854	480	16:09	410
+SVGA	800	600	4:03	480
+WSVGA	1024	576	16:09	590
+WSVGA	1024	600	128:75	614
+DVGA	960	640	3:02	614
+
+
+Standard	Aspect ratio	Width (px)	Height (px)
+
+nHD	16:09	640	360
+SVGA	4:03	800	600
+XGA	4:03	1024	768
+WXGA	16:09	1280	720
+WXGA	16:10	1280	800
+SXGA	5:04	1280	1024
+HD	≈16:9	1360	768
+HD	≈16:9	1366	768
+WXGA+	16:10	1440	900
+HD+	16:09	1600	900
+WSXGA+	16:10	1680	1050
+FHD	16:09	1920	1080
+WUXGA	16:10	1920	1200
+QWXGA	16:09	2048	1152
+QHD	16:09	2560	1440
+4K UHD	16:09	3840	2160
+
+"
+	ct_help $1
+
   ${1?' video_source'}
   ${2?' video_output'}
   local scale=${3:-"1980:1020"};
@@ -335,8 +379,7 @@ _mp3ChangeSpeed() {
 }
 
 
-
-
+# https://www.onlineconverter.com/change-video-speed
 _videoChangeSpeed() {
   local file="$1"
   local speed=$2

@@ -86,6 +86,8 @@ ct_systemd_status() {
 ct_systemd_cockpit_start() {
     echo_and_run sudo systemctl start cockpit.socket
     echo_and_run sudo systemctl enable cockpit.socket
+
+    echo 'Abrir no navegador http://localhost:9090'
 }
 
 ct_systemd_cockpit_stop() {

@@ -45,3 +45,18 @@ ct_wp_transient_delete_byPrefix() {
     echo "DEL key=$i"; wp transient delete $i; 
   done
 }
+
+
+
+## WP Users
+
+ct_wp_changePasswordForUserID() {
+  wp user list
+
+  echo "Qual ID?"
+  read op
+
+  password=$(askToPassword "Digite a senha: ")
+
+  wp user update $op --user_pass=$password
+}

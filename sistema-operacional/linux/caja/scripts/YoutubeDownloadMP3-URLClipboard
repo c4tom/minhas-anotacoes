@@ -1,0 +1,9 @@
+#!/bin/sh
+
+ct_youtubeDownloadMP3 () 
+{ 
+    local YOUTUBE_URL="$1";
+    /usr/local/bin/youtube-dl -x --audio-format mp3 "$YOUTUBE_URL"
+}
+
+ct_youtubeDownloadMP3 "`xsel`"

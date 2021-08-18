@@ -1,0 +1,9 @@
+#!/bin/sh
+
+ct_youtubeDownload480 () 
+{ 
+    local YOUTUBE_URL="$1";
+    /usr/local/bin/youtube-dl --restrict-filenames -f 'bestvideo[height<=480]+bestaudio/best[height<=480]' "$YOUTUBE_URL"
+}
+
+ct_youtubeDownload480 "`xsel`"

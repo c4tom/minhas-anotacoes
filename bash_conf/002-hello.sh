@@ -44,7 +44,6 @@ ct_help() {
 		echo 
 		echo -e $HELPTXT
 		echo 
-
 		kill -INT $$
 	fi
 }

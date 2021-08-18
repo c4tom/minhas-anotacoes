@@ -14,3 +14,8 @@ ct_androidRunEmulatorAVD() {
     echo ""
     $ANDROID_EMULATOR -verbose -avd $AVD
 }
+
+
+export ANDROID_HOME=/Android/Sdk    
+export ANDROID_SDK_ROOT=/Android/Sdk
+export ANDROID_AVD_HOME=/Android/Sdk/emulator

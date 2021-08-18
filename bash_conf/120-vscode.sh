@@ -201,3 +201,68 @@ ct_code_install_my_extension() {
 # xabikos.JavaScriptSnippets
 # yzhang.markdown-all-in-one
 # ziishaned.hugobot
+
+ct_vscode_linkCacheToTmp() {
+    local cacheDir=/.cache/vscode
+    cd $HOME/.config/Code
+    killall -9 code
+
+    ct_bashNaoQuebraLinha
+
+    local dirs="blob_storage
+Cache
+CachedData
+CachedExtensions
+CachedExtensionVSIXs
+Code Cache
+Crash Reports
+Local Storage
+logs
+GPUCache
+exthost Crash Reports"
+
+    sleep 1
+
+    rm -fr $cacheDir
+
+    for i in $dirs
+    do
+    mkdir -p "$cacheDir/$i"
+    rm -fr "$i"
+    ln -sf "$cacheDir/$i" "$i"
+
+    done;
+}
+
+
+ct_teams_linkCacheToTmp() {
+    local cacheDir=/.cache/teams
+    cd "$HOME/.config/Microsoft/Microsoft Teams"
+    killall -9 teams
+
+    ct_bashNaoQuebraLinha
+
+    local dirs="Application Cache
+blob_storage
+Cache
+Code Cache
+Crash Reports
+Local Storage
+logs
+GPUCache
+Session Storage
+Service Worker
+"
+
+    sleep 1
+
+    rm -fr $cacheDir
+
+    for i in $dirs
+    do
+    mkdir -p "$cacheDir/$i"
+    rm -fr "$i"
+    ln -sf "$cacheDir/$i" "$i"
+
+    done;
+}

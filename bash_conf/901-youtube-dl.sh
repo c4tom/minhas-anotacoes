@@ -1,6 +1,7 @@
 
 [[ -f "/usr/local/bin/youtube-dl" ]] || { return ; }
 
+alias youtube-dl="/usr/local/bin/youtube-dl --restrict-filenames"
 
 ct_youtubePlayListDownload() {
   youtube-dl -f mp4 --yes-playlist -i "$1" "$2" "$3" "$4" "$5"
@@ -41,4 +42,10 @@ ct_youtubePlayListSubtitleDownloadOnly() {
 
 ct_subtitleVTTtoSRT() {
   ffmpeg -i "$1" "$1.srt"
+}
+
+# https://askubuntu.com/questions/486297/how-to-select-video-quality-from-youtube-dl
+ct_youtubeDownload480() {
+  local YOUTUBE_URL="$1"
+  youtube-dl -f 'bestvideo[height<=480]+bestaudio/best[height<=480]' "$YOUTUBE_URL"
 }

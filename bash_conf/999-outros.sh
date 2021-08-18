@@ -1,7 +1,8 @@
 
 
 ct_whatsapp() {
-    xdg-open https://web.whatsapp.com/send?phone=+55$1&text&source&data
+    local NUMBER=$(echo "$1" | tr -dc '0-9')
+    xdg-open "https://web.whatsapp.com/send?phone=+55$NUMBER&text&source&data"
 }
 
 
@@ -19,6 +20,3 @@ ct_youtubeDownloadLiveVideo() {
 
     streamlink ${URL} ${QUALITY} -o ${FILE_NAME}
 }
-
-
-

@@ -1,6 +1,8 @@
 # Docker
 
 * [Boas práticas para criar dockerfiles](https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/)
+  - [Multistage](https://www.digitalocean.com/community/tutorials/how-to-optimize-docker-images-for-production)
+  - [BuildKit](https://www.docker.com/blog/advanced-dockerfiles-faster-builds-and-smaller-images-using-buildkit-and-multistage-builds/)
 * [Explorar imagens](https://hub.docker.com/explore/)
 
 ## Instalação
@@ -39,6 +41,3 @@ sudo usermod -aG docker $USER
 ## - [Problemas](problemas.md)
 
 ## - [Dicas](dicas.md)
-
-
-

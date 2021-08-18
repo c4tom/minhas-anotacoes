@@ -69,7 +69,8 @@ ct_docker_runAnyXApp() {
 
 
 ct_docker_dashboard() {
-	$DOCKER ps 
+	echo_and_run $DOCKER ps 
+	echo_and_run $DOCKER system df
 }
 
 ## docker run -it --entrypoint /bin/bash [docker_image]
@@ -101,13 +102,17 @@ ct_docker_bestPratice(){
 
 #https://docs.docker.com/config/pruning/#prune-everything
 ct_docker_removeTudo() {
-	echo "ATENÇÃO: Isso removerá tudo, desde imagens, containers e cache\nCTRL+c para abortar"
+	echo_and_run $DOCKER system df
+	echoColor $BRed"ATENÇÃO:$CRed Isso removerá tudo, desde imagens, containers e cache e volumes locais
+CTRL+c para abortar
+"
 	read tmp
 	echo_and_run $DOCKER system prune --all
+	echo_and_run $DOCKER volume prune
 }
 
 
-ct_docker_intoDocker_adicionarRepoBrasilDebian() {
+ct_docker_addInDockerFile_adicionarRepoBrasilDebian() {
 	echo "
 	\`RUN cat /etc/apt/sources.list | \
     sed '1s#.*#deb http://ftp.br.debian.org/debian jessie main contrib non-free#' > /etc/apt/sources.list.new \
@@ -115,7 +120,7 @@ ct_docker_intoDocker_adicionarRepoBrasilDebian() {
 	"
 }
 
-ct_docker_intoDocker_aheckStatusWeb() {
+ct_docker_addInDockerFile_aheckStatusWeb() {
 	local URL="$1"
 	echo "  Wait until redmine be ready (wget required)"
 	wget -w 5 --retry-connrefused --tries=60  $URL 2> /dev/null
@@ -201,7 +206,15 @@ ct_docker_container_listAllStopped() {
 }
 
 ct_docker_container_removeAll() {
+	ct_docker_container_stopAll
 	echo_and_run $DOCKER container prune
+}
+
+ct_docker_container_stopAll() {
+	for i in $($DOCKER container ls -q)
+	do
+		$DOCKER container stop $i
+	done
 }
 
 ct_docker_container_rm() {
@@ -248,7 +261,7 @@ ct_docker_logs() {
 ## Para Utilizar dentro dos DOCKER
 # https://askubuntu.com/questions/541055/installing-packages-without-docs
 
-ct_docker_interno_apt_ignorarInstalarDocs() {
+ct_docker_addInDockerFile_apt_ignorarInstalarDocs() {
 	echo "
 path-exclude /usr/share/doc/*
 # we need to keep copyright files for legal reasons
@@ -262,7 +275,7 @@ path-exclude /usr/share/linda/*
 " > /etc/dpkg/dpkg.cfg.d/01_nodoc
 }
 
-ct_docker_intern_apt_reduzir_footprint() {
+ct_docker_addInDockerFile_apt_reduzir_footprint() {
 	echo "
 Acquire::GzipIndexes \"true\";
 Acquire::CompressionTypes::Order:: \"gz\";	
