@@ -53,8 +53,8 @@ ct_snapInstallAndroidStudio() {
     sudo usermod -a -G kvm $USER
 }
 
-ct_snapInstallAllDesenv() {
-    local CLASSIC="
+ct_snap_pkgClassic() {
+    echo "
         android-studio code-insiders netbeans
         chromium-ffmpeg
         freemind
@@ -64,7 +64,30 @@ ct_snapInstallAllDesenv() {
         powershell
         speedy-duplicate-finder
         flutter"
-    local EDGE=" notekit"
+}
+
+ct_snap_pkgEdge() {
+    echo " notekit"
+}
+
+ct_snapDownloadAllDesenv() {
+    local CLASSIC=`ct_snap_pkgClassic`
+    local EDGE=`ct_snap_pkgEdge`
+
+    for i in $CLASSIC
+        do
+            snap download $i 
+        done
+    
+    for i in $EDGE
+        do 
+            snap download $i
+        done
+}
+
+ct_snapInstallAllDesenv() {
+    local CLASSIC=`ct_snap_pkgClassic`
+    local EDGE=`ct_snap_pkgEdge`
 
     for i in $CLASSIC
         do
@@ -86,4 +109,68 @@ ct_snap_getSystemInfo() {
 	echo -e "\n" >> $finfo
 
 	cat $finfo
+}
+
+ct_snap_change_location() {
+    ##############################################################################
+    # Take Care this section may break the System !!!
+    ##############################################################################
+    ##Move snap folder to Home instead of root.
+    #Create the directory : you can change the location
+    mkdir -p /home/$USER/snap/snapd
+
+    #Copy the data
+    sudo rsync -avzP /var/lib/snapd/  /home/$USER/snap/snapd/
+
+    #Do backups
+    sudo mv /var/lib/snapd /var/lib/snapd.bak
+    sudo cp /etc/fstab /etc/fstab.bak
+
+    #Change fstab (Change $USER with your name or change the path totally)
+    echo "/home/$USER/snap/snapd /var/lib/snapd none bind 0 0" | sudo tee -a /etc/fstab
+
+    #remount fstab Or reboot.
+    sudo mkdir /var/lib/snapd
+    sudo mount -a
+
+    if ls  /var/lib/snapd/ | grep snaps
+    then
+        echo "Re-mounting snapd folder is done successfully. !!!!"
+        sudo rm -rf /var/lib/snapd.bak
+    else
+        echo "WARNING : Re-mounting snapd folder failed, please revert !!!!! "
+        echo "WARNING : Re-mounting snapd folder failed, please revert !!!!! "
+        echo "WARNING : Re-mounting snapd folder failed, please revert !!!!! "
+        echo "WARNING : Re-mounting snapd folder failed, please revert !!!!! "
+        echo "WARNING : Re-mounting snapd folder failed, please revert !!!!! "
+
+        # Trying to revert automatically
+        sudo cp /etc/fstab.bak /etc/fstab
+
+        sudo mount -a
+        sudo umount /var/lib/snapd
+
+        sudo mv /var/lib/snapd.bak /var/lib/snapd
+
+        echo "Files located at ~/snap/snapd should be removed, but are kept for
+        recovery until you, manually reboot the system and make sure the service
+        is running correctly. Then you can manually remove the folder ~/snap/snapd
+        !!!!!!!!!!!!!!, you should do that manually."
+
+    fi
+    ##############################################################################
+    # Take care the previous section may break the System !!!
+    ##############################################################################
+}
+
+
+ct_snap_log() {
+    journalctl -e --no-pager -u snapd
+}
+
+ct_snap_debug_changes() {
+    for chg in $(snap changes | awk '{print $1}' | grep -Po '[0-9]+'); do
+        echo ">>> $chg <<<"
+        snap debug timings $chg
+    done
 }
