@@ -22,6 +22,24 @@ ct_mysql_adm_AddUserOnlyDataAccess() {
 	echo "CREATE USER '$MY_USER'@'$MY_HOST' IDENTIFIED VIA mysql_native_password USING '$MY_PASS';GRANT SELECT, INSERT, UPDATE, DELETE, FILE ON *.* TO 'adver523_afcombr'@'localhost' REQUIRE NONE WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0 MAX_USER_CONNECTIONS 0;"
 }
 
+
+ct_mysql_adm_addDBA() {
+	HELPTXT="
+
+${FUNCNAME[0]} <user> <host> <pass>"
+	ct_help $1
+
+	: ${1?' user'}
+	: ${2?' host'}
+	: ${3?' pass'}
+
+	local MY_USER=$1
+	local MY_HOST=$2
+	local MY_PASS=$3
+	echo "CREATE USER '$MY_USER'@'$MY_HOST' IDENTIFIED BY '${MY_PASS}'; GRANT ALL ON *.* TO '$MY_USER'@'$MY_HOST' WITH GRANT OPTION;"
+
+}
+
 ct_mysql_adm_addUserAllDataAccess() {
 	HELPTXT="
 
