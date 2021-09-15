@@ -41,3 +41,9 @@ ct_net_checkLocalhostPortIsListen() {
 	local PORT=$1
 	true &>/dev/null < /dev/tcp/127.0.0.1/$PORT && echo open || echo closed
 }
+
+
+# https://askubuntu.com/questions/1320276/how-to-easily-get-all-https-addresses-that-an-application-connects-externally/1361293#1361293
+ct_net_print_who_connected_ports80_443() {
+	watch -n1 lsof -i TCP:80,443 
+}
