@@ -43,7 +43,7 @@ ct_snap_move_cache_another_partition() {
 }
 
 
-ct_snapInstallAndroidStudio() {
+__snapInstallAndroidStudio() {
     sudo apt-get install qemu-kvm
 
     #TODO: adicionar usuario ao grupo KVM
@@ -53,7 +53,7 @@ ct_snapInstallAndroidStudio() {
     sudo usermod -a -G kvm $USER
 }
 
-ct_snap_pkgClassic() {
+__snap_pkgClassic() {
     echo "
         android-studio code-insiders netbeans
         chromium-ffmpeg
@@ -63,6 +63,9 @@ ct_snap_pkgClassic() {
         postman
         powershell
         speedy-duplicate-finder
+        insomnia
+        libreoffice
+        kompozer
         flutter"
 }
 
@@ -71,8 +74,8 @@ ct_snap_pkgEdge() {
 }
 
 ct_snapDownloadAllDesenv() {
-    local CLASSIC=`ct_snap_pkgClassic`
-    local EDGE=`ct_snap_pkgEdge`
+    local CLASSIC=$(__snap_pkgClassic)
+    local EDGE=$(__snap_pkgEdge)
 
     for i in $CLASSIC
         do
@@ -86,8 +89,8 @@ ct_snapDownloadAllDesenv() {
 }
 
 ct_snapInstallAllDesenv() {
-    local CLASSIC=`ct_snap_pkgClassic`
-    local EDGE=`ct_snap_pkgEdge`
+    local CLASSIC=$(__snap_pkgClassic)
+    local EDGE=$(__snap_pkgEdge)
 
     for i in $CLASSIC
         do
@@ -105,7 +108,7 @@ ct_snap_getSystemInfo() {
 	echo -e "lsb_release -a\n" > $finfo
 	lsb_release -a >> $finfo
 	echo -e "\nsnap version\n" >> $finfo
-	echo "`snap version`" >> $finfo
+	echo "$(snap version)" >> $finfo
 	echo -e "\n" >> $finfo
 
 	cat $finfo

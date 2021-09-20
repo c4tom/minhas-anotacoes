@@ -25,12 +25,39 @@ sudo apt install firewalld
 sudo firewall-cmd --zone=public --permanent --add-port=80/tcp
 sudo firewall-cmd --reload
 
+sudo firewall-cmd --zone=public --permanent --add-port=7080/tcp
+sudo firewall-cmd --reload
+
+
+sudo firewall-cmd --zone=public --permanent --add-port=3306/tcp
+sudo firewall-cmd --reload
+
 
 sudo firewall-cmd --zone=public --list-ports
 
 
 
+
+# VM OpenLiteSpeed
+
 ## Install OpenLiteSpeed
 
 # Se for para ubuntu minimal
 sudo apt-get install software-properties-common
+
+sudo su - 
+
+bash <( curl -k https://raw.githubusercontent.com/litespeedtech/ols1clk/master/ols1clk.sh )
+
+
+
+
+
+# VM Mysql
+
+sudo apt update
+sudo apt install mysql
+
+# Adicionar usuario
+
+echo "CREATE USER 'cyberpanel'@'10.0.0.%' IDENTIFIED BY 'myr00t@pass'; GRANT ALL ON *.* TO 'cyberpanel'@'10.0.0.%' WITH GRANT OPTION; flush privileges;" | mysql

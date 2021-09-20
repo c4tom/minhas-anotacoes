@@ -19,7 +19,7 @@ sudo apt install iputils-ping inetutils-telnet
 https://docs.oracle.com/pt-br/iaas/Content/API/Concepts/cloudshellintro.htm
 
 
-para testar usar o php php -S 0.0.0.0:80 -t /tmp
+para testar usar o `php -S 0.0.0.0:80 -t /tmp`
 
 
 ## Portas
