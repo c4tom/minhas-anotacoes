@@ -24,7 +24,7 @@ ct_oracloud_swap() {
 }
 
 ct_oracloud_install_pacotes() {
-   sudo apt install iputils-ping inetutils-telnet firewalld
+   sudo apt install iputils-ping inetutils-telnet firewalld net-tools
 }
 
 ct_oracloud_install_cyberPanel() {
@@ -37,4 +37,20 @@ ct_oracloud_bash_conf() {
    git clone -b beta --depth 1 --filter=blob:none --no-checkout https://github.com/c4tom/minhas-anotacoes
    cd minhas-anotacoes
    git checkout master -- di
+}
+
+
+ct_oracloud_mariadbServer() {
+   apt install mariadb-server
+}
+
+ct_oracle_firewalld() {
+   : ${1?' <list ports - enclosed by quotes>'}
+
+   for i in $1
+   do
+      sudo firewall-cmd --zone=public --permanent --add-port=$i/tcp
+   done
+   sudo firewall-cmd --reload
+   sudo firewall-cmd --zone=public --list-ports
 }
