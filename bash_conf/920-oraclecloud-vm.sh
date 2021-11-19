@@ -46,11 +46,12 @@ ct_oracloud_mariadbServer() {
 
 ct_oracle_firewalld() {
    : ${1?' <list ports - enclosed by quotes>'}
+   : ${2?' zone=(public|docker|????). Ps: get all active zone-> firewall-cmd --get-active-zones'}
 
    for i in $1
    do
-      sudo firewall-cmd --zone=public --permanent --add-port=$i/tcp
+      sudo firewall-cmd --zone=$2 --permanent --add-port=$i/tcp
    done
    sudo firewall-cmd --reload
-   sudo firewall-cmd --zone=public --list-ports
+   sudo firewall-cmd --zone=$2 --list-ports
 }
