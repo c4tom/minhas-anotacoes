@@ -1,11 +1,15 @@
 # Bitlocker para Linux (read/write)
 # https://superuser.com/questions/376533/how-to-access-a-bitlocker-encrypted-drive-in-linux
 
-ct_bitlockerInstall() {
-    sudo apt-get install dislocker
-}
 
-[[ -f /usr/bin/dislocker ]] || { return ; }
+
+[[ -f /usr/bin/dislocker ]] || { 
+    ct_bitlockerInstall() {
+        sudo apt-get install dislocker
+    }    
+    
+    return ; 
+}
 
 
 ct_bitlockerMount() {
