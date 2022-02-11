@@ -48,8 +48,9 @@ ct_rclone_mountAliasAllDrivers() {
         cmd="$cmd --write-back-cache"               # Makes kernel buffer writes before sending them to rclone. Without this, writethrough caching is used. Not supported on Windows.
         cmd="$cmd --buffer-size 1G"
         cmd="$cmd --drive-chunk-size 32M"
+        cmd="$cmd --cache-chunk-path /dev/shm"
         cmd="$cmd --vfs-read-chunk-size 128M"
-        cmd="$cmd --log-level DEBUG"
+        cmd="$cmd --log-level INFO"
         cmd="$cmd --log-file=/discok/tmp/rclone.log"
 
 
@@ -82,4 +83,8 @@ ct_rclone_webgui() {
 ct_rclone_updateToken() {
     : ${1?' remote'}
     rclone config reconnect $1 
+}
+
+ct_rclone_open_config() {
+    pluma ~/.config/rclone/rclone.conf
 }
