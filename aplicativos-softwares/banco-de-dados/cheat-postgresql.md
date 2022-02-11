@@ -160,3 +160,19 @@ template1</td>
 </tr>
 </tbody>
 </table>
+
+<code>
+<pre>
+
+# Instalação do Zero (windows)
+pg_ctl -D /pasta/de/dados initdb
+
+# Iniciar o banco 
+pg_ctl -D /pasta/de/dados -l logfile start
+
+</pre>
+</code>
+
+# Mais
+
+* https://www.enterprisedb.com/blog/the-complete-oracle-to-postgresql-migration-guide-tutorial-move-convert-database-oracle-alternative
