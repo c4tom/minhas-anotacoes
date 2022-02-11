@@ -139,7 +139,7 @@ ct_docker_base_openJDK12() {
 
 # Ubuntu 20.04
 ct_docker_base_ubuntu_20() {
-	echo_and_run $DOCKER run -d -it --name ubuntu_focal_20_4 ubuntu:20_04
+	echo_and_run $DOCKER run -d -it --name ubuntu_focal_20_4 ubuntu:20.04
 }
 
 ct_docker_base_ubuntu_18() {
