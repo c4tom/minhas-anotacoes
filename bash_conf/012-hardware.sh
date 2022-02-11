@@ -108,3 +108,25 @@ set-default-source noiseless
 ct_hw_inodes_list() {
 	echo_and_run df -iT
 }
+
+
+## Monitor
+# https://unix.stackexchange.com/questions/399739/disable-laptop-screen-and-use-only-vga/399743#399743
+ct_hw_monitor_turnoff() {
+	if [ "" == "$1" ];
+	then
+		xrandr -q | grep 'VGA\|HDMI\|DP\|LVDS' | grep ' connected'
+		echo "Type option:"
+		read MON_DISP
+	else 
+		MON_DISP=$1
+	fi
+	
+	xrandr --output $MON_DISP --off --output VGA-1 --auto
+
+}
+
+ct_hw_monitor_turnoff_notebook()
+{
+	ct_hw_monitor_turnoff eDP-1
+}
