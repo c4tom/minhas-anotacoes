@@ -14,7 +14,7 @@ mymint_install_packages() {
     # find duplicates files\
     aptadd fdupes
     # disk vm utils
-    aptadd libvmdk-utils gparted guestmount bindfs
+    aptadd libvmdk-utils gparted bindfs
     # System Utils
     aptadd iotop parallel tree
     # compressao, pode usar com tar
@@ -34,7 +34,7 @@ mymint_install_packages() {
     # audio tools
     aptadd pavucontrol
     # X utils
-    aptadd flameshot bleachbit xdotool
+    aptadd flameshot bleachbit xdotool copyq
     # Security
     aptadd firejail firetools
     # Java Dev Utils
@@ -57,4 +57,20 @@ mymint_home_move_cache() {
 # How to Show Asterisks While Typing Sudo Password in Linux
 mymint_patch_sudoers() {
     sudo sed -i "s/env_reset\$/env_reset,pwfeedback/" /etc/sudoers
+}
+
+
+mymint_install_epson_l355() {
+
+   echo "deb [trusted=yes] http://download.ebz.epson.net/dsc/op/stable/debian/ lsb3.2 main" | sudo tee --append /etc/apt/sources.list.d/epson.list
+
+   sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 8AA65D56
+   sudo apt-get update
+   sudo apt-get install Epson-inkjet-printer-201207w
+}
+
+mymint_after_install_mint() {
+    mymint_install_packages
+    ct_systemd_add_rc_local
+    mymint_install_epson_l355
 }
