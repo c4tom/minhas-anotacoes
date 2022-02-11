@@ -1,5 +1,12 @@
 
-[[ -f "/usr/local/bin/youtube-dl" ]] || { return ; }
+[[ -f "/usr/local/bin/youtube-dl" ]] || { 
+  ct_youtubedl_install() {
+    sudo curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl
+    sudo chmod +x /usr/local/bin/youtube-dl
+  }
+  
+  return ; 
+}
 
 alias youtube-dl="/usr/local/bin/youtube-dl --restrict-filenames"
 
