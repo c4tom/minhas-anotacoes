@@ -24,6 +24,10 @@ RequiredBy=snapd.service
 
 
     ct_snapdInstall() {
+        #On Linux Mint 20, /etc/apt/preferences.d/nosnap.pref needs to be removed before Snap can be installed. This can be accomplished from the command line:
+
+        sudo rm /etc/apt/preferences.d/nosnap.pref
+        sudo apt update        
         sudo apt-get install snapd
     }
     return ; 
@@ -66,6 +70,9 @@ __snap_pkgClassic() {
         insomnia
         libreoffice
         kompozer
+        skrooge
+        snapcraft
+        dbeaver-ce
         flutter"
 }
 
