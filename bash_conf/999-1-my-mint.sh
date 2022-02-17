@@ -67,6 +67,8 @@ mymint_install_epson_l355() {
    sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 8AA65D56
    sudo apt-get update
    sudo apt-get install Epson-inkjet-printer-201207w
+
+   # http://download.ebz.epson.net/dsc/op/stable/debian/dists/lsb3.2/epson-inkjet-printer-201207w/binary-amd64/epson-inkjet-printer-201207w_1.0.0-1lsb3.2_amd64.deb
 }
 
 mymint_after_install_mint() {
