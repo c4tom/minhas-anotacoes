@@ -6,17 +6,17 @@ ct_isRoot() {
 }
 
 ct_oracloud_swap() {
-   local SIZE_BYTES=${1:-"3145728"}
-
+   local SWAP_LOCATION=${1:-"/swapfile"}
+   local SIZE_BYTES=${2:-"3145728"}
    cat /proc/sys/vm/swappiness
    sudo sysctl vm.swappiness=10
-   sudo dd if=/dev/zero of=/swapfile bs=1024 count=$SIZE_BYTES
-   sudo chmod 600 /swapfile
+   sudo dd if=/dev/zero of=$SWAP_LOCATION bs=1024 count=$SIZE_BYTES
+   sudo chmod 600 $SWAP_LOCATION
 
-   sudo mkswap /swapfile
-   sudo swapon /swapfile
+   sudo mkswap $SWAP_LOCATION
+   sudo swapon $SWAP_LOCATION
 
-   echo "/swapfile swap swap defaults 0 0" | sudo tee --append /etc/fstab
+   echo "$SWAP_LOCATION swap swap defaults 0 0" | sudo tee --append /etc/fstab
 
    sudo swapon --show
 
