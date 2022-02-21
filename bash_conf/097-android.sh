@@ -1,13 +1,9 @@
 
 ct_androidInstallAVD() {
     cd /tmp/
-    wget "https://dl.google.com/android/repository/commandlinetools-linux-7583922_latest.zip"
-    mkdir -p /Android/SDK; cd /Android/SDK
-    unzip commandlinetools-linux-7583922_latest.zip
-    cd cmdline-tools/
-    mkdir -p latest
-    mv bin lib lastest/
-
+    wget -c "https://dl.google.com/android/repository/commandlinetools-linux-7583922_latest.zip"
+    mkdir -p /Android/Sdk; cd /Android/Sdk
+    unzip /tmp/commandlinetools-linux-7583922_latest.zip
 }
 
 [[ -f /Android/SDK/cmdline-tools/latest/bin/sdkmanager ]] || { return ; }
