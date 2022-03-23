@@ -16,7 +16,7 @@ mymint_install_packages() {
     # disk vm utils
     aptadd libvmdk-utils gparted bindfs
     # System Utils
-    aptadd iotop parallel tree
+    aptadd iotop parallel tree rclone 
     # compressao, pode usar com tar
     aptadd pigz
     # Internet Tools
@@ -27,8 +27,12 @@ mymint_install_packages() {
     aptadd cpupower-gui
     # Video Utils
     aptadd ffmpeg handbrake obs-studio vokoscreen
+    # Music
+    aptadd clementine
     # Cloud Tools
-    aptadd rclone
+    # - Rclone (download via site)
+    # Net Tools
+    aptadd subnetcalc gnome-nettool netwox traceroute
     # Dev Tools
     aptadd strace pluma vim
     # audio tools
@@ -36,7 +40,7 @@ mymint_install_packages() {
     # X utils
     aptadd flameshot bleachbit xdotool copyq
     # Security
-    aptadd firejail firetools
+    aptadd firejail firetools dsniff 
     # Java Dev Utils
     aptadd maven
     # Web Dev
@@ -64,7 +68,7 @@ mymint_install_epson_l355() {
 
    echo "deb [trusted=yes] http://download.ebz.epson.net/dsc/op/stable/debian/ lsb3.2 main" | sudo tee --append /etc/apt/sources.list.d/epson.list
 
-   sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 8AA65D56
+   apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E5E86C008AA65D56
    sudo apt-get update
    sudo apt-get install Epson-inkjet-printer-201207w
 
