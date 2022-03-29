@@ -14,8 +14,6 @@ ct_vboxInstallAutoComplete() {
 
 # Para windows $devicd = \\.\physicaldrive0
 ct_vboxCreateRawDisk() {
-    isRoot
-    
 	HELPTXT="
 
 ${FUNCNAME[0]} <nome_do_arquivo> <device> <partition> [<outros>]"
@@ -36,7 +34,7 @@ ${FUNCNAME[0]} <nome_do_arquivo> <device> <partition> [<outros>]"
             outros=" -partitions $partition"
         fi
 
-    VBoxManage internalcommands createrawvmdk -filename "$nome_do_arquivo" -rawdisk $device $outros
+    sudo VBoxManage internalcommands createrawvmdk -filename "$nome_do_arquivo" -rawdisk $device $outros
 }
 
 

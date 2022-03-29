@@ -20,3 +20,12 @@ ct_youtubeDownloadLiveVideo() {
 
     streamlink ${URL} ${QUALITY} -o ${FILE_NAME}
 }
+
+
+ct_edit_minhaAnotacoes()
+{
+    FULL_PATH_TO_SCRIPT="$(realpath "${BASH_SOURCE[-1]}")"
+    SCRIPT_DIRECTORY="$(dirname "$FULL_PATH_TO_SCRIPT")"
+    SCRIPT_DIRECTORY="$(dirname "$SCRIPT_DIRECTORY")"
+    code $SCRIPT_DIRECTORY;
+}
