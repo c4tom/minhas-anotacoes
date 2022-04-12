@@ -331,3 +331,14 @@ ct_mylinuxInfo() {
 ct_tmpfs_info() {
     echo_and_run df --human-readable --type=tmpfs
 }
+
+
+
+# Other Utils
+
+#https://gist.github.com/c4tom/da1728f8aac0b8d4c288b015a5f7d1cb
+ct_dictionaryFromFile() {
+    : ${1?' fileName (text content)'}
+
+    cat "$1" | tr [:upper:] [:lower:] | tr -d [:punct:] | tr -d [:digit:] | tr ' ' '\n' | sort | uniq
+}
