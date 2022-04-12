@@ -80,3 +80,25 @@ mymint_after_install_mint() {
     ct_systemd_add_rc_local
     mymint_install_epson_l355
 }
+
+
+# https://www.golinuxcloud.com/mount-luks-encrypted-disk-partition-linux/
+mymint_encrypt_hdd() {
+    lsblk
+
+    echo "Informe qual /dev/sda?, digite: /dev/??????"
+    read DEVHDD
+
+    echo "Criando um arquivo chave /root/lukskey"
+
+    sudo dd if=/dev/random bs=32 count=1 of=/root/lukskey
+
+    sudo xxd /root/lukskey
+
+    sudo cryptsetup luksAddKey $DEVHDD /root/lukskey
+
+    echo "Escrevendo em /etc/crypttab"
+    echo "secret  /dev/$DEVHDD       /root/lukskey" | sudo tee -a /etc/crypttab
+
+    cat /etc/crypttab
+}
