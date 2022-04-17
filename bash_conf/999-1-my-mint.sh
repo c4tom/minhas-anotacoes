@@ -38,7 +38,7 @@ mymint_install_packages() {
     # audio tools
     aptadd pavucontrol
     # X utils
-    aptadd flameshot bleachbit xdotool copyq
+    aptadd flameshot bleachbit xdotool xsel copyq
     # Security
     aptadd firejail firetools dsniff 
     # Java Dev Utils
