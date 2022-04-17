@@ -109,6 +109,28 @@ ct_code_install_my_extension() {
     done
 }
 
+ct_vscode_create_bins() {
+    #!/bin/sh
+
+    local VSCMD="code --extensions-dir"
+
+    local ROOT_FOLDER=/dados/vscode
+
+    echo $VSCMD $ROOT_FOLDER/java "\$1" | sudo tee --append /usr/bin/code-java
+
+    echo $VSCMD $ROOT_FOLDER/markdown "\$1" | sudo tee --append /usr/bin/code-markdown
+
+    echo $VSCMD $ROOT_FOLDER/php "\$1" | sudo tee --append /usr/bin/code-php
+
+    echo $VSCMD $ROOT_FOLDER/nodejs-js-web "\$1" | sudo tee --append /usr/bin/code-nodejs
+
+    echo $VSCMD $ROOT_FOLDER/py "\$1" | sudo tee --append /usr/bin/code-py
+
+    echo $VSCMD $ROOT_FOLDER/dotnet-csharp "\$1" | sudo tee --append /usr/bin/code-csharp
+
+    sudo chmod +x /usr/bin/code-*
+
+}
 # Testar
 
 # 
