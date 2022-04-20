@@ -38,7 +38,7 @@ mymint_install_packages() {
     # audio tools
     aptadd pavucontrol
     # X utils
-    aptadd flameshot bleachbit xdotool copyq
+    aptadd flameshot bleachbit xdotool xsel copyq
     # Security
     aptadd firejail firetools dsniff 
     # Java Dev Utils
@@ -46,7 +46,29 @@ mymint_install_packages() {
     # Web Dev
     aptadd php-cli
 
+    # Control Panel
+    aptadd gnome-control-center
+
     sudo apt-get install $APT_PKG
+
+    # Criar icone
+    echo "[Desktop Entry]
+Name[pt]=Aplicações Preferidas
+Name[pt_BR]=Contas Online
+Name=Preferred Applications
+Comment[pt]=Selecione as suas aplicações predefinidas
+Comment[pt_BR]=Selecione seus aplicativos padrão
+Comment=Select your default applications
+Exec=gnome-control-center online-accounts
+Icon=preferences-desktop-default-applications
+Terminal=false
+Type=Application
+StartupNotify=true
+Categories=GTK;Settings;X-MATE-PersonalSettings;
+Keywords[pt]=mate-control-center;MATE;pré-definida;preferida;aplicações;
+Keywords=mate-control-center;MATE;default;preferred;applications;
+OnlyShowIn=MATE;
+" > ~
         
 }
 
@@ -104,7 +126,7 @@ mymint_encrypt_hdd() {
     sudo cryptsetup luksAddKey $DEVHDD /root/lukskey
 
     echo "Escrevendo em /etc/crypttab"
-    echo "secret  /dev/$DEVHDD       /root/lukskey" | sudo tee -a /etc/crypttab
+    echo "secret  $DEVHDD       /root/lukskey" | sudo tee -a /etc/crypttab
 
     cat /etc/crypttab
 }
