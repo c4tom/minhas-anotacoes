@@ -81,6 +81,12 @@ mymint_after_install_mint() {
     mymint_install_epson_l355
 }
 
+mymint_install_remmina() {
+    sudo apt-add-repository ppa:remmina-ppa-team/remmina-next
+    sudo apt update
+    sudo apt install remmina remmina-plugin-rdp remmina-plugin-secret
+}
+
 
 # https://www.golinuxcloud.com/mount-luks-encrypted-disk-partition-linux/
 mymint_encrypt_hdd() {
