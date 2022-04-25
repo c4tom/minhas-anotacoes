@@ -109,7 +109,7 @@ ct_code_install_my_extension() {
     done
 }
 
-ct_vscode_create_bins() {
+ct_code_create_bins() {
     #!/bin/sh
 
     local VSCMD="code --extensions-dir"
