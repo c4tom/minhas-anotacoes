@@ -25,7 +25,7 @@ DOCKER_BUILDKIT=1
 
 [[ -f /usr/bin/kitematic ]] || { 
 	ct_docker_install_Kitematic() {
-		local VERSION="0.17.7"
+		local VERSION="0.17.13"
 		curl -L -o /tmp/kitematic.zip https://github.com/docker/kitematic/releases/download/v$VERSION/Kitematic-$VERSION-Ubuntu.zip
 		cd /tmp
 		unzip kitematic.zip 
