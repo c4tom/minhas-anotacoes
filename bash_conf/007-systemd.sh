@@ -59,7 +59,7 @@ ct_systemd_add_rc_local() {
 [Install]
  WantedBy=multi-user.target" | sudo tee --append $filerc
 
-echo "" | sudo tee --append /etc/rc.local && sudo chmod + /etc/rc.local && sudo systemctl enable rc-local
+printf '%s\n' '#!/bin/bash' 'exit 0' | sudo tee -a /etc/rc.local | sudo tee --append /etc/rc.local && sudo chmod + /etc/rc.local && sudo systemctl enable rc-local
 
 echo "Editar /etc/rc.local"
 
