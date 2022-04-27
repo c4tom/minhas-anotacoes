@@ -15,6 +15,11 @@ export PS1="$CCyan\u@\h>\[\033[32m\]\w$BIYellow\$(_gitParseBranch)\[\033[00m\]>"
 #export PS1="\u@\h\n\w\$(_gitParseBranch)>"
 
 
+ct_git_gui_update_15000files() {
+	curl https://raw.githubusercontent.com/c4tom/git-gui/master/git-gui.sh > /tmp/git-gui 
+	sudo cp /tmp/git-gui /usr/lib/git-core/git-gui
+}
+
 ct_gitPS1() {
 	export PS1="$CCyan\u@\h>\[\033[32m\]\w$BIYellow\$(_gitParseBranch)\[\033[00m\]>"
 }
