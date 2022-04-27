@@ -54,8 +54,10 @@ ct_rclone_mountAliasAllDrivers() {
         cmd="$cmd --log-file=/discok/tmp/rclone.log"
 
 
+        SCRIPT_FILE=$HOME/.config/caja/scripts/rclone/$i.sh
         ## criar arquivo scripts
-        echo "$cmd" > $HOME/.config/caja/scripts/rclone/$i.sh
+        echo "$cmd" > $SCRIPT_FILE
+        chmod +x $SCRIPT_FILE
 
         echoGreenBlack "alias rclone_mount_$i";
         eval "alias rclone_mount_$i='$cmd'"
