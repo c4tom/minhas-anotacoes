@@ -4,12 +4,10 @@ echoColor "Olá, como vai $BGreen$USER?$Color_Off Hora: $CCyan`date` :: $nixName
 
 sys_status() {
 
-    LINUX="$(lsb_release -sd) - $(lsb_release -sc)"
-    echo "    System Status: $LINUX";
-    if `isexec "/usr/bin/uptime"`;
+    if `isexec "/usr/bin/lsb_release"`;
         then
-            LOAD=$(uptime | awk -F'[a-z]:' '{ print $2}')
-            echo "    $(echo "Load   :") $(echo ${LOAD})"
+            LINUX="$(lsb_release -sd) - $(lsb_release -sc)"
+            echo "    System Status: $LINUX";
     fi
     
     CPU=$(grep 'cpu ' /proc/stat | awk '{usage=($2+$4)*100/($2+$4+$5)} END {print usage "%"}')
@@ -29,6 +27,8 @@ sys_status() {
 
     if `isexec "/usr/bin/uptime"`;
         then
+            LOAD=$(uptime | awk -F'[a-z]:' '{ print $2}')
+            echo "    $(echo "Load   :") $(echo ${LOAD})"
             UPTIME=$(uptime -p)
             echo "    $(echo "UPTIME :") $(echo ${UPTIME})"
     fi
