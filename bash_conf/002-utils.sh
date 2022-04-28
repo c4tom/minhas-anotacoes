@@ -64,6 +64,11 @@ isRoot() {
     [[ $(id -u) -eq 0 ]] || { echo >&2 "Must be root to run this function"; kill -INT $$; }
 }
 
+# if `isexec "$file"`; then ... fi
+isexec() { 
+    [[ -f "$1" && -x $(realpath "$1") ]]; 
+}
+
 # https://stackoverflow.com/a/1923893/6709209
 askToPassword()
 {
