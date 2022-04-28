@@ -329,7 +329,12 @@ ct_chattr_readOnly() {
 
 
 ct_mylinuxInfo() {
-    lsb_release -a
+    if isWin;
+        then
+            uname -a
+        else 
+            lsb_release -a
+    fi
 }
 
 # https://pt.wikipedia.org/wiki/TMPFS
