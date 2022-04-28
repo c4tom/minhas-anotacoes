@@ -115,6 +115,7 @@ ct_docker_WebApp_Wordpress() {
 # https://docs.litespeedtech.com/cloud/docker/litespeed/
 ct_docker_OLS() {
 	docker run -d --name openlitespeed -p 7080:7080 -p 80:80 -p 443:443 -it litespeedtech/openlitespeed:latest
+	open https://hub.docker.com/r/litespeedtech/openlitespeed
 }
 
 # https://docs.litespeedtech.com/cloud/docker/ols+wordpress/
@@ -129,12 +130,18 @@ ct_docker_OLS_Download_Git_And_Run_docker_compose() {
 
 #https://hub.docker.com/_/node
 ct_docker_base_node() {
-	echo_and_run $DOCKER run -d -it --name node node:14-alpine
+	local VERSION=${1:-"18"}
+	echo_and_run $DOCKER run -d -it --name node-${VERSION} node:${VERSION}-alpine
 }
 
 # https://hub.docker.com/r/adoptopenjdk/openjdk12
 ct_docker_base_openJDK12() {
 	echo_and_run $DOCKER run -d -it --name openJDK12 adoptopenjdk/openjdk12
+}
+
+# Ubuntu 22.04
+ct_docker_base_ubuntu_22() {
+	echo_and_run $DOCKER run -d -it --name ubuntu_jammy_22_4 ubuntu:22.04
 }
 
 # Ubuntu 20.04
@@ -170,6 +177,10 @@ ct_docker_base_debian_any() {
 	echo_and_run $DOCKER run -d -it --name $container_name $image_name
 }
 
+ct_docker_base_debian_11() {
+	ct_docker_base_debian_any debian_bullseye debian:11-slim
+}
+
 ct_docker_base_debian_10() {
 	ct_docker_base_debian_any debian_buster debian:10-slim
 }
@@ -180,6 +191,17 @@ ct_docker_base_debian_8() {
 
 #### Mint #####
 
+
+#### Oracle Linux ####
+
+ct_docker_base_oraclelinux_8slim() {
+	local DOCKERNAME=oracle_8-slim
+	local DOCKERIMG=oraclelinux
+	local DOCKERTAG=8-slim
+	echo_and_run $DOCKER run -d -it --name $DOCKERNAME $DOCKERIMG:$DOCKERTAG
+	echo_and_run $DOCKER exec -ti $DOCKERNAME cat /etc/os-release
+}
+
 #### Others ####
 
 ct_docker_traefik() {
@@ -188,4 +210,19 @@ ct_docker_traefik() {
 		-v $PWD/traefik.yml:/etc/traefik/traefik.yml \
 		-v /var/run/docker.sock:/var/run/docker.sock \
 		traefik:v2.0
+}
+
+
+
+ct_docker_nextcloud_aio() {
+	echo_and_run docker run -d -it \
+	--name nextcloud-aio-mastercontainer \
+	--restart always \
+	-p 80:80 \
+	-p 8080:8080 \
+	-p 8443:8443 \
+	--volume nextcloud_aio_mastercontainer:/mnt/docker-aio-config \
+	--volume /var/run/docker.sock:/var/run/docker.sock:ro \
+	nextcloud/all-in-one:latest
+	open https://github.com/nextcloud/all-in-one
 }
