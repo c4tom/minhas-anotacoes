@@ -1,12 +1,31 @@
-[[ -f /usr/bin/create_ap ]] || { return ; }
+[[ -f /usr/bin/create_ap ]] || { 
+
+	ct_wifiRepeater_Install() {
+		sudo apt-get install hostapd haveged
+		sudo apt install -y libgtk-3-dev build-essential gcc g++ pkg-config make hostapd libqrencode-dev libpng-dev
+
+		cd /tmp
+		git clone https://github.com/lakinduakash/linux-wifi-hotspot
+		cd linux-wifi-hotspot
+
+		#build binaries
+		make
+
+		#install
+		sudo make install
+
+		# sudo make uninstall
+
+		echo "To run: wihotspot"
+
+	}
+	return;
+ }
 
 # https://unix.stackexchange.com/questions/340799/wifi-repeater-with-a-single-wifi-adapter-in-debian
 # https://github.com/oblique/create_ap
 
-# instalar também (apt-get install hostapd haveged)
-
-
-wifiRepeater() {
+ct_wifiRepeater() {
 	local ssid=$1
 	local pass=$2
 
@@ -29,7 +48,7 @@ wifiRepeater() {
 	create_ap -c $channel -dd --mac $mac $ifaceWIFI $ifaceWithInternet $ssid $pass $3 $4 $5
 }
 
-wifi2wifiTransmiter() {
+ct_wifi2wifiTransmiter() {
 	local ssid=$1
 	local pass=$2
 
