@@ -15,6 +15,6 @@ ct_adm_how_process_running_port () {
 
    local cmd="sudo netstat -ltnp | grep -w ':$1'"
    echoColor "$BYellow""command>$IPurple $cmd"
-   "$(eval $cmd)"
+   "$($cmd)"
    # TODO corrigir
 }
