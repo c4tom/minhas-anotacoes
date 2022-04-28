@@ -329,7 +329,7 @@ ct_chattr_readOnly() {
 
 
 ct_mylinuxInfo() {
-    if isWin;
+    if [ $(isWin) == "1" ]
         then
             uname -a
         else 
