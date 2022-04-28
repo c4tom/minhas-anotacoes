@@ -34,7 +34,7 @@ mymint_install_packages() {
     # Net Tools
     aptadd subnetcalc gnome-nettool netwox traceroute
     # Dev Tools
-    aptadd strace pluma vim
+    aptadd strace pluma vim tmux
     # audio tools
     aptadd pavucontrol
     # X utils
