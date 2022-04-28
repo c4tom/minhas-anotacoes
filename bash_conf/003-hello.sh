@@ -15,14 +15,23 @@ sys_status() {
     CPU=$(grep 'cpu ' /proc/stat | awk '{usage=($2+$4)*100/($2+$4+$5)} END {print usage "%"}')
     echo "    $(echo "CPU    :") $(echo ${CPU})"
 
-    RAM=$(free -m | awk 'NR==2{printf "%s/%sMB (%.2f%%)\n", $3,$2,$3*100/$2 }')
-    echo "    $(echo "RAM    :") $(echo ${RAM})"
+    if `isexec "/usr/bin/free"`;
+        then
+            RAM=$(free -m | awk 'NR==2{printf "%s/%sMB (%.2f%%)\n", $3,$2,$3*100/$2 }')
+            echo "    $(echo "RAM    :") $(echo ${RAM})"
+    fi
 
-    MAIN_IP=$(ip route get 8.8.8.8 | head -1 | awk '{print $7}')
-    echo "    $(echo "IP     :") $(echo ${MAIN_IP})"
-    
-    UPTIME=$(uptime -p)
-    echo "    $(echo "UPTIME :") $(echo ${UPTIME})"
+    if `isexec "/usr/sbin/ip"`;
+        then
+            MAIN_IP=$(ip route get 8.8.8.8 | head -1 | awk '{print $7}')
+            echo "    $(echo "IP     :") $(echo ${MAIN_IP})"
+    fi
+
+    if `isexec "/usr/bin/uptime"`;
+        then
+            UPTIME=$(uptime -p)
+            echo "    $(echo "UPTIME :") $(echo ${UPTIME})"
+    fi
   
     DISK=$(df -l -h | awk '$NF=="/"{printf "%d/%dGB (%s)\n", $3,$2,$5}')
     echo "    $(echo "Disk   :") $(echo ${DISK})"
