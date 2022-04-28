@@ -1,6 +1,6 @@
 ct_ssh_keygenComEmail() {
     local email=$1
-    ssh-keygen -t rsa -b 4096 -C "$email"
+    ssh-keygen -o -a 100 -t ed25519 -C "$email"
 }
 
 # conecta com o remoto, e ouve uma porta como socks
