@@ -70,7 +70,7 @@ ct_docker_runAnyXApp() {
 
 ct_docker_dashboard() {
 	echo_and_run $DOCKER ps 
-	echo_and_run $DOCKER system df
+	echo_and_run $DOCKER system df -v
 }
 
 ## docker run -it --entrypoint /bin/bash [docker_image]
