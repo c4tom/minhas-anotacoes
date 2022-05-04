@@ -45,3 +45,10 @@ ct_asdf_legacy_versions() {
 ct_asdf_addPlugin_python() {
     echo_and_run asdf plugin add python
 }
+
+
+ct_asdf_addPlugin_dotnetcore() {
+    echo_and_run asdf plugin-add dotnet-core https://github.com/emersonsoares/asdf-dotnet-core.git
+    echo_and_run asdf install dotnet-core latest
+
+}
