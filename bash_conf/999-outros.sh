@@ -27,5 +27,18 @@ ct_edit_minhaAnotacoes()
     FULL_PATH_TO_SCRIPT="$(realpath "${BASH_SOURCE[-1]}")"
     SCRIPT_DIRECTORY="$(dirname "$FULL_PATH_TO_SCRIPT")"
     SCRIPT_DIRECTORY="$(dirname "$SCRIPT_DIRECTORY")"
-    code $SCRIPT_DIRECTORY;
+    echo_and_run code-markdown $SCRIPT_DIRECTORY;
+}
+
+ct_reload() {
+    FULL_PATH_TO_SCRIPT="$(realpath "${BASH_SOURCE[-1]}")"
+    SCRIPT_DIRECTORY="$(dirname "$FULL_PATH_TO_SCRIPT")"
+    SCRIPT_DIRECTORY="$(dirname "$SCRIPT_DIRECTORY")"
+
+
+    for i in $SCRIPT_DIRECTORY/bash_conf/*.sh
+    do
+    	echo_and_run source $i
+    done
+
 }
