@@ -33,9 +33,9 @@ ct_systemd_stopService() {
 }
 
 ct_systemd_disableServiceOnStartSystem() {
-    local service_name="$1"
-    echo "Desabilita serviço no inicio do sistema: ${service_name}" 
-    echo_and_run sudo systemctl stop ${service_name}
+    : ${1?" <service_name>"}
+    echo "Desabilita serviço no inicio do sistema: ${1}" 
+    echo_and_run sudo systemctl stop ${1}
 }
 
 
