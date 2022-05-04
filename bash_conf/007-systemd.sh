@@ -42,7 +42,7 @@ ct_systemd_disableServiceOnStartSystem() {
 
 ct_systemd_add_rc_local() {
     local filerc="/etc/systemd/system/rc-local.service"
-    [[ ! -f $filerc ]] || { echo "já existe, você pode editar /etc/rc.local"; return; }
+    [[ ! -f $filerc ]] || { echo "já existe, você pode editar /etc/rc.local"; echo_and_run cat /etc/rc.local; return; }
 
     echo "[Unit]
  Description=/etc/rc.local Compatibility
