@@ -20,7 +20,7 @@ mymint_install_packages() {
     # compressao, pode usar com tar
     aptadd pigz
     # Internet Tools
-    aptadd filezilla links w3m sshfs remmina
+    aptadd filezilla links w3m sshfs ssh ssh-askpass-gnome remmina
     # find suggest command to install
     aptadd command-not-found
     # Controlador de Frequencia
