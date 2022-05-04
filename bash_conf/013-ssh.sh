@@ -3,6 +3,10 @@ ct_ssh_keygenComEmail() {
     ssh-keygen -o -a 100 -t ed25519 -C "$email"
 }
 
+ct_ssh_agentIsRunning() {
+    echo_and_run ssh-agent -s
+}
+
 # conecta com o remoto, e ouve uma porta como socks
 ct_ssh_socksEnable() {
     ${1?' <host to connect>'}
