@@ -7,8 +7,12 @@
 # usando com maven
 # https://docs.sonarqube.org/display/SCAN/Analyzing+with+SonarQube+Scanner+for+Maven
 
-# On Linux:
-mvn_sonar() {
-	MAVEN_OPTS="-Xmx512m"
-	mvn clean verify sonar:sonar
+[[ ! -f $(type -P mvn) ]] || { 
+
+	# On Linux:
+	mvn_sonar() {
+		MAVEN_OPTS="-Xmx512m"
+		mvn clean verify sonar:sonar
+	}
+
 }

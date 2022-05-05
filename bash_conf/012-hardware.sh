@@ -1,17 +1,18 @@
 
-ct_hw_listarTodosPerifericos() {
-	echo 'Relatorio dos perifericos do linux'
-	inxi -FxZ
+
+[[ ! -f $(type -P inxi) ]] || { 
+
+	ct_hw_listarTodosPerifericos() {
+		echo 'Relatorio dos perifericos do linux'
+		inxi -FxZ
+	}
+
+	### PC Info
+	ct_hw_info() {
+		inxi -Fz
+	}
 }
 
-ct_hw_disk_infoHDPARM() {
-	sudo hdparm -I /dev/sda1
-}
-
-### PC Info
-ct_hw_info() {
-	inxi -Fz
-}
 
 # Com mais detalhes, pode instalar um visual apt-get install hardinfo sysinfo
 ct_hw_info_LSHW()
@@ -25,34 +26,51 @@ ct_hw_disk_infoPartition() {
 	lsblk -o "NAME,MAJ:MIN,RM,SIZE,RO,FSTYPE,MOUNTPOINT,UUID"
 }
 
-ct_hw_disk_infomation(){
-	local DISK_DEV=$1 #/dev/sda
-	hdparm -I $DISK_DEV
+[[ ! -f $(type -P hdparm) ]] || { 
+
+	ct_hw_disk_infoHDPARM() {
+		sudo hdparm -I /dev/sda1
+	}
+
+	ct_hw_disk_infomation(){
+		local DISK_DEV=$1 #/dev/sda
+		hdparm -I $DISK_DEV
+	}
+
 }
 
-ct_hw_bios_info() {
-	sudo dmidecode
+[[ ! -f $(type -P dmidecode) ]] || { 
+	ct_hw_bios_info() {
+		sudo dmidecode
+	}
 }
 
-ct_hw_wifi_modulosListar() {
-	lspci | grep Network
-	dmesg | grep iwlwifi
-	iwconfig
-	modinfo iwlwifi
+[[ ! -f $(type -P iwconfig) ]] || { 
+
+	ct_hw_wifi_modulosListar() {
+		lspci | grep Network
+		dmesg | grep iwlwifi
+		iwconfig
+		modinfo iwlwifi
+	}
 }
 
 
-### Batery Info
+[[ ! -f $(type -P upower) ]] || { 
+	### Batery Info
 
-ct_hw_battery_info() {
-	upower -i /org/freedesktop/UPower/devices/battery_BAT0
+	ct_hw_battery_info() {
+		upower -i /org/freedesktop/UPower/devices/battery_BAT0
+	}
+
 }
 
-
-### Sensors
-# ve a temperatura da CPU
-ct_hw_temperature() {
-	watch -n 2 sensors
+[[ ! -f $(type -P watch) ]] || { 
+	### Sensors
+	# ve a temperatura da CPU
+	ct_hw_temperature() {
+		watch -n 2 sensors
+	}
 }
 
 ### Hibernate
@@ -82,24 +100,25 @@ ResultActive=yes" | sudo tee --append /etc/polkit-1/localauthority/50-local.d/co
 }
 
 
+[[ ! -f $(type -P pulseaudio) ]] || { 
 
+	### Audio
+	ct_hw_audio_resetConfiguracoes() {
+		rm -r ~/.config/pulse/
+		pulseaudio -k
+	}
 
-### Audio
-ct_hw_audio_resetConfiguracoes() {
-	rm -r ~/.config/pulse/
-	pulseaudio -k
+	#https://diolinux.com.br/2020/06/cancelamento-de-eco-e-ruido-no-linux.html
+	ct_hw_audio_cancelamentoRuidoMicrofone() {
+		echo "
+	load-module module-echo-cancel aec_args=\"analog_gain_control=0 digital_gain_control=0\" source_name=noiseless
+	set-default-source noiseless
+	" | sudo tee --append /etc/pulse/default.pa
+
+		pulseaudio -k
+	}
+
 }
-
-#https://diolinux.com.br/2020/06/cancelamento-de-eco-e-ruido-no-linux.html
-ct_hw_audio_cancelamentoRuidoMicrofone() {
-	echo "
-load-module module-echo-cancel aec_args=\"analog_gain_control=0 digital_gain_control=0\" source_name=noiseless
-set-default-source noiseless
-" | sudo tee --append /etc/pulse/default.pa
-
-	pulseaudio -k
-}
-
 
 
 ## HD SDD
