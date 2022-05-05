@@ -1,7 +1,7 @@
 # https://github.com/garabik/grc
 
 [[ -f /usr/bin/grc ]] || {
-   [[ -f /usr/local/bin/apt ]] || { return ;  }
+   [[ $HASAPT = false ]] && { return; }
    ct_install_grc() {
       sudo apt install grc
    }

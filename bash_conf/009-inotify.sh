@@ -1,5 +1,5 @@
 [[ -f /usr/bin/inotifywait ]] || {
-   [[ -f /usr/local/bin/apt ]] || { return ;  }
+   [[ $HASAPT = false ]] && { return; }
    ct_install_inotify-tools() {
       sudo apt install inotify-tools
    }

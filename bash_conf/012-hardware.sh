@@ -1,6 +1,4 @@
-
-
-[[ ! -f $(type -P inxi) ]] || { 
+[[ ! -f $(type -P inxi) ]] || {
 
 	ct_hw_listarTodosPerifericos() {
 		echo 'Relatorio dos perifericos do linux'
@@ -13,11 +11,12 @@
 	}
 }
 
+[[ $HASSUDO = true ]] && {
+	# Com mais detalhes, pode instalar um visual apt-get install hardinfo sysinfo
+	ct_hw_info_LSHW() {
+		sudo lshw
+	}
 
-# Com mais detalhes, pode instalar um visual apt-get install hardinfo sysinfo
-ct_hw_info_LSHW()
-{
-	sudo lshw
 }
 
 ### System Info
@@ -26,26 +25,26 @@ ct_hw_disk_infoPartition() {
 	lsblk -o "NAME,MAJ:MIN,RM,SIZE,RO,FSTYPE,MOUNTPOINT,UUID"
 }
 
-[[ ! -f $(type -P hdparm) ]] || { 
+[[ ! -f $(type -P hdparm) ]] || {
 
 	ct_hw_disk_infoHDPARM() {
 		sudo hdparm -I /dev/sda1
 	}
 
-	ct_hw_disk_infomation(){
+	ct_hw_disk_infomation() {
 		local DISK_DEV=$1 #/dev/sda
 		hdparm -I $DISK_DEV
 	}
 
 }
 
-[[ ! -f $(type -P dmidecode) ]] || { 
+[[ ! -f $(type -P dmidecode) ]] || {
 	ct_hw_bios_info() {
 		sudo dmidecode
 	}
 }
 
-[[ ! -f $(type -P iwconfig) ]] || { 
+[[ ! -f $(type -P iwconfig) ]] || {
 
 	ct_hw_wifi_modulosListar() {
 		lspci | grep Network
@@ -55,8 +54,7 @@ ct_hw_disk_infoPartition() {
 	}
 }
 
-
-[[ ! -f $(type -P upower) ]] || { 
+[[ ! -f $(type -P upower) ]] || {
 	### Batery Info
 
 	ct_hw_battery_info() {
@@ -65,7 +63,7 @@ ct_hw_disk_infoPartition() {
 
 }
 
-[[ ! -f $(type -P watch) ]] || { 
+[[ ! -f $(type -P watch) ]] || {
 	### Sensors
 	# ve a temperatura da CPU
 	ct_hw_temperature() {
@@ -75,8 +73,7 @@ ct_hw_disk_infoPartition() {
 
 ### Hibernate
 
-ct_hw_hibernate_habilitar()
-{
+ct_hw_hibernate_habilitar() {
 	#xdg-open https://forums.linuxmint.com/viewtopic.php?t=277510
 	#xdg-open https://forums.linuxmint.com/viewtopic.php?f=42&t=273202
 
@@ -88,19 +85,17 @@ ResultActive=yes
 [Re-enable hibernate by default in logind]
 Identity=unix-user:*
 Action=org.freedesktop.login1.hibernate
-ResultActive=yes" | sudo tee --append /etc/polkit-1/localauthority/50-local.d/com.ubuntu.enable-hibernate.pkla > /dev/null
+ResultActive=yes" | sudo tee --append /etc/polkit-1/localauthority/50-local.d/com.ubuntu.enable-hibernate.pkla >/dev/null
 
-	local UUID=`blkid | grep swap | sed 's/.* UUID="\(.*\)" TYPE.*/\1/'`;
+	local UUID=$(blkid | grep swap | sed 's/.* UUID="\(.*\)" TYPE.*/\1/')
 
-	echo $UUID;
+	echo $UUID
 
 	sudo sed -i "s/quiet splash/resume=UUID=$UUID/" /etc/default/grub
 
-
 }
 
-
-[[ ! -f $(type -P pulseaudio) ]] || { 
+[[ ! -f $(type -P pulseaudio) ]] || {
 
 	### Audio
 	ct_hw_audio_resetConfiguracoes() {
@@ -120,7 +115,6 @@ ResultActive=yes" | sudo tee --append /etc/polkit-1/localauthority/50-local.d/co
 
 }
 
-
 ## HD SDD
 
 # lista inodes, tipo
@@ -128,24 +122,21 @@ ct_hw_inodes_list() {
 	echo_and_run df -iT
 }
 
-
 ## Monitor
 # https://unix.stackexchange.com/questions/399739/disable-laptop-screen-and-use-only-vga/399743#399743
 ct_hw_monitor_turnoff() {
-	if [ "" == "$1" ];
-	then
+	if [ "" == "$1" ]; then
 		xrandr -q | grep 'VGA\|HDMI\|DP\|LVDS' | grep ' connected'
 		echo "Type option:"
 		read MON_DISP
-	else 
+	else
 		MON_DISP=$1
 	fi
-	
+
 	xrandr --output $MON_DISP --off --output VGA-1 --auto
 
 }
 
-ct_hw_monitor_turnoff_notebook()
-{
+ct_hw_monitor_turnoff_notebook() {
 	ct_hw_monitor_turnoff eDP-1
 }

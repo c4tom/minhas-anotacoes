@@ -4,7 +4,7 @@
 
 
 [[ -f /usr/bin/dislocker ]] || { 
-    [[ -f /usr/local/bin/apt ]] || { return ;  }
+    [[ $HASAPT = false ]] && { return; }
     ct_bitlockerInstall() {
         sudo apt-get install dislocker
     }    

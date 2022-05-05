@@ -1,5 +1,5 @@
 [[ -f /usr/bin/nmap ]] || { 
-	[[ -f /usr/local/bin/apt ]] || { return ;  }
+	[[ $HASAPT = false ]] && { return; }
 	ct_nmap_install() {
 		sudo apt-get install nmap
 	}

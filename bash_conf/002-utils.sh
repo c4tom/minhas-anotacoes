@@ -8,6 +8,20 @@
 
 
 HIST_PWD=$(pwd)
+HASSUDO=false;
+HASAPT=false;
+
+if [[ -f $(type -P sudo) ]]
+    then
+        HASSUDO=true;
+fi
+
+if [[ -f $(type -P apt) ]]
+    then
+        HASAPT=true;
+fi;
+
+
 
 # download arquivos no site da source forge
 # Use: download_source_forge <url>
@@ -74,9 +88,7 @@ isFile() {
     [[ -f "$1" ]]; 
 }
 
-hasSudo() {
-    [[ -f $(type -P sudo) ]]
-}
+
 
 # https://stackoverflow.com/a/1923893/6709209
 askToPassword()

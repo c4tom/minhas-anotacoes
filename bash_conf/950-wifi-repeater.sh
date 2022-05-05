@@ -1,6 +1,6 @@
 [[ -f /usr/bin/create_ap ]] || { 
 
-	[[ -f /usr/local/bin/apt ]] || { return ;  }
+	[[ $HASAPT = false ]] && { return; }
 
 	ct_wifiRepeater_Install() {
 		sudo apt-get install hostapd haveged

@@ -1,6 +1,4 @@
-
-[[ -f /usr/local/bin/apt ]] || { return ;  }
-
+[[ $HASAPT = false ]] && { return; }
 
 # Reinstalar bash completion
 ct_apt_installBashComplete() {
@@ -9,7 +7,7 @@ ct_apt_installBashComplete() {
 
 # pacotes necessários para instalar QT e KDE
 ct_apt_installPackagesForCompileQTandKDE() {
-    sudo apt install
+  sudo apt install
 }
 
 ct_apt_listarPacotesInstalados() {

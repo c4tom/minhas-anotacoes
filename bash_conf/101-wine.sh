@@ -1,6 +1,6 @@
 
 
-[[ -f /usr/local/bin/apt ]] || { return ;  }
+[[ $HASAPT = false ]] && { return; }
 
 # https://wiki.winehq.org/Ubuntu
 ct_wine_install_last() {
