@@ -60,3 +60,30 @@ ct_wp_changePasswordForUserID() {
 
   wp user update $op --user_pass=$password
 }
+
+
+ct_wp_generateDBConexionTest() {
+
+  local WPCONF="wp-config.php"
+  local FILE_PHP="__dbtest.php"
+
+  if [[ ! -f "${WPCONF}" ]]; then echo "$WPCONF not found"; return; fi;
+
+  
+  echo "<?php " > $FILE_PHP
+  cat wp-config.php | grep DB_ >> $FILE_PHP
+
+  echo '
+
+// Create connection
+$conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD);
+
+// Check connection
+if ($conn->connect_error) {
+  die("Connection failed: " . $conn->connect_error);
+}
+echo "Connected successfully";
+' >> $FILE_PHP
+
+
+}
