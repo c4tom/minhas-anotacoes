@@ -1,26 +1,10 @@
 #!/bin/sh
 
 
+[[ -f /snap/oracle-cloud-agent/36/usr ]] || { return ; }
+
 ct_isRoot() {
     [[ $(id -u) -eq 0 ]] || { echo >&2 "Must be root to run this function"; kill -INT $$; }
-}
-
-ct_oracloud_swap() {
-   local SWAP_LOCATION=${1:-"/swapfile"}
-   local SIZE_BYTES=${2:-"3145728"}
-   cat /proc/sys/vm/swappiness
-   sudo sysctl vm.swappiness=10
-   sudo dd if=/dev/zero of=$SWAP_LOCATION bs=1024 count=$SIZE_BYTES
-   sudo chmod 600 $SWAP_LOCATION
-
-   sudo mkswap $SWAP_LOCATION
-   sudo swapon $SWAP_LOCATION
-
-   echo "$SWAP_LOCATION swap swap defaults 0 0" | sudo tee --append /etc/fstab
-
-   sudo swapon --show
-
-   sudo free -h
 }
 
 ct_oracloud_install_pacotes() {
