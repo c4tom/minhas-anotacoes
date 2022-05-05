@@ -1,5 +1,7 @@
 [[ -f /usr/bin/create_ap ]] || { 
 
+	[[ -f /usr/local/bin/apt ]] || { return ;  }
+
 	ct_wifiRepeater_Install() {
 		sudo apt-get install hostapd haveged
 		sudo apt install -y libgtk-3-dev build-essential gcc g++ pkg-config make hostapd libqrencode-dev libpng-dev

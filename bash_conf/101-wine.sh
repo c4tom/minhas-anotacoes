@@ -1,5 +1,7 @@
 
 
+[[ -f /usr/local/bin/apt ]] || { return ;  }
+
 # https://wiki.winehq.org/Ubuntu
 ct_wine_install_last() {
    sudo dpkg --add-architecture i386 

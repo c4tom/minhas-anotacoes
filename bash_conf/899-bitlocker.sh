@@ -4,6 +4,7 @@
 
 
 [[ -f /usr/bin/dislocker ]] || { 
+    [[ -f /usr/local/bin/apt ]] || { return ;  }
     ct_bitlockerInstall() {
         sudo apt-get install dislocker
     }    

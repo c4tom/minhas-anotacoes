@@ -3,6 +3,8 @@
     # https://docs.snapcraft.io/core/install-ubuntu
     # https://snapcraft.io/store (Loja)
 
+    [[ -f /usr/local/bin/apt ]] || { return ;  }
+
     ct_snapd_beforeInstall() {
         echo "
 [Unit]

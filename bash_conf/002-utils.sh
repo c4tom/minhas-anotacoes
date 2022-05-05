@@ -74,6 +74,10 @@ isFile() {
     [[ -f "$1" ]]; 
 }
 
+hasSudo() {
+    [[ -f $(type -P sudo) ]]
+}
+
 # https://stackoverflow.com/a/1923893/6709209
 askToPassword()
 {

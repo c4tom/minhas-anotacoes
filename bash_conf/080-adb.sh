@@ -1,4 +1,5 @@
 [[ -f /usr/bin/adb ]] || { 
+    [[ -f /usr/local/bin/apt ]] || { return ;  }
     ct_adb_install() {
         sudo apt install adb
     }    

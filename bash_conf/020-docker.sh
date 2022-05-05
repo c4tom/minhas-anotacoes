@@ -2,6 +2,7 @@
 
 
 [[ -f /usr/bin/docker ]] || { 
+	[[ -f /usr/local/bin/apt ]] || { return ;  }
 	ct_docker_install_DockerCE() {
 		export $(cat /etc/os-release | grep UBU)
 		local UBUNTU_RELEASE=$UBUNTU_CODENAME

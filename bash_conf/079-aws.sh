@@ -1,6 +1,7 @@
 
 if [[ ! -f /usr/bin/aws ]] 
 then
+    [[ -f /usr/local/bin/apt ]] || { return ;  }
 	ct_awsInstall() {
 		sudo snap install aws-cli --classic
         sudo apt-get install awscli
