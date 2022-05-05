@@ -235,6 +235,14 @@ ct_docker_network_createDevelop(){
 	fi
 }
 
+ct_docker_container_getIPAddress() {
+	docker ps
+
+	echo "Wich docker CONTAINER ID?"
+	read docker_ID
+	docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $docker_ID
+}
+
 
 ct_docker_network_createMyNetworkBridge(){
 	local subnet=${1:-"192.168.1.0/24"};
