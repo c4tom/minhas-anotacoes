@@ -69,6 +69,11 @@ isexec() {
     [[ -f "$1" && -x $(realpath "$1") ]]; 
 }
 
+# if `isFile "$file"`; then ... fi
+isFile() {
+    [[ -f "$1" ]]; 
+}
+
 # https://stackoverflow.com/a/1923893/6709209
 askToPassword()
 {
