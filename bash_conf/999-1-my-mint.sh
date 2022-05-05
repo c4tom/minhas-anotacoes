@@ -20,7 +20,7 @@ mymint_install_packages() {
     # compressao, pode usar com tar
     aptadd pigz
     # Internet Tools
-    aptadd filezilla links w3m sshfs ssh ssh-askpass-gnome remmina
+    aptadd filezilla links w3m sshfs ssh ssh-askpass-gnome
     # find suggest command to install
     aptadd command-not-found
     # Controlador de Frequencia
@@ -103,7 +103,7 @@ mymint_after_install_mint() {
     mymint_install_epson_l355
 }
 
-mymint_install_remmina() {
+mymint_install_remmina_last() {
     sudo apt-add-repository ppa:remmina-ppa-team/remmina-next
     sudo apt update
     sudo apt install remmina remmina-plugin-rdp remmina-plugin-secret
