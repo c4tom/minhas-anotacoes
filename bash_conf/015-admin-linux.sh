@@ -2,9 +2,15 @@
 
 # Debian/Ubuntu
 
-ct_adm_disable_user_login() {
+ct_adm_user_disable_login() {
    : ${1?: '<system user>'}
    echo_and_run sudo chsh -s /bin/false $1
+}
+
+
+ct_adm_user_create_jailed_in_home() {
+   : ${1? "<username>"}
+   sudo useradd -s /bin/rbash -m -d /home/$1 $1
 }
 
 ct_adm_how_process_running_port () {
@@ -18,3 +24,4 @@ ct_adm_how_process_running_port () {
    "$($cmd)"
    # TODO corrigir
 }
+
