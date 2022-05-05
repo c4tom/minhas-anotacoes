@@ -34,6 +34,7 @@ ct_pull_minhasAnotacoes() {
     FULL_PATH_TO_SCRIPT="$(realpath "${BASH_SOURCE[-1]}")"
     SCRIPT_DIRECTORY="$(dirname "$FULL_PATH_TO_SCRIPT")"
     SCRIPT_DIRECTORY="$(dirname "$SCRIPT_DIRECTORY")"
+    cd $SCRIPT_DIRECTORY
     echo $(pwd)
     git pull  
 }
