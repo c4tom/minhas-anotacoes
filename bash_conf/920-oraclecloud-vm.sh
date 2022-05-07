@@ -1,7 +1,7 @@
 #!/bin/sh
 
 
-[[ -f /snap/oracle-cloud-agent/36/usr ]] || { return ; }
+[[ -f /snap/oracle-cloud-agent/current/agent ]] || { return ; }
 
 ct_isRoot() {
     [[ $(id -u) -eq 0 ]] || { echo >&2 "Must be root to run this function"; kill -INT $$; }
