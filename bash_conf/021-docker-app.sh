@@ -214,7 +214,9 @@ ct_docker_traefik() {
 
 
 
-ct_docker_nextcloud_aio() {
+ct_docker_App_nextcloud_aio() {
+    [[ -f $(type -P xdg-open) ]] && { xdg-open https://github.com/nextcloud/all-in-one; }
+    
     echo_and_run docker run -d -it \
     --name nextcloud-aio-mastercontainer \
     --restart always \
@@ -224,7 +226,6 @@ ct_docker_nextcloud_aio() {
     --volume nextcloud_aio_mastercontainer:/mnt/docker-aio-config \
     --volume /var/run/docker.sock:/var/run/docker.sock:ro \
     nextcloud/all-in-one:latest
-    open https://github.com/nextcloud/all-in-one
 }
 
 
