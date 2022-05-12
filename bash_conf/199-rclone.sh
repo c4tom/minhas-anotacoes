@@ -11,6 +11,7 @@ ct_rclone_enable_allow_others() {
 
 ct_rclone_mountAliasAllDrivers() {
 
+    local tmp_log=${1:-"/discok/tmp"};
     # rclone listremotes
     # local DRIVERS=$(cat ~/.config/rclone/rclone.conf  | grep "\[" |sed "s/\[\(.*\)]/\1/")
     local DRIVERS=$(rclone listremotes | sed "s/://")
@@ -41,7 +42,7 @@ ct_rclone_mountAliasAllDrivers() {
         cmd="$cmd --use-mmap"
         cmd="$cmd --no-modtime"
         cmd="$cmd --fast-list --transfers 10 --checkers 10 --contimeout 60s --timeout 300s --retries 3 --low-level-retries 10 --stats 1s"
-        cmd="$cmd --cache-dir /discok/tmp"
+        cmd="$cmd --cache-dir ${tmp_log}"
         cmd="$cmd --daemon"                         # Run mount as a daemon (background mode). Not supported on Windows.
         cmd="$cmd --allow-non-empty"
         cmd="$cmd --debug-fuse"                     # Debug the FUSE internals - needs -v
@@ -51,7 +52,7 @@ ct_rclone_mountAliasAllDrivers() {
         cmd="$cmd --cache-chunk-path /dev/shm"
         cmd="$cmd --vfs-read-chunk-size 128M"
         cmd="$cmd --log-level INFO"
-        cmd="$cmd --log-file=/discok/tmp/rclone.log"
+        cmd="$cmd --log-file=${tmp_log}/rclone.log"
 
 
         SCRIPT_FILE=$HOME/.config/caja/scripts/rclone/$i.sh
