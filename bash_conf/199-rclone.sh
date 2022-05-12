@@ -24,6 +24,12 @@ ct_rclone_mountAliasAllDrivers() {
 
     RCLONE_SCRIPTS=$HOME/.config/caja/scripts/rclone/
 
+    if [[ -n `cat /etc/fuse.conf | grep "#user_allow"` ]]
+        then
+        echoRedBlack "Edit /etc/fuse.conf and enable 'user_allow_other'"
+        return;
+    fi
+
     mkdir -p $RCLONE_SCRIPTS
 
     rm -f $RCLONE_SCRIPTS/*
@@ -37,20 +43,24 @@ ct_rclone_mountAliasAllDrivers() {
         #cmd="rclone mount $i: $tmpdir -vv --allow-other --use-mmap --no-modtime --fast-list --stats=1h --checkers=100 --dir-cache-time=5m --poll-interval=1m0s --cache-db-purge --cache-dir /discok/tmp --daemon --log-file /tmp/rclone.log --allow-non-empty --debug-fuse --write-back-cache --buffer-size 256M --drive-chunk-size 32M --vfs-read-chunk-size 50K  --vfs-read-chunk-size-limit=128M --vfs-cache-poll-interval=1m --vfs-cache-max-age=1h0m0s  --vfs-cache-max-size=0 --vfs-cache-mode writes  --max-read-ahead=128k"
 
         cmd="rclone mount $i: $tmpdir"
-        #cmd="$cmd --allow-other"                    #Allow access to other users. Not supported on Windows.
-        cmd="$cmd --vfs-cache-mode writes"
+        cmd="$cmd --allow-other"                    # Allow access to other users. Not supported on Windows.(edit /etc/fuse.conf and enable)
+        cmd="$cmd --vfs-cache-mode writes"         # Cache mode off|minimal|writes|full (default off) - In this mode all reads and writes are buffered to and from disk. When data is read from the remote this is buffered to disk as well.
+        cmd="$cmd --vfs-read-chunk-size 128M"
+        cmd="$cmd --vfs-cache-max-age 1h0m0s"       # Max age of objects in the cache (default 1h0m0s)        
         cmd="$cmd --use-mmap"
         cmd="$cmd --no-modtime"
-        cmd="$cmd --fast-list --transfers 10 --checkers 10 --contimeout 60s --timeout 300s --retries 3 --low-level-retries 10 --stats 1s"
+        cmd="$cmd --no-seek"
+        cmd="$cmd --transfers 10 --checkers 10 --contimeout 60s --timeout 300s --retries 3 --low-level-retries 10 --stats 1s"
         cmd="$cmd --cache-dir ${tmp_log}"
         cmd="$cmd --daemon"                         # Run mount as a daemon (background mode). Not supported on Windows.
+        cmd="$cmd --dir-perms 0755"                 # Directory permissions (default 0777)
+        cmd="$cmd --file-perms 0666"           
         cmd="$cmd --allow-non-empty"
         cmd="$cmd --debug-fuse"                     # Debug the FUSE internals - needs -v
         cmd="$cmd --write-back-cache"               # Makes kernel buffer writes before sending them to rclone. Without this, writethrough caching is used. Not supported on Windows.
         cmd="$cmd --buffer-size 1G"
         cmd="$cmd --drive-chunk-size 32M"
         cmd="$cmd --cache-chunk-path /dev/shm"
-        cmd="$cmd --vfs-read-chunk-size 128M"
         cmd="$cmd --log-level INFO"
         cmd="$cmd --log-file=${tmp_log}/rclone.log"
 
