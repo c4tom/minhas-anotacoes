@@ -133,3 +133,12 @@ mymint_encrypt_hdd() {
 
     cat /etc/crypttab
 }
+
+
+mymint_install_httptoolkit() {
+
+    cd /tmp
+    wget -c https://github.com/httptoolkit/httptoolkit-desktop/releases/download/v1.8.0/HttpToolkit-1.8.0.deb
+
+    sudo dpkg -i HttpToolkit-1.8.0.deb
+}
