@@ -38,8 +38,10 @@ DOCKER_BUILDKIT=1
 	# https://docs.docker.com/compose/install/#upgrading
 	ct_docker_install_ComposeDownload() {
 		cd /tmp/
-		local VERSION="1.25.0-rc2"
-		sudo curl -L https://github.com/docker/compose/releases/download/$VERSION/docker-compose-`uname -s`-`uname -m` -o /usr/bin/docker-compose && sudo chmod +x /usr/bin/docker-compose && docker-compose --version
+		local VERSION="v2.5.1"
+		# https://github.com/docker/compose/releases/download/v2.5.1/docker-compose-linux-x86_64
+		local linkDownload=https://github.com/docker/compose/releases/download/$VERSION/docker-compose-`uname -s | tr "[:upper:]" "[:lower:]"`-`uname -m`
+		sudo curl -L $linkDownload -o /usr/bin/docker-compose && sudo chmod +x /usr/bin/docker-compose && docker-compose --version
 
 	}
 }
@@ -307,4 +309,18 @@ ct_docker_storage_fs_overlay_to_brtfs() {
 	 
 
 	 # TODO
+}
+
+
+
+ct_dockerAndUFW_install() {
+	# https://stackoverflow.com/questions/30383845/what-is-the-best-practice-of-docker-ufw-under-ubuntu/51741599#comment91451547_51741599
+	# https://github.com/chaifeng/ufw-docker
+
+	cd /tmp; git clone https://github.com/chaifeng/ufw-docker
+	cd ufw-docker
+	sudo cp ufw-docker /usr/sbin/ufw-docker
+	sudo ufw-docker install
+
+	sudo ufw-docker check
 }
