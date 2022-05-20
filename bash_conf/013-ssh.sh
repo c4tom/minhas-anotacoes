@@ -19,8 +19,25 @@ ct_ssh_socksEnable() {
     echo_and_run ssh $1 -D $port -f -C -q -N 
 }
 
-ct_ssh_forward_port() {
+## https://www.ssh.com/academy/ssh/tunneling/example
+ct_ssh_forward_local_port() {
+    # ssh -L 80:intra.example.com:80 gw.example.com
+    # This example opens a connection to the gw.example.com jump server, and forwards any connection to port 80 on the local 
+    # machine to port 80 on intra.example.com.
+
+    ${1?' <ip/host to connect>'}
+    ${2?' <80:intra.example.com:80>'}
+
     ssh 
+}
+
+
+ct_ssh_forward_remote_port() {
+    # ssh -R 30022:localhost:22 <ip/host>
+
+    ${1?' <ip/host to connect>'}
+    ${2:-"30022:localhost:22"};
+    ssh -R $2 $1
 }
 
 # https://www.tecmint.com/restrict-ssh-user-to-directory-using-chrooted-jail/
