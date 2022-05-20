@@ -8,7 +8,7 @@ ct_isRoot() {
 }
 
 ct_oracloud_install_pacotes() {
-   sudo apt install iputils-ping inetutils-telnet firewalld net-tools
+   sudo apt install iputils-ping inetutils-telnet firewalld net-tools bash-completion
 }
 
 ct_oracloud_install_cyberPanel() {
@@ -34,8 +34,16 @@ ct_oracle_firewalld() {
 
    for i in $1
    do
-      sudo firewall-cmd --zone=$2 --permanent --add-port=$i/tcp
+      echo_and_run sudo firewall-cmd --zone=$2 --permanent --add-port=$i/tcp
    done
-   sudo firewall-cmd --reload
-   sudo firewall-cmd --zone=$2 --list-ports
+   echo_and_run sudo firewall-cmd --reload
+   echo_and_run sudo firewall-cmd --zone=$2 --list-ports
+}
+
+ct_oracle_firewalld_listAll() {
+   echo_and_run sudo firewall-cmd --list-all
+}
+
+ct_oracle_firewalld_getServices() {
+   echo_and_run sudo firewall-cmd --get-services
 }
