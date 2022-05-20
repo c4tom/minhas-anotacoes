@@ -56,6 +56,11 @@ ct_fwTransparentProxySquidUnset() {
 
 ct_fwBloquearTodosRequestDaInterface()
 {
+    local ifc=$(ifconfig -a | sed 's/[ \t].*//;/^$/d' | sed 's/:/|/g' | tr -d '\n')
+    local myIP=$(ip route get 8.8.8.8 | head -1 | awk '{print $7}')
+    : ${1?' <iface '$ifc'>'}
+    : ${2?' <network '$myIP'>'}
+
     local IFACE=$1
     local REDE=$2
     echo "Bloqueando todas requisições vinda na interface: $IFACE/$REDE"
