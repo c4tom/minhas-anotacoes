@@ -36,3 +36,6 @@ export CT_VERBOSE=true
 export HISTCONTROL=erasedups
 export HISTSIZE=9000
 export HISTTIMEFORMAT="%d/%m/%y %T "
+
+export uid=$(id -u)
+export gid=$(id -g)
