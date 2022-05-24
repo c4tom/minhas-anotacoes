@@ -1,5 +1,5 @@
 
-[[ ! -f $(type -P asdf) ]] || { 
+[[ ! -f "/home/${HOME}/.asdf/bin/asdf" ]] || { 
     ct_asdf_install() {
         # install, https://youtu.be/epiyExCyb2s?t=2594
 
@@ -11,6 +11,9 @@
 
         echo "Autocomplete do asdf"
         echo ". $HOME/.asdf/completions/asdf.bash" >> ~/.bashrc
+
+        echo "Criando Link simbolico em /desenv/asdf"
+        mkdir /desenv/asdf/{installs,downloads,plugins}; ln -sf /desenv/asdf/{installs,downloads,plugins} .
 
         sudo apt-get install dirmngr gpg curl gawk
         
@@ -51,4 +54,15 @@ ct_asdf_addPlugin_dotnetcore() {
     echo_and_run asdf plugin-add dotnet-core https://github.com/emersonsoares/asdf-dotnet-core.git
     echo_and_run asdf install dotnet-core latest
 
+}
+
+ct_asdf_addPlugin_java() {
+    echo_and_run asdf plugin-add java https://github.com/halcyon/asdf-java.git
+    local version=""
+    echo "Qual versão? "
+    echo ""
+    read version
+    asdf list-all java | grep ^openjdk
+    echo ""
+    echo_and_run asdf install java $version
 }
