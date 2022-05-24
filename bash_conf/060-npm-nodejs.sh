@@ -5,7 +5,7 @@
 # https://www.tecmint.com/install-nodejs-npm-in-centos-ubuntu/
 # Veja tambem: https://nodejs.org/en/download/
 
-if [[ ! -f $(type -p node) ]] 
+if [[ ! -f $(type -p npm) ]] 
 then
 	[[ $HASAPT = false ]] && { return; }
 	ct_nodejs_installInLinuxMint() {
@@ -89,7 +89,7 @@ ct_npm_update() {
 }
 
 
-ct_nodejs_install_all_tools() {
+ct_npm_install_all_tools() {
 	echo "Mocha é um test framework para nodejs - https://www.npmjs.com/package/mocha"
 	npm install mocha -g --silent
 
