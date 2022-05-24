@@ -41,9 +41,10 @@ cloudflare_update_dns() {
     : ${2?' dns_id'}
     : ${3?' subdomain_name'}
     : ${4?' ip_address'}
+    : ${5?'true'}
 
     local ENDPOINT=$CLOUDFLARE_ENDPOINT_ROOT/zones/$1/dns_records/$2
-    local DATA='{ "type":"A", "name":"'$3'", "content":"'$4'", "ttl":3600, "proxied":true }'
+    local DATA='{ "type":"A", "name":"'$3'", "content":"'$4'", "ttl":3600, "proxied":'$5' }'
     local cmd="curl -X PUT $ENDPOINT `cloudflare_basic_header` --data '$DATA'"
     eval "$cmd | python -mjson.tool"
 }
