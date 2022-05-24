@@ -107,6 +107,7 @@ ct_nodejs_install_all_tools() {
 }
 
 # Cria um novo projeto
+# baseado em https://www.youtube.com/watch?v=vV1wQ6GFH0A&list=PL9aKtVrF05DyEwK5kdvzrYXFdpZfj1dsG&index=1cod
 ct_nodejs_novo_projeto() {
 	echo "Criando repositório git"
 	git init &>/dev/null
@@ -124,10 +125,46 @@ ct_nodejs_novo_projeto() {
 	git add package.json 
 	git commit -m "Inicio do projeto"
 
+	ct_npm_add2Project_standart
+	git add *
+	git commit -m "adicionando standart"
+
+	ct_npm_add2Project_husk
+	git add .huskyrc.json .lintstagedrc.json .huskyrc.json
+	git commit -m "adicionando husk"
+
+	ct_npm_add2Project_jest
+	git add *
+	git commit -m "adicionando jest"
+
+	ct_npm_add2Project_mongodb_jest
+	git add *
+	git commit -m "adicionando mongodb-jest"
+
+	ct_npm_add2Project_coverage
+	git add *
+	git commit -m "adicionando converage"
+}
+
+ct_npm_add2Project_standart() {
+	
 	echo "Adicionando modulos"
 	echo " - Standard (padrão javascript)"
 	npm i standard -D --silent &>/dev/null
-	
+
+
+	mkdir .vscode
+	echo '{
+    "recommendations": [
+        "standard.vscode-standard"
+    ]
+}' > .vscode/extensions.json
+}
+
+ct_npm_add2Project_husk(){
+	echo " - Husky (Rodar script antes de fazer um commit)"
+	npm i husky -D --silent &>/dev/null
+
 	echo " - lint-staged (executa os script na area de stage - validar"
 	npm i lint-staged -D --silent &>/dev/null
 	echo "   - criando arquivo .lintstagedrc.json"
@@ -138,15 +175,16 @@ ct_nodejs_novo_projeto() {
 		]
 	}" > .lintstagedrc.json
 
-
-	echo " - Husky (Rodar script antes de fazer um commit)"
-	npm i husky -D --silent &>/dev/null
 	echo "   - criando arquivo .huskyrc.json"
 	dot-json .huskyrc.json husky.hooks.pre-commit lint-staged
-	
+
+}
+
+ct_npm_add2Project_jest() {
+
 	echo " - Jest (Framework de test)"
 	npm i jest -D --silent &>/dev/null
-	npe scripts.test jest
+	
 
 	# https://jestjs.io/docs/en/configuration
 	#echo "Gerar o arquivo de configuração do JEST, Responder as 4 perguntas: node y v8 n"
@@ -156,17 +194,71 @@ ct_nodejs_novo_projeto() {
 	echo "// For a detailed explanation regarding each configuration property, visit:
 // https://jestjs.io/docs/en/configuration.html
 module.exports = {
-  coverageDirectory: \"coverage\",
-  coverageProvider: \"v8\",
+  collectCoverageFrom: ['**/src/**/*.js', '!**/src/main/**'],
   testEnvironment: \"node\",
 };
 " > jest.config.js
 
+	echo "   - Criando o arquivo de configuração jest.unit.config.js"
+
+	echo "const config = require('./jest.config')
+config.testMatch = ['**/*.spec.js']
+module.exports = config
+" > jest.unit.config.js
+
+	echo "   - Criando o arquivo de configuração jest-integration-config.js"
+	echo "const config = require('./jest.config')
+config.testMatch = ['**/*.test.js']
+module.exports = config
+" > jest-integration-config.js
+
+	echo "   - Adicionando script"
+	npe scripts.test 'jest --colors --noStackTrace --passWithNoTests --runInBand'
+    npe scripts.test:unit 'npm test -- --watch -c jest-unit-config.js'
+    npe scripts.test:integration 'npm test -- --watch -c jest-integration-config.js'
+
+	echo "   - Colocando Jest com o standart"
+	npe standart.env ["jest"]
+
+
 }
 
+ct_npm_add2Project_mongodb_jest() {
 
+	echo " - MongoDB"
+	npm i mogodb --silent &>/dev/null
+	npm i @shelf/jest-mongodb -D --silent &>/dev/null
 
+	echo "   - Adicionando arquivo "
+	echo "module.exports = {
+  mongodbMemoryServerOptions: {
+    instance: {
+      dbName: 'jest'
+    },
+    binary: {
+      version: '4.0.3',
+      skipMD5: true
+    },
+    autoStart: false
+  }
+}
+" > jest-mongodb-config.js
 
+	sed -i  "s/module.exports = {/module.exports = {\n  preset: \\'@shelf\/jest-mongodb\\',/g" jest.config.js
+}
+
+ct_npm_add2Project_coverage() {
+	echo "   - Adicionando scripts - Coverage"
+	npm i coveralls -D --silent &>/dev/null
+	npe scripts.test:ci 'npm test -- --coverage --silent'
+    npe scripts.test:coveralls 'npm run test:ci && coveralls < coverage/lcov.info'
+
+	echo coverage >> .gitignore
+
+	sed -i  "s/module.exports = {/module.exports = {\n  coverageDirectory: \\'coverage\\',/g" jest.config.js
+	sed -i  "s/module.exports = {/module.exports = {\n  collectCoverageFrom: [\\'**\/src\/**\/*.js\\',\\'\!**\/src\/main\/**\\'],/g" jest.config.js 
+
+}
 
 
 ct_npm_listarTodasConfiguracoes() {
