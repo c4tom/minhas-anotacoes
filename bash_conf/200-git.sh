@@ -56,8 +56,7 @@ ct_git_config_listarConfiguracao() {
 }
 
 ct_git_repo_infoStats() {
-	echo_and_run git config --get remote.origin.url
-	echo_and_run git config --get remote.origin.fetch
+	echo_and_run git remote -v
 }
 
 
@@ -291,4 +290,18 @@ ct_branch_renameLocalAndRemote() {
 
 	# Reset the upstream branch for the new_name local branch
 	git push $remote_name -u $2
+}
+
+
+ct_git_add_alias_default() {
+
+	git config --global alias.branch-tree '!cd "$(git rev-parse --git-dir)/refs/heads" && tree'
+	git config --global alias.clone-last-commit 'clone --depth=1'
+	git config --global alias.alias-list '! git config -l | grep alias | cut -c 7-'
+
+	git config --global alias.lg1 "log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all"
+	git config --global alias.lg2 "log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all"
+	
+
+	git config --global alias.log-branch 'log --all --graph --decorate --oneline --simplify-by-decoration'
 }
