@@ -8,6 +8,11 @@ ct_ssh_keygenComEmail() {
     ssh-keygen -o -a 100 -t ed25519 -C "$email"
 }
 
+ct_ssh_keygenRSAComEmail() {
+    local email=$1
+    ssh-keygen -o -b 4096 -t rsa -C "$email"
+}
+
 ct_ssh_agentIsRunning() {
     echo_and_run ssh-agent -s
 }
