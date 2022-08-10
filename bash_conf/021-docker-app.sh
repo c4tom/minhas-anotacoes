@@ -247,3 +247,128 @@ ct_docker_XApp_Chrome() {
     --name debian11_chrome:latest \
     alpine
 }
+
+
+ct_docker_camunda() {
+    echo_and_run docker run --rm -it  \
+    --name camundaLatest \
+    -p 8000:8000/tcp \
+    -p 8080:8080/tcp \
+    -p 9404:9404/tcp \
+    camunda/camunda-bpm-platform:run-latest
+}
+
+ct_docker_n8n() {
+    docker run -it --rm \
+    --name n8n \
+    -p 5678:5678 \
+    -v ~/.n8n:/home/node/.n8n \
+    n8nio/n8n
+}
+
+
+# https://docs.n8n.io/hosting/installation/docker/#using-alternate-databases
+ct_docker_n8n_viaComposer() {
+
+    [[ -f /usr/bin/docker ]] || { echo "Please install docker, run: ct_docker_install_DockerCE"; return; }
+    [[ -f $(type -P docker-compose) ]] || { echo "Please install docker-compose: run ct_docker_install_ComposeDownload"; return; }
+
+    local n8n_path=$HOME/dockers/n8n
+    local n8n_composer=$n8n_path/docker-compose.yml
+
+    [[ -f $n8n_composer ]] && { echo "Already exist $n8n_composer"; return; }
+
+    mkdir -p $n8n_path
+
+    echo '
+version: "3"
+
+services:
+  traefik:
+    image: "traefik"
+    restart: always
+    command:
+      - "--api=true"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.web.http.redirections.entryPoint.to=websecure"
+      - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
+      - "--entrypoints.websecure.address=:443"
+      - "--certificatesresolvers.mytlschallenge.acme.tlschallenge=true"
+      - "--certificatesresolvers.mytlschallenge.acme.email=${SSL_EMAIL}"
+      - "--certificatesresolvers.mytlschallenge.acme.storage=/letsencrypt/acme.json"
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ${DATA_FOLDER}/letsencrypt:/letsencrypt
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
+  n8n:
+    image: n8nio/n8n
+    restart: always
+    ports:
+      - "127.0.0.1:5678:5678"
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.n8n.rule=Host(`${SUBDOMAIN}.${DOMAIN_NAME}`)
+      - traefik.http.routers.n8n.tls=true
+      - traefik.http.routers.n8n.entrypoints=web,websecure
+      - traefik.http.routers.n8n.tls.certresolver=mytlschallenge
+      - traefik.http.middlewares.n8n.headers.SSLRedirect=true
+      - traefik.http.middlewares.n8n.headers.STSSeconds=315360000
+      - traefik.http.middlewares.n8n.headers.browserXSSFilter=true
+      - traefik.http.middlewares.n8n.headers.contentTypeNosniff=true
+      - traefik.http.middlewares.n8n.headers.forceSTSHeader=true
+      - traefik.http.middlewares.n8n.headers.SSLHost=${DOMAIN_NAME}
+      - traefik.http.middlewares.n8n.headers.STSIncludeSubdomains=true
+      - traefik.http.middlewares.n8n.headers.STSPreload=true
+    environment:
+      - N8N_BASIC_AUTH_ACTIVE=true
+      - N8N_BASIC_AUTH_USER
+      - N8N_BASIC_AUTH_PASSWORD
+      - N8N_HOST=${SUBDOMAIN}.${DOMAIN_NAME}
+      - N8N_PORT=5678
+      - N8N_PROTOCOL=https
+      - NODE_ENV=production
+      - WEBHOOK_URL=https://${SUBDOMAIN}.${DOMAIN_NAME}/
+      - GENERIC_TIMEZONE=${GENERIC_TIMEZONE}
+    volumes:
+      - ${DATA_FOLDER}/.n8n:/home/node/.n8n
+
+' > $n8n_composer
+
+echo '
+# Folder where data should be saved
+DATA_FOLDER='$n8n_path'
+
+# The top level domain to serve from
+DOMAIN_NAME=example.com
+
+# The subdomain to serve from
+SUBDOMAIN=n8n
+
+# DOMAIN_NAME and SUBDOMAIN combined decide where n8n will be reachable from
+# above example would result in: https://n8n.example.com
+
+# The user name to use for authentication - IMPORTANT ALWAYS CHANGE!
+N8N_BASIC_AUTH_USER=user
+
+# The password to use for authentication - IMPORTANT ALWAYS CHANGE!
+N8N_BASIC_AUTH_PASSWORD=password
+
+# Optional timezone to set which gets used by Cron-Node by default
+# If not set New York time will be used
+GENERIC_TIMEZONE=America/Sao_Paulo
+
+# The email address to use for the SSL certificate creation
+SSL_EMAIL=user@example.com
+' > $n8n_path/.env
+
+    echo "#!/bin/sh\ndocker-compose up -d" > $n8n_path/start.sh
+    echo "#!/bin/sh\ndocker-compose stop" > $n8n_path/stop.sh
+    chmod +x $n8n_path/*.sh
+
+}
