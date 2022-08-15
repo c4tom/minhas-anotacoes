@@ -50,8 +50,10 @@ ct_video_info() {
   mediainfo "$1"
 }
 
-
-
+# Check if video is valid
+ct_video_isValid() {
+  ffmpeg -v error -i "$1" -f null - 2
+}
 
 
 
