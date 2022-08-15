@@ -215,6 +215,17 @@ ct_filepath() {
     echo $(pwd)/$1
 }
 
+ct_filesizeK() {
+   local size=$(wc -c "$1" | awk '{print $1}')
+   echo $(($size/1024))
+}
+
+ct_filesizeM() {
+   local size=$(wc -c "$1" | awk '{print $1}')
+   echo $(($(($size/1024))/1024))
+}
+
+
 ### Password
 
 ct_genPassword() {
