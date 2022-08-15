@@ -75,6 +75,19 @@ ct_docker_ServerApp_ApachePhp56() {
     cht_webphp5
 }
 
+ct_docker_ServerApp_Oracle18() {
+    local name=${1:-"oracle18"} # Name
+    local senha=${2:-"oracle"} # Senha
+    local ports=${3:-"1521:1521"} # Ports
+
+    echo_and_run $DOCKER run -d --name $name -p $ports -e ORACLE_RANDOM_PASSWORD=yes -v oracle-volume:/opt/oracle/oradata gvenzl/oracle-xe:18.4.0-slim
+
+    echo "--------
+Reset database SYS and SYSTEM passwords:
+
+docker exec <container name|id> resetPassword <your password>"
+}
+
 ct_docker_WebApp_ApachePHP5() {
     : ${1?' port_to_listen'}
     docker run -d --name apache-php5 -p $1:80 -v "$PWD":/web nimmis/alpine-apache-php5
