@@ -73,31 +73,33 @@ OnlyShowIn=MATE;
 
     }
 
-    mymint_install_epson_l355() {
 
-        echo "deb [trusted=yes] http://download.ebz.epson.net/dsc/op/stable/debian/ lsb3.2 main" | sudo tee --append /etc/apt/sources.list.d/epson.list
-
-        apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E5E86C008AA65D56
-        sudo apt-get update
-        sudo apt-get install Epson-inkjet-printer-201207w
-
-        # http://download.ebz.epson.net/dsc/op/stable/debian/dists/lsb3.2/epson-inkjet-printer-201207w/binary-amd64/epson-inkjet-printer-201207w_1.0.0-1lsb3.2_amd64.deb
-    }
-
-    mymint_after_install_mint() {
-        mymint_install_packages
-        ct_systemd_add_rc_local
-        mymint_install_epson_l355
-    }
-
-    mymint_install_remmina_last() {
-        sudo apt-add-repository ppa:remmina-ppa-team/remmina-next
-        sudo apt update
-        sudo apt install remmina remmina-plugin-rdp remmina-plugin-secret
-    }
 
     return
 
+}
+
+mymint_install_epson_l355() {
+
+    echo "deb [trusted=yes] http://download.ebz.epson.net/dsc/op/stable/debian/ lsb3.2 main" | sudo tee --append /etc/apt/sources.list.d/epson.list
+
+    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E5E86C008AA65D56
+    sudo apt-get update
+    sudo apt-get install epson-inkjet-printer-201207w
+
+    # http://download.ebz.epson.net/dsc/op/stable/debian/dists/lsb3.2/epson-inkjet-printer-201207w/binary-amd64/epson-inkjet-printer-201207w_1.0.0-1lsb3.2_amd64.deb
+}
+
+mymint_after_install_mint() {
+    mymint_install_packages
+    ct_systemd_add_rc_local
+    mymint_install_epson_l355
+}
+
+mymint_install_remmina_last() {
+    sudo apt-add-repository ppa:remmina-ppa-team/remmina-next
+    sudo apt update
+    sudo apt install remmina remmina-plugin-rdp remmina-plugin-secret
 }
 
 # afflib-tools -> affuse
