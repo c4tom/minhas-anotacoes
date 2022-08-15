@@ -13,6 +13,18 @@ ct_androidInstallAVD() {
 
 }
 
+
+# https://ibotpeaches.github.io/Apktool/install/
+ct_apktool_install() {
+    local APKTOOL_JAR_VERSION=2.6.1
+    cd /tmp
+    echo_and_run curl -k -o apktool https://raw.githubusercontent.com/iBotPeaches/Apktool/master/scripts/linux/apktool
+    echo_and_run curl -k -o apktool.jar https://bitbucket.org/iBotPeaches/apktool/downloads/apktool_$APKTOOL_JAR_VERSION.jar
+    echo_and_run chmod +x apktool.jar apktool
+    echo_and_run sudo cp -f apktool.jar apktool /usr/local/bin
+
+}
+
 [[ -f $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager ]] || { return ; }
 
 export ANDROID_CMDL_TOOLS=$ANDROID_SDK_ROOT/cmdline-tools/latest/bin
@@ -83,3 +95,5 @@ ct_androidRunEmulatorAVD() {
 
 export ANDROID_HOME=$ANDROID_SDK_ROOT
 export ANDROID_AVD_HOME=/Android/AVD
+
+
