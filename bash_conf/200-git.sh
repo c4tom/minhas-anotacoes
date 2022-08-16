@@ -305,3 +305,12 @@ ct_git_add_alias_default() {
 
 	git config --global alias.log-branch 'log --all --graph --decorate --oneline --simplify-by-decoration'
 }
+
+
+ct_git_attr_autoLF() {
+	echo "# Set default behavior to automatically normalize line endings.
+# NO We don't want this!! LEAVE line endings alone
+# * text=auto
+# Bash shell scripts make sure to keep unix line endings
+/* text eol=lf" > .gitattributes
+}
