@@ -147,6 +147,13 @@ ct_oc_copyLocal2Remote() {
     echo_and_run $OC cp $1 "$(_ocGetRunningPOD):$2"
 }
 
+ct_oc_copyRemote2Local() {
+    : ${1?' <remote folder>'}
+    : ${2?' <local folder>'}
+
+    echo_and_run $OC cp "$(_ocGetRunningPOD):$1" $2
+}
+
 # Abre a porta 8787 para fazer debug com um POD
 # $1 nome do projeto (opcional)
 # https://blog.openshift.com/debugging-java-applications-on-openshift-kubernetes/
