@@ -1,5 +1,5 @@
 
-[[ ! -f "/home/${HOME}/.asdf/bin/asdf" ]] || { 
+[[ -f "${HOME}/.asdf/bin/asdf" ]] || { 
     ct_asdf_install() {
         # install, https://youtu.be/epiyExCyb2s?t=2594
 
