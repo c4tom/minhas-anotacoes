@@ -244,3 +244,14 @@ ct_openshiftMakeSkelByTemplate() {
     cp -arv $TEMPLATEDIR/* .
     cp -av $TEMPLATEDIR/.gitignore .
 }
+
+
+ct_oc_get_imagehash() {
+    local buildName=$1
+    echo_and_run $OC describe build $buildName | grep Digest
+}
+
+ct_oc_noproxy() {
+    export HTTP_PROXY=
+    export HTTPS_PROXY=
+}
