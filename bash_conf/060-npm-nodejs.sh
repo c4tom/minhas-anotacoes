@@ -15,7 +15,10 @@ then
 fi
 
 export NPM_PREFIX=/desenv/node_global
-export PATH=$PATH:$($HOME/.asdf/bin/asdf where nodejs)/bin
+
+[[ ! -f "${HOME}/.asdf/bin/asdf" ]] || {
+	export PATH=$PATH:$($HOME/.asdf/bin/asdf where nodejs)/bin
+}
 
 ### SETAR minhas configuracoes
 
