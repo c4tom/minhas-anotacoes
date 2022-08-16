@@ -1,6 +1,21 @@
 [[ -f /usr/bin/rclone ]] || { return ; }
 
 
+ct_rclone_update_version() {
+    local rclone_versao_instalada=$(rclone version | grep "^rclone" | awk '{print $2}')
+    local rclone_disponivel=$(curl -s 'https://rclone.org/downloads/#downloads-for-scripting' | pandoc -f html -t plain | grep Release | head -n 1 | awk '{print $2}')
+
+    echoGreenBlack "Instalada: $rclone_versao_instalada | Disponivel: $rclone_disponivel"
+
+    if [[ $rclone_disponivel != $rclone_versao_instalada ]]
+    then
+        cd /tmp
+        curl -o rclone.deb https://downloads.rclone.org/rclone-current-linux-amd64.deb
+        sudo dpkg -i rclone.deb
+    fi
+}
+
+
 RCLONE_TARGET_DIR="$HOME/rclone";
 
 # mount helper error: fusermount: option allow_other only allowed if 'user_allow_other' is set in /etc/fuse.conf
