@@ -1,5 +1,7 @@
 # https://github.com/garabik/grc
 
+# Generic Colouriser
+
 [[ -f /usr/bin/grc ]] || {
    [[ $HASAPT = false ]] && { return; }
    ct_install_grc() {
