@@ -39,5 +39,6 @@ ct_apt_listarPacotesInstaladosManualmente() {
 #
 ct_apt_clone_sistema() {
   # util para criar uma instalação igual e outro lugar
-  sudo apt-clone clone --with-dpkg-repack clone/apt-clone-state-ubuntu-$(lsb_release -sr)-$(date +%F).tar.gz
+  sudo mkdir -p clone
+  echo_and_run sudo apt-clone clone --with-dpkg-repack clone/apt-clone-state-ubuntu-$(lsb_release -sr)-$(date +%F).tar.gz
 }
