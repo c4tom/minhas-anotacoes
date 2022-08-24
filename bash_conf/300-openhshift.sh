@@ -252,10 +252,18 @@ ct_openshiftMakeSkelByTemplate() {
     cp -av $TEMPLATEDIR/.gitignore .
 }
 
+ct_oc_get_imagecommit() {
+    echo_and_run $OC describe build $buildName | grep Commit
+}
 
 ct_oc_get_imagehash() {
     local buildName=$1
     echo_and_run $OC describe build $buildName | grep Digest
+}
+
+ct_oc_get_image_hash_and_commit() {
+    ct_oc_get_imagecommit $1
+    ct_oc_get_imagehash $1
 }
 
 ct_oc_noproxy() {
