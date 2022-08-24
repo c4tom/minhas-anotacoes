@@ -4,7 +4,6 @@
 
 [[ `isWin` == "1" ]] || { return ; }
 
-echo 44;
 [[ -f /usr/bin/grc ]] || {
    [[ $HASAPT = false ]] && { return; }
    ct_install_grc() {
