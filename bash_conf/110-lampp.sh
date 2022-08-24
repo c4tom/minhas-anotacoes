@@ -1,3 +1,5 @@
+[[ `isWin` == "1" ]] || { return ; }
+
 [[ -f /desenv/lampp-php5/bin/php ]] || { return ; }
 [[ -f /desenv/lampp-php7/bin/php ]] || { return ; }
 

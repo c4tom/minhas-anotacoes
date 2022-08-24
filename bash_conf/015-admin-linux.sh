@@ -1,4 +1,5 @@
 
+[[ `isWin` == "1" ]] || { return ; }
 
 # Debian/Ubuntu
 

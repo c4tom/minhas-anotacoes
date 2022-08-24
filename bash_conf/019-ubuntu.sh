@@ -1,4 +1,5 @@
 
+[[ `isWin` == "1" ]] || { return ; }
 
 # gnome charset for meld
 # https://askubuntu.com/questions/839755/meld-shows-output-in-unreadable-alphabet-japanese-chinese/877894#877894?newreg=3eb23f4cedc540cb810ff1ca02531f54

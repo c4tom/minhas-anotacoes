@@ -1,3 +1,5 @@
+[[ `isWin` == "1" ]] || { return ; }
+
 # http://manpages.ubuntu.com/manpages/bionic/man1/guestmount.1.html
 
 # https://stackoverflow.com/questions/22327728/mounting-vmdk-disk-image

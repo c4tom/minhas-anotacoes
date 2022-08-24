@@ -1,4 +1,6 @@
 
+[[ `isWin` == "1" ]] || { return ; }
+
 if [[ ! -f /usr/share/playonlinux/playonlinux ]]
 then
 	ct_polInstall()

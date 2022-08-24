@@ -1,3 +1,5 @@
+[[ `isWin` == "1" ]] || { return ; }
+
 [[ -f /usr/bin/snap ]] || {
     # https://docs.snapcraft.io/core/usage
     # https://docs.snapcraft.io/core/install-ubuntu

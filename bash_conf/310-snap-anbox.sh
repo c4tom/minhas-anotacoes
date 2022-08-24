@@ -1,3 +1,4 @@
+[[ `isWin` == "1" ]] || { return ; }
 
 ## Requer pacote snapd
 [[ -f /usr/bin/snap ]] || { return ; }

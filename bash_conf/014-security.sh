@@ -1,6 +1,6 @@
 ## https://sectools.org/tag/pass-audit/
 
-
+[[ `isWin` == "1" ]] || { return ; }
 
 [[ -f /usr/bin/testssl.sh ]] || { 
 	ct_ssl_install_tester() {

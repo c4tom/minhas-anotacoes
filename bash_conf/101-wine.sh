@@ -1,4 +1,4 @@
-
+[[ `isWin` == "1" ]] || { return ; }
 
 [[ $HASAPT = false ]] && { return; }
 

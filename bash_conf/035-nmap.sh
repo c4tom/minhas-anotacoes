@@ -1,3 +1,5 @@
+[[ `isWin` == "1" ]] || { return ; }
+
 [[ -f /usr/bin/nmap ]] || { 
 	[[ $HASAPT = false ]] && { return; }
 	ct_nmap_install() {

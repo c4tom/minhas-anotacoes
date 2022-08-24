@@ -1,4 +1,5 @@
 #!/bin/sh
+[[ `isWin` == "1" ]] || { return ; }
 
 # TPM e Bitlocker http://www.shulerent.com/2012/09/04/locking-down-a-virtual-machine-with-bitlocker/
 

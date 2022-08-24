@@ -1,3 +1,5 @@
+[[ `isWin` == "1" ]] || { return ; }
+
 # https://firejail.wordpress.com/
 
 # apt-get install firejail firetools

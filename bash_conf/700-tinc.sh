@@ -1,3 +1,5 @@
+[[ `isWin` == "1" ]] || { return ; }
+
 [[ -f /usr/sbin/tincd ]] || { return ; }
 
 export TINC_PORT=655

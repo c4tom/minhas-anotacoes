@@ -1,5 +1,5 @@
 #!/bin/sh
-
+[[ `isWin` == "1" ]] || { return ; }
 
 [[ -f /snap/oracle-cloud-agent/current/agent ]] || { return ; }
 

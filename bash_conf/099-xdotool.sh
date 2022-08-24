@@ -1,3 +1,5 @@
+[[ `isWin` == "1" ]] || { return ; }
+
 #http://xmodulo.com/simulate-key-press-mouse-movement-linux.html
 
 # Use o comand xprop para mostrar detalhes de uma janela

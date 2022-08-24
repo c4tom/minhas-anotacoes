@@ -1,4 +1,6 @@
 
+[[ `isWin` == "1" ]] || { return ; }
+
 
 [[ -f /usr/bin/convert ]] || { 
 	ct_convert_install() {

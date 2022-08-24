@@ -1,3 +1,5 @@
+[[ `isWin` == "1" ]] || { return ; }
+
 [[ ! -f $(type -P openssl) ]] || { 
 
    ct_imap_test_ssl() {

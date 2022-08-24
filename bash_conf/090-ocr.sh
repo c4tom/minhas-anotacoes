@@ -1,3 +1,5 @@
+[[ `isWin` == "1" ]] || { return ; }
+
 # instalar 
 # apt-get install tesseract-ocr tesseract-ocr-por tesseract-ocr-spa tesseract-ocr-eng ocrmypdf imagemagick yagf
 [[ -f /usr/bin/tesseract ]] || { return ; }

@@ -1,3 +1,5 @@
+[[ `isWin` == "1" ]] || { return ; }
+
 [[ -f /usr/bin/inotifywait ]] || {
    [[ $HASAPT = false ]] && { return; }
    ct_install_inotify-tools() {

@@ -1,3 +1,5 @@
+[[ `isWin` == "1" ]] || { return ; }
+
 [[ -f /usr/bin/create_ap ]] || { 
 
 	[[ $HASAPT = false ]] && { return; }

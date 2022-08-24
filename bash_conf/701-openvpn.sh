@@ -1,3 +1,5 @@
+[[ `isWin` == "1" ]] || { return ; }
+
 [[ -f /usr/sbin/openvpn ]] || { 
 
    [[ $HASAPT = false ]] && { return; }
