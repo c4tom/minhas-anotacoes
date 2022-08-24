@@ -254,6 +254,7 @@ ct_openshiftMakeSkelByTemplate() {
 }
 
 ct_oc_get_imagecommit() {
+    local buildName=$1
     echo_and_run $OC describe build $buildName | grep Commit
 }
 
