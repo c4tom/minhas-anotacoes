@@ -108,13 +108,14 @@ ct_oc_delRole() {
 # Lista as permissoes de um determinado projeto
 # $1 = Nome do projeto
 ct_oc_listRole() {
-    $OC describe policyBindings :default -n $1
+    : ${1?' <project>'}
+    echo_and_run $OC describe rolebinding.rbac -n $1
 }
 
 # $1 = Nome do projeto
 ct_oc_describeProject() {
     : ${1?' <project>'}
-    ct_oc_listRole $1
+    echo_and_run $OC describe bc $1
 }
 
 _ocGetRunningPOD() {
