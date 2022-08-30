@@ -1,4 +1,4 @@
-[[ `isWin` == "1" ]] || { return ; }
+[[ `isWin` != "1" ]] || { return ; }
 
 # Bitlocker para Linux (read/write)
 # https://superuser.com/questions/376533/how-to-access-a-bitlocker-encrypted-drive-in-linux

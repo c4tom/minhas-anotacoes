@@ -1,5 +1,5 @@
 
-[[ `isWin` == "1" ]] || { return ; }
+[[ `isWin` != "1" ]] || { return ; }
 
 # Disable DNS systemd
 # https://askubuntu.com/questions/907246/how-to-disable-systemd-resolved-in-ubuntu

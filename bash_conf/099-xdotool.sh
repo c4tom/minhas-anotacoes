@@ -1,4 +1,4 @@
-[[ `isWin` == "1" ]] || { return ; }
+[[ `isWin` != "1" ]] || { return ; }
 
 #http://xmodulo.com/simulate-key-press-mouse-movement-linux.html
 

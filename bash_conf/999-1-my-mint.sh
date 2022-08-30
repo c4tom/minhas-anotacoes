@@ -1,6 +1,6 @@
 # Tudo que fiz no meu linux mint
 # * Com SSD
-[[ `isWin` == "1" ]] || { return ; }
+[[ `isWin` != "1" ]] || { return ; }
 
 [[ -f /usr/local/bin/apt ]] || {
 

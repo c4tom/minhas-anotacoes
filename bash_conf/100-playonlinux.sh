@@ -1,5 +1,5 @@
 
-[[ `isWin` == "1" ]] || { return ; }
+[[ `isWin` != "1" ]] || { return ; }
 
 if [[ ! -f /usr/share/playonlinux/playonlinux ]]
 then

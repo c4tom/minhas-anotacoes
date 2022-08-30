@@ -47,3 +47,17 @@ ct_net_checkLocalhostPortIsListen() {
 ct_net_print_who_connected_ports80_443() {
 	watch -n1 lsof -i TCP:80,443 
 }
+
+ct_monitor_my_router() {
+	local ROUTER_IP=${1:-"192.168.1.254"};
+	local ROUTER_PORT=${2:-"443"};
+	# 0 => is online
+	# 1 => is offline
+	
+	while(true)
+	do
+		isOFFLINE=$(nc -z $ROUTER_IP $ROUTER_PORT; echo $?)
+		echo "$(date) => $isOFFLINE" | tee -a ~/modem_isonline.log
+		sleep 30
+	done
+}

@@ -1,5 +1,5 @@
 
-[[ `isWin` == "1" ]] || { return ; }
+[[ `isWin` != "1" ]] || { return ; }
 
 # https://www.elastic.co/guide/en/elasticsearch/reference/master/docker.html
 
