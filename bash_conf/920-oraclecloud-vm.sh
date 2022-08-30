@@ -17,6 +17,8 @@ ct_oracloud_install_cyberPanel() {
    sh <(curl https://cyberpanel.net/install.sh || wget -O - https://cyberpanel.net/install.sh)
 }
 
+
+# primeira vez, copie e cole esta funcao no terminal/bash
 ct_oracloud_bash_conf() {
    git clone -b beta --depth 1 --filter=blob:none --no-checkout https://github.com/c4tom/minhas-anotacoes
    cd minhas-anotacoes
@@ -25,7 +27,8 @@ ct_oracloud_bash_conf() {
 
 
 ct_oracloud_mariadbServer() {
-   apt install mariadb-server
+   sudo apt update
+   sudo apt install mariadb-server
 }
 
 ct_oracle_firewalld() {
@@ -46,4 +49,13 @@ ct_oracle_firewalld_listAll() {
 
 ct_oracle_firewalld_getServices() {
    echo_and_run sudo firewall-cmd --get-services
+}
+
+ct_oracle_install_ols() {
+   cd /tmp
+   wget -O - https://repo.litespeed.sh | sudo bash
+   sudo apt update
+   sudo apt-get install openlitespeed
+   sudo apt-get install lsphp81 lsphp81-common lsphp81-curl lsphp81-mysql lsphp81-opcache lsphp81-imap lsphp81-opcache 
+
 }
