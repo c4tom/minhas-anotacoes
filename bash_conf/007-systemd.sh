@@ -92,7 +92,10 @@ ct_systemd_cockpit_start() {
     echo_and_run openAnyFile http://localhost:9090
 }
 
+alias ct_cockpit_start=ct_systemd_cockpit_start
+
 ct_systemd_cockpit_stop() {
     echo_and_run sudo systemctl stop cockpit.socket
     echo_and_run sudo systemctl disable cockpit.socket
 }
+alias ct_cockpit_stop=ct_systemd_cockpit_stop
