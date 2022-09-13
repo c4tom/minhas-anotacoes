@@ -17,7 +17,10 @@ ct_vboxInstallAutoComplete() {
 ct_vboxCreateRawDisk() {
 	HELPTXT="
 
-${FUNCNAME[0]} <nome_do_arquivo> <device> <partition> [<outros>]"
+${FUNCNAME[0]} <nome_do_arquivo> <device> <partition> [<outros>]
+
+\n\nExemplo: ct_vboxCreateRawDisk win_ssd_c.vmdk /dev/nvme0n1 1,2,3
+"
 	ct_help $1
 
 	: ${1?' nome_do_arquivo'}
@@ -35,14 +38,14 @@ ${FUNCNAME[0]} <nome_do_arquivo> <device> <partition> [<outros>]"
             outros=" -partitions $partition"
         fi
 
-    sudo VBoxManage internalcommands createrawvmdk -filename "$nome_do_arquivo" -rawdisk $device $outros
+    echo_and_run sudo VBoxManage internalcommands createrawvmdk -filename "$nome_do_arquivo" -rawdisk $device $outros
 }
 
 
 # Para windows $device = \\.\physicaldrive0
 ct_vboxListPartition() {
     local device="$1"
-    VBoxManage internalcommands listpartitions -rawdisk "$device"
+    echo_and_run sudo VBoxManage internalcommands listpartitions -rawdisk "$device"
 }
 
 # https://forums.virtualbox.org/viewtopic.php?f=2&t=54591
