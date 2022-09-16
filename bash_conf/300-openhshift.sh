@@ -81,7 +81,8 @@ ct_oc_login() {
 # https://<URL-openshift-server>/console/command-line
 ct_oc_loginByToken() {
     : ${1?' <token>'}
-    $OC login $OC_SERVER_ADDR --token=$1
+    ct_oc_noproxy
+    $OC login --server=$OC_SERVER_ADDR --token=$1
 }
 
 ############### ADMIN ##################
