@@ -1,5 +1,3 @@
-[[ `isWin` == "1" ]] || { return ; }
-
 [[ -f /usr/bin/snap ]] || {
     # https://docs.snapcraft.io/core/usage
     # https://docs.snapcraft.io/core/install-ubuntu
@@ -80,13 +78,17 @@ __snap_pkgClassic() {
         flutter"
 }
 
-ct_snap_pkgEdge() {
+__snap_pkgEdge() {
     echo " notekit"
 }
 
 ct_snapDownloadAllDesenv() {
     local CLASSIC=$(__snap_pkgClassic)
     local EDGE=$(__snap_pkgEdge)
+
+    sudo apt install xdelta3
+
+    # para instalar os pacotes .snap, use: snap ack *.assert
 
     for i in $CLASSIC
         do

@@ -1,4 +1,4 @@
-[[ `isWin` == "1" ]] || { return ; }
+[[ `isWin` != "1" ]] || { return ; }
 
 [[ -f /usr/bin/qemu-x86_64 ]] || { return ; }
 

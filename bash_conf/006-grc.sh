@@ -2,7 +2,7 @@
 
 # Generic Colouriser
 
-[[ `isWin` == "1" ]] || { return ; }
+[[ `isWin` != "1" ]] || { return ; }
 
 [[ -f /usr/bin/grc ]] || {
    [[ $HASAPT = false ]] && { return; }

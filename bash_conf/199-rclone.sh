@@ -1,4 +1,4 @@
-[[ `isWin` == "1" ]] || { return ; }
+[[ `isWin` == "0" ]] || { return ; }
 
 [[ -f /usr/bin/rclone ]] || { return ; }
 
@@ -67,7 +67,7 @@ ct_rclone_mountAliasAllDrivers() {
         cmd="$cmd --use-mmap"
         cmd="$cmd --no-modtime"
         cmd="$cmd --no-seek"
-        cmd="$cmd --transfers 10 --checkers 10 --contimeout 60s --timeout 300s --retries 3 --low-level-retries 10 --stats 1s"
+        cmd="$cmd --transfers 8 --checkers 16   "
         cmd="$cmd --cache-dir ${tmp_log}"
         cmd="$cmd --daemon"                         # Run mount as a daemon (background mode). Not supported on Windows.
         cmd="$cmd --dir-perms 0755"                 # Directory permissions (default 0777)
@@ -79,8 +79,20 @@ ct_rclone_mountAliasAllDrivers() {
         cmd="$cmd --drive-chunk-size 32M"
         cmd="$cmd --cache-chunk-path /dev/shm"
         cmd="$cmd --log-level INFO"
-        cmd="$cmd --log-file=${tmp_log}/rclone.log"
+        cmd="$cmd --no-update-modtime"
+        cmd="$cmd --contimeout 60s"
+        cmd="$cmd --timeout 300s"
+        cmd="$cmd --drive-upload-cutoff=64M"
+    
+        #cmd="$cmd --drive-acknowledge-abuse"
+        cmd="$cmd --log-level DEBUG"
+        cmd="$cmd --retries 3"
+        cmd="$cmd --low-level-retries 10"
+        cmd="$cmd --stats 1s"
+        cmd="$cmd --poll-interval 15s"
+        #cmd="$cmd --rc"
 
+        cmd="$cmd --log-file=${tmp_log}/rclone.log"
 
         SCRIPT_FILE=$HOME/.config/caja/scripts/rclone/$i.sh
         ## criar arquivo scripts
@@ -117,4 +129,33 @@ ct_rclone_updateToken() {
 
 ct_rclone_open_config() {
     pluma ~/.config/rclone/rclone.conf
+}
+
+ct_rclone_oraclecloud() { 
+    # https://docs.oracle.com/pt-br/solutions/move-data-to-cloud-storage-using-rclone/configure-rclone-object-storage.html#GUID-9AEC25DB-091C-4E72-B0B9-1FFAC5AC0494
+
+    # http://blog.osdev.org/oci/2020/10/15/oci-objectstorage-with-rclone.html
+    
+    : ${1?' your_access_key'}
+    : ${2?' your_secret_key'}
+    : ${3?' your_region_identifier'}
+    : ${4?' your_namespace'}
+
+    #export RCLONE_CONFIG_OCI_TYPE=s3
+    #export RCLONE_CONFIG_OCI_ACCESS_KEY_ID=$1
+    #export RCLONE_CONFIG_OCI_SECRET_ACCESS_KEY=$2
+    #export RCLONE_CONFIG_OCI_REGION=$3
+    #export RCLONE_CONFIG_OCI_ENDPOINT=https://$4.compat.objectstorage.$RCLONE_CONFIG_OCI_REGION.oraclecloud.com
+
+    #env | grep RCLONE
+    echo "Adicione isso no rclone.conf"
+    echo "
+[oci]
+type = s3
+env_auth = false
+access_key_id = $1
+secret_access_key = $2
+region = $3
+endpoint = https://$4.compat.objectstorage.$3.oraclecloud.com
+"
 }

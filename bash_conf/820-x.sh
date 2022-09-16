@@ -1,4 +1,4 @@
-[[ `isWin` == "1" ]] || { return ; }
+[[ `isWin` != "1" ]] || { return ; }
 
 ct_x_prepare_to_display() {
     xauth list $DISPLAY > /tmp/.x

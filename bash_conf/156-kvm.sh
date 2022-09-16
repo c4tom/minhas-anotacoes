@@ -1,4 +1,4 @@
-[[ `isWin` == "1" ]] || { return ; }
+[[ `isWin` != "1" ]] || { return ; }
 
 # http://manpages.ubuntu.com/manpages/bionic/man1/guestmount.1.html
 

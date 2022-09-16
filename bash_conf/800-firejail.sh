@@ -1,4 +1,4 @@
-[[ `isWin` == "1" ]] || { return ; }
+[[ `isWin` != "1" ]] || { return ; }
 
 # https://firejail.wordpress.com/
 

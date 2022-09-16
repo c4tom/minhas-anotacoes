@@ -13,7 +13,7 @@
         echo ". $HOME/.asdf/completions/asdf.bash" >> ~/.bashrc
 
         echo "Criando Link simbolico em /desenv/asdf"
-        mkdir /desenv/asdf/{installs,downloads,plugins}; ln -sf /desenv/asdf/{installs,downloads,plugins} .
+        mkdir -p /desenv/asdf/{installs,downloads,plugins}; ln -sf /desenv/asdf/{installs,downloads,plugins} .
 
         sudo apt-get install dirmngr gpg curl gawk
         
