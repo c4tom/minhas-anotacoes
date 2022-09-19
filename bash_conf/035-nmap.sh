@@ -27,7 +27,7 @@ ct_nmap_scan_network_os() {
    echo_and_run sudo nmap -sT -O $1
 }
 
-ct_nmap_scan_localhost_ports() {
+ct_nmap_scan_host_ports() {
 	local hostip=${1:-"127.0.0.1"};
 	nmap --script default $hostip
 }
