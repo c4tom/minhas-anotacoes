@@ -12,7 +12,7 @@ then
         cd /tmp
         curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
         # only root can execute
-        chmod +500 wp-cli.phar
+        chmod 755 wp-cli.phar
         sudo mv wp-cli.phar /usr/bin/wp
 	}
 fi
