@@ -61,3 +61,9 @@ ct_monitor_my_router() {
 		sleep 30
 	done
 }
+
+
+ct_my_ip_internet() {
+	IP=$(curl -s https://whatismyip.com.br/ | grep -A 1 "IP<" | grep "left" | sed -e 's/<[^>]*>//g')
+	echo $IP
+}
