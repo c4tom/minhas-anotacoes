@@ -384,3 +384,9 @@ ct_dictionaryFromFile() {
 
     cat "$1" | tr [:upper:] [:lower:] | tr -d [:punct:] | tr -d [:digit:] | tr ' ' '\n' | sort | uniq
 }
+
+
+
+ct_diff() {
+    alias diff='diff --width=$COLUMNS --suppress-common-lines --side-by-side --color=always' "$1" "$2"
+}
