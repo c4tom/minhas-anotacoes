@@ -31,6 +31,9 @@ ct_oracloud_install_mariadbServer() {
    sudo apt install mariadb-server
 }
 
+
+## https://docs.oracle.com/cd/F18489_01/html/isr_63_security/GUID-88150171-1F62-463D-83AE-101C9BA579BD.htm
+
 ct_oracloud_firewalld_add_rules() {
    : ${1?' <list ports - enclosed by quotes. "80 443 3389 3306">'}
    : ${2?' zone=(public|docker|????). Ps: get all active zone-> firewall-cmd --get-active-zones'}
@@ -55,6 +58,28 @@ ct_oracloud_firewalld_listAll() {
 # Get all services available
 ct_oracloud_firewalld_getServices() {
    echo_and_run sudo firewall-cmd --get-services
+}
+
+ct_oracloud_firewalld_add_samba() {
+   # ip -4 -j address
+
+   echo "Intefaces available"
+   [[ -f "/usr/bin/jq" ]] || {
+      sudo apt install -y jq
+   }
+   
+   ip -4 -j a | jq '.[] | {ifname, local: .addr_info[].local}'
+
+   : ${1?' <interface>'}
+   : ${2?' <network 10.1.1.0/24>'}
+
+   local INTERFACE=$1
+   #sudo firewall-cmd --permanent --zone=home --add-service=samba
+   sudo firewall-cmd --permanent --zone=home --add-service=zerotier
+   sudo firewall-cmd --info-zone=home
+   sudo firewall-cmd --permanent --zone=home --add-interface=$INTERFACE
+   sudo firewall-cmd --permanent --zone=home --add-source="$NETWORK"
+   sudo firewall-cmd --permanent --zone=home --set-target=ACCEPT
 }
 
 # install OpenLiteSpeed
