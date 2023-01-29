@@ -139,9 +139,9 @@ mymint_encrypt_hdd() {
 
 
 mymint_install_httptoolkit() {
-
+    local VERSION=1.12.2
     cd /tmp
-    wget -c https://github.com/httptoolkit/httptoolkit-desktop/releases/download/v1.8.0/HttpToolkit-1.8.0.deb
+    wget -c https://github.com/httptoolkit/httptoolkit-desktop/releases/download/v${VERSION}/HttpToolkit-${VERSION}.deb
 
-    sudo dpkg -i HttpToolkit-1.8.0.deb
+    sudo dpkg -i HttpToolkit-${VERSION}.deb
 }
