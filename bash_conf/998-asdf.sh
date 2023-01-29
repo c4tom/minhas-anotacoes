@@ -22,9 +22,10 @@
 }
 
 ct_asdf_addPlugin_nodejs() {
+    local VERSION=${1:-"latest"};
     echo_and_run asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
-    echo_and_run asdf install nodejs latest
-    echo_and_run asdf global nodejs latest
+    echo_and_run asdf install nodejs $VERSION
+    echo_and_run asdf global nodejs $VERSION
 }
 
 ct_asdf_nodejs_install_version() {
