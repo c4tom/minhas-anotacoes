@@ -38,7 +38,15 @@ sys_status() {
 
 
 }
-sys_status
+
+if [ -f /usr/bin/neofetch ]
+then
+    sys_status
+    echo "Use neofetch"
+else
+    sys_status
+fi
+
 
 function child() {
     local parent_pid="$1"
