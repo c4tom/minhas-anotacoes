@@ -54,7 +54,7 @@ ct_rclone_mountAliasAllDrivers() {
 
     for i in $DRIVERS 
     do
-        tmpdir="$target_dir/$i"
+        tmpdir="$RCLONE_TARGET_DIR/$i"
         
         mkdir -p "$tmpdir"
 
@@ -70,30 +70,29 @@ ct_rclone_mountAliasAllDrivers() {
         cmd="$cmd --use-mmap"
         cmd="$cmd --no-modtime"
         cmd="$cmd --no-seek"
-        cmd="$cmd --transfers 20 --checkers 20"
+        cmd="$cmd --transfers 8 --checkers 16   "
+        cmd="$cmd --cache-dir ${tmp_log}"
         cmd="$cmd --daemon"                         # Run mount as a daemon (background mode). Not supported on Windows.
         cmd="$cmd --dir-perms 0755"                 # Directory permissions (default 0777)
         cmd="$cmd --file-perms 0666"           
         cmd="$cmd --allow-non-empty"
         cmd="$cmd --debug-fuse"                     # Debug the FUSE internals - needs -v
-        cmd="$cmd --buffer-size 500M"
-        cmd="$cmd --drive-chunk-size 32M"
-        cmd="$cmd --cache-chunk-path $tmpdir"
-        cmd="$cmd --cache-dir ${tmp_log}"
-        cmd="$cmd --dir-cache-time 24h"
         cmd="$cmd --write-back-cache"               # Makes kernel buffer writes before sending them to rclone. Without this, writethrough caching is used. Not supported on Windows.
-
+        cmd="$cmd --buffer-size 1G"
+        cmd="$cmd --drive-chunk-size 32M"
+        cmd="$cmd --cache-chunk-path /dev/shm"
+        cmd="$cmd --log-level INFO"
         cmd="$cmd --no-update-modtime"
         cmd="$cmd --contimeout 60s"
         cmd="$cmd --timeout 300s"
         cmd="$cmd --drive-upload-cutoff=64M"
     
-        cmd="$cmd --drive-acknowledge-abuse"
+        #cmd="$cmd --drive-acknowledge-abuse"
         cmd="$cmd --log-level DEBUG"
         cmd="$cmd --retries 3"
         cmd="$cmd --low-level-retries 10"
         cmd="$cmd --stats 1s"
-        cmd="$cmd --poll-interval 300s"
+        cmd="$cmd --poll-interval 15s"
         #cmd="$cmd --rc"
 
         cmd="$cmd --log-file=${tmp_log}/rclone.log"
