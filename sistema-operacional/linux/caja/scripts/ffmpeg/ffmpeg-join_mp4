@@ -1,0 +1,20 @@
+#!/bin/sh
+
+VIDEOS="$1 $2 $3 $4 $5"
+
+data=${PWD##*/}
+
+
+JOIN="concat:"
+
+for i in $VIDEOS
+do
+	JOIN=$JOIN"|$i"
+done
+
+CMD=$(echo "ffmpeg -i \"$JOIN\" -c copy $data.mp4" | sed "s#:|#:#")
+
+eval $CMD
+
+
+notify-send $CMD

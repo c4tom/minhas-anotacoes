@@ -1,0 +1,12 @@
+if [ -f /tmp/rdp/*.rdp ]; then
+
+    for i in *.rdp
+    do
+        echo "$i"
+        sed -i "s/screen mode id:i:2/screen mode id:i:1/g" "$i"
+    done
+
+    echo y | xfreerdp /tmp/rdp/*.rdp 
+    sleep 5 ; rm /tmp/rdp/*.rdp
+fi
+

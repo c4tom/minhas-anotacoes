@@ -1,0 +1,17 @@
+#!/bin/sh
+
+
+VIDEOS="$1 $2 $3 $4 $5"
+
+data=${PWD##*/}
+
+
+JOIN="concat:"
+
+for i in $VIDEOS
+do
+	ffmpeg -i "$i" -c:v copy -c:a aac -strict experimental -b:a 128k "$i.mp4"
+
+	notify-send "Done convert $i"
+done
+

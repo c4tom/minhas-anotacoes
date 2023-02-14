@@ -1,0 +1,15 @@
+#!/bin/bash
+
+filepw="$HOME/.cpl"
+
+if [[ -f "$filepw" ]]
+then
+    pass=$(cat $filepw)
+else
+    pass=$(zenity --password)
+fi
+
+if [[ ! -z "$pass" ]]
+then
+    xfreerdp /u:c049262 /p:$pass /w:1920 /h:1030 +compression -wallpaper -menu-anims -themes +clipboard +decorations +auto-reconnect /auto-reconnect-max-retries:20 /v:10.64.81.241
+fi

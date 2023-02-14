@@ -1,0 +1,21 @@
+#!/bin/sh
+
+VIDEOS="$1 $2 $3 $4 $5"
+
+data=${PWD##*/}
+
+filename=$(kdialog --inputbox "Digite o nome do arquivo SEM .mp4" "$data-$1")
+
+JOIN="concat:"
+
+for i in $VIDEOS
+do
+	JOIN=$JOIN"|$i"
+done
+
+CMD=$(echo "ffmpeg -i \"$JOIN\" -c copy $filename.mts" | sed "s#:|#:#")
+
+eval $CMD
+
+
+notify-send $CMD

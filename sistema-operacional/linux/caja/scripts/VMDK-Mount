@@ -1,0 +1,10 @@
+#!/bin/sh
+
+
+kdialog --password "Senha Sudo"
+
+xterm
+
+sudo vmware-mount -p "$1"
+
+
