@@ -21,7 +21,8 @@ ct_ssh_agentIsRunning() {
 ct_ssh_socksEnable() {
     ${1?' <host to connect>'}
     local port=${2:-"1080"};
-    echo_and_run ssh $1 -D $port -f -C -q -N 
+    cmd="ssh -f -C -q -N -D $port $1 "
+    echo_and_run $cmd
 }
 
 ## https://www.ssh.com/academy/ssh/tunneling/example
