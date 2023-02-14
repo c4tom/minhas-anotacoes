@@ -67,3 +67,9 @@ ct_my_ip_internet() {
 	IP=$(curl -s https://whatismyip.com.br/ | grep -A 1 "IP<" | grep "left" | sed -e 's/<[^>]*>//g')
 	echo $IP
 }
+
+ct_net_list_all_listen_ports() {
+	echo_and_run sudo lsof -i -P -n | grep LISTEN
+	echo_and_run sudo ss -tulpn | grep LISTEN
+}
+
