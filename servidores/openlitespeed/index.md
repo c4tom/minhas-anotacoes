@@ -3,7 +3,8 @@
 ## Instalação
 
 - https://openlitespeed.org/kb/install-ols-from-litespeed-repositories/
-  - CentOS 5-8
+  - CentOS 5-8 
+    - [Alma linux / Oracle Linux](alma_oraclelinux.md)
   - Debian 7-10
   - Ubuntu 12.04, 14.04, 16.04, 18.04
 
