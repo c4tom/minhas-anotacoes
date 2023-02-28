@@ -16,3 +16,8 @@ ct_monitorar_pasta() {
       inotifywait -e modify,create,delete,move -r $1
    done
 }
+
+ct_monitorar_pasta_mostrando_linha() {
+   : ${1?' informe a pasta'}
+   inotifywait -m -r --format '%w%f %e' "$1" | while read line; do echo "$line"; done
+}
