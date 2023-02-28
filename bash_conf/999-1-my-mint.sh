@@ -172,3 +172,35 @@ mymint_install_httptoolkit() {
 
     sudo dpkg -i HttpToolkit-${VERSION}.deb
 }
+
+# A configuração do Cloudflare Tunnel envolve os seguintes passos:
+# 1. Inscreva-se no Cloudflare: Acesse o site do Cloudflare e crie uma conta.
+# 2. Adicione um site: Adicione seu site ao Cloudflare para ativar a proteção contra ataques DDoS e otimização de entrega de conteúdo.
+# 3. Instale a CLI do Cloudflared: Baixe e instale a CLI (linha de comando) do Cloudflared em seu dispositivo.
+# 4. Crie um certificado: Crie um certificado SSL para seu site usando a CLI do Cloudflared.
+# 5. Inicie o tunnel: Inicie o tunnel entre seu dispositivo e o Cloudflare usando a CLI do Cloudflared.
+# 6. Atualize o DNS: Atualize as configurações DNS do seu site para apontar para o endereço IP do tunnel.
+# 7. Teste o tunnel: Teste o tunnel para garantir que ele esteja funcionando corretamente.
+mymint_cloudflare_warp_install() {
+    cd /tmp
+    wget -c -q https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb && sudo dpkg -i cloudflared-linux-amd64.deb
+
+    # cloudflared tunnel login
+    # https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/install-and-setup/tunnel-guide/local/#set-up-a-tunnel-locally-cli-setup
+    cloudflared tunnel login
+
+    sysctl -w net.core.rmem_max=2500000
+
+    #cloudflared tunnel --url https://nc.advertenciafinal.com.br
+
+    #cloudflared tunnel list
+
+    #cloudflared tunnel create <nome_do_tunnel>
+
+    #cloudflared tunnel route dns <UUID or NAME> <hostname, é um subdominio novo, nao criado no DNS>
+
+    #cloudflared tunnel run <UUID or NAME>
+
+
+    # um outro exemplo https://www.youtube.com/watch?v=RQ-6dActAr8
+}
