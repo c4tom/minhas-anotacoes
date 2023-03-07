@@ -1,3 +1,3 @@
 #!/bin/sh
 
-ln -sf `pwd`/scripts ~/.config/caja/scripts
+ln -sf `pwd`/scripts ~/.config/caja/
