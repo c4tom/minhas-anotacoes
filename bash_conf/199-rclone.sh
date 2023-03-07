@@ -28,7 +28,7 @@ ct_rclone_enable_allow_others() {
 
 ct_rclone_mountAliasAllDrivers() {
 
-    local tmp_log=${1:-"/discok/tmp"};
+    local tmp_log=${1:-"/tmp/log"};
     local target_dir=${2:-"$RCLONE_TARGET_DIR"}
     # rclone listremotes
     # local DRIVERS=$(cat ~/.config/rclone/rclone.conf  | grep "\[" |sed "s/\[\(.*\)]/\1/")
@@ -49,6 +49,7 @@ ct_rclone_mountAliasAllDrivers() {
     fi
 
     mkdir -p $RCLONE_SCRIPTS
+    mkdir -p $tmp_log
 
     rm -f $RCLONE_SCRIPTS/*
 
