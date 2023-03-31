@@ -246,8 +246,11 @@ setTimeout(() => {
 
   //= =========================
   console.log('  - Coluna Ticket e Status');
-  jQuery('.prioridade, .numero, .status, .SLA').removeClass('w100').css('padding', '0')
+  jQuery('.prioridade, .numero, .status, .SLA').removeClass('w100').css('padding', '0');
 
+
+  console.log('  - Zebrinha');
+  jQuery(".tableless-tr:odd").css('background-color','#DFDFDF');
 
   //==========================
  console.log("  - Toggle Descrição");
