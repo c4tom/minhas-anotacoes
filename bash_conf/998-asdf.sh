@@ -67,3 +67,7 @@ ct_asdf_addPlugin_java() {
     echo ""
     echo_and_run asdf install java $version
 }
+
+ct_asdf_dashboard() {
+    asdf current
+}
