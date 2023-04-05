@@ -71,6 +71,7 @@ ct_rclone_mountAliasAllDrivers() {
         cmd="$cmd --use-mmap"                   # Quando essa opção é habilitada, o rclone usa o mmap para acessar arquivos grandes, o que pode melhorar o desempenho em algumas situações. No entanto, o uso do mmap pode consumir muita memória,
         cmd="$cmd --no-modtime"
         cmd="$cmd --no-seek"
+        cmd="$cmd --fast-list"
         cmd="$cmd --transfers 8 --checkers 16" # define o número de transferências simultâneas que o rclone usa para enviar e receber arquivos. Por padrão, o rclone usa 4 transferências simultâneas. Definir um número maior pode melhorar o desempenho em sistemas de arquivos remotos rápidos ou em conexões de internet rápidas.
         cmd="$cmd --cache-dir ${tmp_cache_dir}"
         cmd="$cmd --daemon"                         # Run mount as a daemon (background mode). Not supported on Windows.
