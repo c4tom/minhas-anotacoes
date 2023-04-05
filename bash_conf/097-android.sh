@@ -1,4 +1,4 @@
-export ANDROID_SDK_ROOT=/Android/Sdk
+export ANDROID_SDK_ROOT=/desenv/Android/Sdk
 
 
 ct_androidInstallAVD() {
