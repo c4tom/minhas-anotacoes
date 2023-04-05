@@ -3,6 +3,10 @@
 [[ -f /usr/bin/rclone ]] || { return ; }
 
 
+ct_rclone_edit_config_file() {
+    open ~/.config/rclone/rclone.conf
+}
+
 ct_rclone_update_version() {
     local rclone_versao_instalada=$(rclone version | grep "^rclone" | awk '{print $2}')
     local rclone_disponivel=$(curl -s 'https://rclone.org/downloads/#downloads-for-scripting' | pandoc -f html -t plain | grep Release | head -n 1 | awk '{print $2}')
@@ -28,19 +32,15 @@ ct_rclone_enable_allow_others() {
 
 ct_rclone_mountAliasAllDrivers() {
 
-    local tmp_log=${1:-"/tmp/log"};
+    local tmp_cache_dir=${1:-"/tmp/rclone"};
     local target_dir=${2:-"$RCLONE_TARGET_DIR"}
-    # rclone listremotes
-    # local DRIVERS=$(cat ~/.config/rclone/rclone.conf  | grep "\[" |sed "s/\[\(.*\)]/\1/")
     local DRIVERS=$(rclone listremotes | sed "s/://")
-
     local cmd;
-
     local tmpdir;
 
     ct_bashNaoQuebraLinha
 
-    RCLONE_SCRIPTS=$HOME/.config/caja/scripts/rclone/
+    RCLONE_CAJA_SCRIPTS=$HOME/.config/caja/scripts/rclone/
 
     if [[ -n `cat /etc/fuse.conf | grep "#user_allow"` ]]
         then
@@ -48,10 +48,10 @@ ct_rclone_mountAliasAllDrivers() {
         return;
     fi
 
-    mkdir -p $RCLONE_SCRIPTS
-    mkdir -p $tmp_log
+    mkdir -p $RCLONE_CAJA_SCRIPTS
+    mkdir -p $tmp_cache_dir
 
-    rm -f $RCLONE_SCRIPTS/*
+    rm -f $RCLONE_CAJA_SCRIPTS/*
 
     for i in $DRIVERS 
     do
@@ -66,29 +66,32 @@ ct_rclone_mountAliasAllDrivers() {
         cmd="$cmd --check-first"                    # especifica que o rclone deve verificar se os arquivos já existem no destino antes de transferi-los.
 
         cmd="$cmd --vfs-cache-mode writes"         # Cache mode off|minimal|writes|full (default off) - In this mode all reads and writes are buffered to and from disk. When data is read from the remote this is buffered to disk as well.
-        cmd="$cmd --vfs-read-chunk-size 128M"
+        cmd="$cmd --vfs-read-chunk-size 64M"    # é usada para definir o tamanho dos chunks que o rclone lê do sistema de arquivos remoto durante a leitura de um arquivo.
         cmd="$cmd --vfs-cache-max-age 1h0m0s"       # Max age of objects in the cache (default 1h0m0s)        
-        cmd="$cmd --use-mmap"
+        cmd="$cmd --use-mmap"                   # Quando essa opção é habilitada, o rclone usa o mmap para acessar arquivos grandes, o que pode melhorar o desempenho em algumas situações. No entanto, o uso do mmap pode consumir muita memória,
         cmd="$cmd --no-modtime"
         cmd="$cmd --no-seek"
-        cmd="$cmd --transfers 8 --checkers 16   "
-        cmd="$cmd --cache-dir ${tmp_log}"
+        cmd="$cmd --transfers 8 --checkers 16" # define o número de transferências simultâneas que o rclone usa para enviar e receber arquivos. Por padrão, o rclone usa 4 transferências simultâneas. Definir um número maior pode melhorar o desempenho em sistemas de arquivos remotos rápidos ou em conexões de internet rápidas.
+        cmd="$cmd --cache-dir ${tmp_cache_dir}"
         cmd="$cmd --daemon"                         # Run mount as a daemon (background mode). Not supported on Windows.
         cmd="$cmd --dir-perms 0755"                 # Directory permissions (default 0777)
         cmd="$cmd --file-perms 0666"           
         cmd="$cmd --allow-non-empty"
-        cmd="$cmd --debug-fuse"                     # Debug the FUSE internals - needs -v
-        cmd="$cmd --write-back-cache"               # Makes kernel buffer writes before sending them to rclone. Without this, writethrough caching is used. Not supported on Windows.
-        cmd="$cmd --buffer-size 1G"
+        cmd="$cmd --debug-fuse"                     # Debug the FUSE internals - needs -v, Quando essa opção é habilitada, o rclone exibe mensagens de depuração detalhadas sobre as operações do sistema de arquivos FUSE, o que pode ser útil para diagnosticar problemas de montagem do sistema de arquivos remoto.
+        cmd="$cmd --write-back-cache"               # Quando essa opção é habilitada, o rclone armazena em cache as gravações em um diretório local e as envia em segundo plano para o sistema de arquivos remoto. Isso pode melhorar o desempenho em sistemas de arquivos remotos lentos ou em conexões de internet lentas, pois permite que o rclone continue gravando arquivos localmente enquanto envia as gravações para o sistema de arquivos remoto em segundo plano.
+        cmd="$cmd --buffer-size 256M"         #  é usada para definir o tamanho do buffer usado pelo rclone para ler e gravar arquivos durante a sincronização em sistemas de arquivos remotos.
         cmd="$cmd --drive-chunk-size 32M"
         cmd="$cmd --cache-chunk-path /dev/shm"
         cmd="$cmd --log-level INFO"
         cmd="$cmd --no-update-modtime"
         cmd="$cmd --contimeout 60s"
         cmd="$cmd --timeout 300s"
-        cmd="$cmd --drive-upload-cutoff=64M"
+        cmd="$cmd --drive-upload-cutoff=64M" # Por padrão, o rclone divide arquivos grandes em chunks de 8 MB para fazer upload para o Google Drive, o que pode melhorar o desempenho. No entanto, para arquivos menores, fazer upload diretamente pode ser mais rápido e eficiente.
     
-        #cmd="$cmd --drive-acknowledge-abuse"
+        cmd="$cmd --drive-acknowledge-abuse" # Quando essa opção é habilitada, o rclone exibirá uma mensagem de aviso no console informando que o uso indevido pode levar à suspensão da conta do Google e pedirá que você confirme que está ciente dos riscos e que está usando o rclone por sua conta e risco.
+
+
+
         cmd="$cmd --log-level DEBUG"
         cmd="$cmd --retries 3"
         cmd="$cmd --low-level-retries 10"
@@ -96,7 +99,7 @@ ct_rclone_mountAliasAllDrivers() {
         cmd="$cmd --poll-interval 15s"
         #cmd="$cmd --rc"
 
-        cmd="$cmd --log-file=${tmp_log}/rclone.log"
+        cmd="$cmd --log-file=${tmp_cache_dir}/rclone.log"
 
         SCRIPT_FILE=$HOME/.config/caja/scripts/rclone/$i.sh
         ## criar arquivo scripts
@@ -123,7 +126,7 @@ ct_rclone_umountAllDrivers() {
 }
 
 ct_rclone_webgui() {
-    rclone rcd --rc-web-gui
+    rclone rcd --rc-web-gui --rc-web-gui-force-update
 }
 
 ct_rclone_updateToken() {
