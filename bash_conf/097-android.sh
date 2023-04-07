@@ -2,15 +2,23 @@ export ANDROID_SDK_ROOT=/desenv/Android/Sdk
 
 
 ct_androidInstallAVD() {
-    cd /tmp/
-    local FILENAME_CMD="commandlinetools-linux-7583922_latest.zip"
-    wget -c "https://dl.google.com/android/repository$FILENAME_CMD"
-    mkdir -p $ANDROID_SDK_ROOT; cd $ANDROID_SDK_ROOT
-    unzip /tmp/$FILENAME_CMD
-    cd cmdline-tools
-    mkdir -p latest
-    mv bin lib latest
 
+    if [ ! -f $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/avdmanager ]
+    then
+        cd /tmp/
+        #https://mirrors.cloud.tencent.com/AndroidSDK/commandlinetools-linux-9645777_latest.zip
+        local FILENAME_CMD="commandlinetools-linux-9645777_latest.zip"
+        wget -c "https://dl.google.com/android/repository/$FILENAME_CMD"
+        mkdir -p $ANDROID_SDK_ROOT; cd $ANDROID_SDK_ROOT
+        unzip /tmp/$FILENAME_CMD
+        cd cmdline-tools
+        mkdir -p latest
+        mv bin lib latest
+    else
+        echo "Já instalado"
+    fi
+
+    $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/avdmanager list avd
 }
 
 
@@ -50,7 +58,7 @@ ct_androidInstallSDK() {
 
 ct_androidCreateEmulatorpixel_4_0_play() {
     echo_and_run $ANDROID_CMDL_TOOLS/sdkmanager --sdk_root=$ANDROID_SDK_ROOT --install "system-images;android-24;google_apis_playstore;x86"
-    local cmd=$( echo "no" | $ANDROID_CMDL_TOOLS/avdmanager --verbose create avd --force --name "Pixel_4_API_24_NOUGAT_xxx" --device "pixel" --package "system-images;android-24;google_apis_playstore;x86" --tag "google_apis" --abi "x86")
+    local cmd=$( echo "no" | $ANDROID_CMDL_TOOLS/avdmanager --verbose create avd --force --name "Pixel_4_API_24_NOUGAT_xxx" --device "pixel" --package "system-images;android-24;google_apis_playstore;x86" --tag "google_apis_playstore" --abi "x86")
     echo_and_run $cmd
 }
 
