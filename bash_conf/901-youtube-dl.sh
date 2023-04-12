@@ -56,3 +56,7 @@ ct_youtubeDownload480() {
   local YOUTUBE_URL="$1"
   youtube-dl -f 'bestvideo[height<=480]+bestaudio/best[height<=480]' "$YOUTUBE_URL"
 }
+
+ct_youtube_download_mp3() {
+  youtube-dl --extract-audio --audio-format mp3 "$1"
+}
