@@ -21,6 +21,28 @@
     return; 
 }
 
+ct_asdf_convert_dos2unix() {
+    for i in $(find . -not -path "./.git/*" -type f)
+    do 
+        MIME=$(file --mime-type -b "$i");  
+        if test $MIME = "text/x-shellscript"
+            then 
+                echo $i; 
+                dos2unix "$i"; 
+        fi
+        dos2unix lib/asdf.sh
+    done
+
+    for i in $(find . -name "*.bash")
+    do 
+        dos2unix "$i"; 
+    done
+}
+
+
+
+
+
 ct_asdf_addPlugin_nodejs() {
     local VERSION=${1:-"latest"};
     echo_and_run asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
