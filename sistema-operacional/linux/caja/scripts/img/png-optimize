@@ -1,0 +1,12 @@
+#!/bin/bash
+
+[[ -f /usr/bin/pngquant ]] || { 
+    gdialog --infobox "Favor, instale: sudo apt install pngquant" 300 200
+    return
+}
+
+ext=`echo "$1"| awk -F . '{print $NF}'`
+nomeBasename=`basename -s .$ext "$1"`
+    
+pngquant --verbose "$1" --output "$nomeBasename""_min.$ext"
+
