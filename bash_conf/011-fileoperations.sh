@@ -76,6 +76,20 @@ done
 }
 
 
+# return filename without extension and extension $1 $2
+# Bug: se tiver espaço ou caracteres especial nao funcionará
+ct_filename_ext() {
+	local filename=$(basename $1)
+    local filenameSemExt=`echo ${filename%%.*}`
+    local ext=`echo ${filename##*.}`
+    
+    echo $filenameSemExt $ext
+
+    # para atribuir a variaveis, use
+    # read nome ext <<< `ct_filename_ext <filename>`
+}
+
+
 ct_ls_com_octal() {
     stat -c '%n|%a|%A|%F|%U|%G|%s' * | column -t -s "|"
 }
