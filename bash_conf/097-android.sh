@@ -1,39 +1,46 @@
 export ANDROID_SDK_ROOT=/desenv/Android/Sdk
 
+[[ -f $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager ]] || { 
+    # Para rodar o AVD precisa do ANDROID SDK
 
-ct_androidInstallAVD() {
+    # This function install cmdlinetools (with AVD Manager)
+    ct_android_AVD_install() {
 
-    if [ ! -f $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/avdmanager ]
-    then
-        cd /tmp/
-        #https://mirrors.cloud.tencent.com/AndroidSDK/commandlinetools-linux-9645777_latest.zip
-        local FILENAME_CMD="commandlinetools-linux-9645777_latest.zip"
-        wget -c "https://dl.google.com/android/repository/$FILENAME_CMD"
-        mkdir -p $ANDROID_SDK_ROOT; cd $ANDROID_SDK_ROOT
-        unzip /tmp/$FILENAME_CMD
-        cd cmdline-tools
-        mkdir -p latest
-        mv bin lib latest
-    else
-        echo "Já instalado"
-    fi
+        if [ ! -f $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/avdmanager ]
+        then
+            cd /tmp/
+            #https://mirrors.cloud.tencent.com/AndroidSDK/commandlinetools-linux-9645777_latest.zip
+            local FILENAME_CMD="commandlinetools-linux-9477386_latest.zip"
+            wget -c "https://dl.google.com/android/repository/$FILENAME_CMD"
+            mkdir -p $ANDROID_SDK_ROOT; cd $ANDROID_SDK_ROOT
+            unzip /tmp/$FILENAME_CMD
+            cd cmdline-tools
+            mkdir -p latest
+            mv bin lib latest
+        else
+            echo "Já instalado"
+        fi
 
-    $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/avdmanager list avd
+        $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/avdmanager list avd
+    }
+    return ; 
 }
 
+[[ -f /usr/local/bin/apktool ]] || {
 
-# https://ibotpeaches.github.io/Apktool/install/
-ct_apktool_install() {
-    local APKTOOL_JAR_VERSION=2.6.1
-    cd /tmp
-    echo_and_run curl -k -o apktool https://raw.githubusercontent.com/iBotPeaches/Apktool/master/scripts/linux/apktool
-    echo_and_run curl -k -o apktool.jar https://bitbucket.org/iBotPeaches/apktool/downloads/apktool_$APKTOOL_JAR_VERSION.jar
-    echo_and_run chmod +x apktool.jar apktool
-    echo_and_run sudo cp -f apktool.jar apktool /usr/local/bin
+    # https://ibotpeaches.github.io/Apktool/install/
+    ct_apktool_install() {
+        local APKTOOL_JAR_VERSION=2.7.0
+        cd /tmp
+        echo_and_run curl -L -k -o apktool https://raw.githubusercontent.com/iBotPeaches/Apktool/master/scripts/linux/apktool
+        echo_and_run curl -L -k -o apktool.jar https://bitbucket.org/iBotPeaches/apktool/downloads/apktool_$APKTOOL_JAR_VERSION.jar
+        https://bitbucket.org/iBotPeaches/apktool/downloads/apktool_2.7.0.jar
+        echo_and_run chmod +x apktool.jar apktool
+        echo_and_run sudo cp -f apktool.jar apktool /usr/local/bin
 
+    }
+    return ;
 }
-
-[[ -f $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager ]] || { return ; }
 
 export ANDROID_CMDL_TOOLS=$ANDROID_SDK_ROOT/cmdline-tools/latest/bin
 
@@ -47,7 +54,7 @@ ct_androidInstallEmulator() {
 
 # Google Play Intel x86 Atom System Image (system-images;android-24;google_apis_playstore;x86)
 
-ct_androidInstallSDK() {
+ct_android_SDK_Install() {
     $ANDROID_CMDL_TOOLS/sdkmanager --sdk_root=$ANDROID_SDK_ROOT --list | grep system-images
     echo "Escolha qual deseja instalar: "
     read opcao
@@ -105,3 +112,12 @@ export ANDROID_HOME=$ANDROID_SDK_ROOT
 export ANDROID_AVD_HOME=/Android/AVD
 
 
+
+ct_android_dev_dashboard() {
+
+    echo "######### SDK Installed #######"
+    $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --list_installed
+
+    echo "######### AVDs #######"
+    $ANDROID_EMULATOR -list-avds
+}
