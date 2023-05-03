@@ -63,13 +63,13 @@ ct_android_SDK_Install() {
 
 # https://gist.github.com/mrk-han/66ac1a724456cadf1c93f4218c6060ae
 
-ct_androidCreateEmulatorpixel_4_0_play() {
+ct_android_AVD_CreateEmulatorpixel_4_0_play() {
     echo_and_run $ANDROID_CMDL_TOOLS/sdkmanager --sdk_root=$ANDROID_SDK_ROOT --install "system-images;android-24;google_apis_playstore;x86"
     local cmd=$( echo "no" | $ANDROID_CMDL_TOOLS/avdmanager --verbose create avd --force --name "Pixel_4_API_24_NOUGAT_xxx" --device "pixel" --package "system-images;android-24;google_apis_playstore;x86" --tag "google_apis_playstore" --abi "x86")
     echo_and_run $cmd
 }
 
-ct_androidCreateEmulatorPixelAOSP() {
+ct_android_AVD_CreateEmulatorPixelAOSP() {
     # Install AVD files
     yes | $ANDROID_HOME/tools/bin/sdkmanager --install 'system-images;android-29;default;x86'
     yes | $ANDROID_HOME/tools/bin/sdkmanager --licenses
@@ -98,7 +98,7 @@ ct_androidCreateEmulatorPixelAOSP() {
 # Define path emulator
 ANDROID_EMULATOR="$ANDROID_SDK_ROOT/emulator/emulator"
 
-ct_androidRunEmulatorAVD() {
+ct_android_AVD_RunEmulator() {
     echo "Escolha qual AVD?"
     echo 
     echo_and_run $ANDROID_EMULATOR -list-avds
