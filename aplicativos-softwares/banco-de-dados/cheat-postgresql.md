@@ -161,17 +161,18 @@ template1</td>
 </tbody>
 </table>
 
-<code>
-<pre>
 
-# Instalação do Zero (windows)
-pg_ctl -D /pasta/de/dados initdb
+# Instalação do Zero (windows) com o Super Usuario
+`initdb.exe -U postgres -W -D D:\caminho\da\pasta\do\BD`
 
 # Iniciar o banco 
-pg_ctl -D /pasta/de/dados -l logfile start
+`pg_ctl -D /pasta/de/dados -l logfile start`
 
-</pre>
-</code>
+# Parar o banco
+`pg_ctl -D /pasta/de/dados -l logfile stop`
+
+
+
 
 # Mais
 
