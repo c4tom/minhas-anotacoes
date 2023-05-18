@@ -33,7 +33,7 @@ sys_status() {
             echo "    $(echo "UPTIME :") $(echo ${UPTIME})"
     fi
   
-    DISK=$(df -l -h | awk '$NF=="/"{printf "%d/%dGB (%s)\n", $3,$2,$5}')
+    DISK=$(df -h | awk '$NF=="/"{printf "%d/%dGB (%s)\n", $3,$2,$5}')
     echo "    $(echo "Disk   :") $(echo ${DISK})"
 
 
