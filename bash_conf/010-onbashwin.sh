@@ -1,6 +1,10 @@
 
-[[ $OS = "Windows_NT" ]] || { return ; }
+[[ $OS = "Windows_NT" ]] || { 
+    return ;
+}
 
-tree() {
-    find . -print | sed -e 's;[^/]*/;|-- ;g;s;-- |; |;g'
+[[ -z "`type -t tree`" ]] || {
+    tree(){
+        find . -print | sed -e 's;[^/]*/;|-- ;g;s;-- |; |;g'
+    }
 }

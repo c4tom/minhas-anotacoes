@@ -161,18 +161,71 @@ template1</td>
 </tbody>
 </table>
 
-<code>
-<pre>
 
-# Instalação do Zero (windows)
-pg_ctl -D /pasta/de/dados initdb
+# Instalação do Zero (windows) com o Super Usuario
+`initdb.exe -U postgres -W -D D:\caminho\da\pasta\do\BD`
 
-# Iniciar o banco 
-pg_ctl -D /pasta/de/dados -l logfile start
+# Iniciar/Parar o banco 
 
-</pre>
-</code>
+`pg_ctl -D /pasta/de/dados -l logfile start`
 
+`pg_ctl -D /pasta/de/dados -l logfile stop`
+
+
+# FDW
+
+FDW (Foreign Data Wrapper) é uma funcionalidade do PostgreSQL que permite acessar dados armazenados em fontes externas como se fossem tabelas locais dentro do banco de dados. Ele fornece uma maneira de estender o PostgreSQL para se conectar e consultar dados em sistemas de bancos de dados externos, como outros bancos de dados PostgreSQL, bancos de dados MySQL, Oracle, SQL Server, APIs REST, arquivos CSV, entre outros.
+
+Ao configurar um FDW, é possível criar tabelas estrangeiras que fazem referência a esses dados externos, permitindo que consultas sejam realizadas em diferentes fontes de dados sem a necessidade de migração ou duplicação dos dados para o banco de dados PostgreSQL.
+
+Essa funcionalidade é útil em casos de integração de dados, consolidação de informações distribuídas em diferentes sistemas, migração de dados ou mesmo para realizar consultas federadas em várias fontes de dados simultaneamente. O PostgreSQL fornece vários FDWs integrados e também permite a criação de FDWs personalizados, oferecendo flexibilidade para acessar e manipular dados de várias origens em um ambiente centralizado.
+
+```sql
+--- instalacao ---
+--- Tutorial https://www.enterprisedb.com/postgres-tutorials/using-foreign-data-wrappers-access-remote-postgresql-and-oracle-databases
+--- https://github.com/laurenz/oracle_fdw/releases/tag/ORACLE_FDW_2_5_0
+CREATE EXTENSION oracle_fdw;
+ALTER EXTENSION oracle_fdw UPDATE;
+SELECT name, default_version, installed_version FROM pg_available_extensions;
+
+--- Criando uma conexão com um banco Oracle
+CREATE SERVER ORC_ORA
+FOREIGN DATA WRAPPER oracle_fdw 
+OPTIONS (dbserver '//dbmira.copel.nt:1521/mira');
+
+-- drop server ORC_ORA CASCADE;
+
+CREATE USER MAPPING FOR postgres
+SERVER ORC_ORA
+OPTIONS (user 'admorc', password 'inicio');
+
+--- testando a conexão?
+--- Adicione no PATH o caminho aonde esta o oci.dll (64bits)
+
+--- criando e importando schema para o sistema ORC
+create SCHEMA orc;
+create SCHEMA srh;
+---drop schema orc cascade;
+---drop schema srh cascade;
+
+IMPORT FOREIGN schema "ORC" from server ORC_ORA into "orc";
+IMPORT FOREIGN schema "SRH" from server ORC_ORA into "srh";
+
+
+--- problema de "FROM dual" do oracle
+CREATE FOREIGN TABLE orc.dual (
+    dummy VARCHAR(1)
+)
+SERVER ORC_ORA
+OPTIONS (
+    table 'DUAL'
+);
+
+SELECT 'hello world' FROM dual;
+
+--- database info
+SELECT datname, pg_encoding_to_char(encoding), datcollate, datctype FROM pg_database WHERE datname='postgres';
+```
 # Mais
 
 * https://www.enterprisedb.com/blog/the-complete-oracle-to-postgresql-migration-guide-tutorial-move-convert-database-oracle-alternative
