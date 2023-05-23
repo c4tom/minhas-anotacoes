@@ -28,8 +28,10 @@ ct_git_config_ignore_chmod()
 {
 	echo_and_run git config --global core.fileMode false
 }
+
+# valor false -> mantem original do repositorio
 ct_git_config_auto_linefeed() {
-	echo_and_run git config --global core.autocrlf true
+	echo_and_run git config --global core.autocrlf false
 }
 
 # https://www.jamescoyle.net/how-to/1891-git-ssl-certificate-problem-caused-by-self-signed-certificates
