@@ -1,0 +1,8 @@
+#!/bin/bash
+
+#alsactl init hw:0,0
+# amixer -D pulse sset Master 80%
+
+pacmd list-sinks
+
+pacmd set-default-sink 3
