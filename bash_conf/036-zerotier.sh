@@ -1,7 +1,5 @@
 #!/bin/bash
 
-
-
 ct_zt_obter_lista_de_ip() {
     # Lê as variáveis de ambiente ZTTK (token) e ZTNET (network)
     local token=$ZTTK
