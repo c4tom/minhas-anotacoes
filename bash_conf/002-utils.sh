@@ -136,11 +136,27 @@ ct_uuidGen() {
 # bash generate random 32 character alphanumeric string (lowercase only)
 # obs: se for passar ! na regra, precisa escapar, ou seja, usar \!
 ct_randomStringGen() {
-    local tamanho=${1:-"32"}; # tamanho
-    local quantidade=${2:-"1"} # quantidade de linhas geradas
-    local regra=${3:-"a-zA-Z0-9!@#$%*()-=[]}"}; # caracteres 
-    
-    cat /dev/urandom | tr -dc $regra | fold -w $tamanho | head -n $quantidade
+  local tamanho=${1:-12}
+  local caracteres=${2:-"ULNS"}
+  local senha=""
+  local tipos_caracteres=""
+  if [[ $caracteres == *"U"* ]]; then
+    tipos_caracteres+="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+  fi
+  if [[ $caracteres == *"L"* ]]; then
+    tipos_caracteres+="abcdefghijklmnopqrstuvwxyz"
+  fi
+  if [[ $caracteres == *"N"* ]]; then
+    tipos_caracteres+="0123456789"
+  fi
+  if [[ $caracteres == *"S"* ]]; then
+    tipos_caracteres+="@#$%^&*()-_=+[]{}<>,.?/:;|~"
+  fi
+  for ((i=0; i<$tamanho; i++)); do
+    tipo_caracter=${tipos_caracteres:$((RANDOM % ${#tipos_caracteres})):1}
+    senha+=$(cat /dev/urandom | tr -dc "$tipo_caracter" | head -c 1)
+  done
+  echo "$senha"
 }
 
 # bash random generator between two numbers
@@ -227,10 +243,14 @@ ct_filesizeM() {
 
 
 ### Password
-
+# U = Upper
+# L = Lower
+# N = Number
+# S = Special
 ct_genPassword() {
     local size=${1:-"16"};
-    ct_randomStringGen $size 1 'a-zA-Z0-9'
+    local caracteres=${2:-"ULN"}
+    ct_randomStringGen $size $caracteres
 }
 
 lastLocalFolder() {
