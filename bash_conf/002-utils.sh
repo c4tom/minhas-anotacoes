@@ -408,5 +408,5 @@ ct_dictionaryFromFile() {
 
 
 ct_diff() {
-    alias diff='diff --width=$COLUMNS --suppress-common-lines --side-by-side --color=always' "$1" "$2"
+    diff --width=$COLUMNS --suppress-common-lines --side-by-side --color=always "$1" "$2"
 }
