@@ -1,12 +1,40 @@
-if [ -f /tmp/rdp/*.rdp ]; then
+#!/bin/bash
 
-    for i in *.rdp
-    do
-        echo "$i"
-        sed -i "s/screen mode id:i:2/screen mode id:i:1/g" "$i"
-    done
+diretorio="/tmp/rdp"
+extensao=".rdp"
+arquivo_recente=""
 
-    echo y | xfreerdp /tmp/rdp/*.rdp 
-    sleep 5 ; rm /tmp/rdp/*.rdp
+notifica() {
+	local texto="$1"
+
+	if command -v zenity >/dev/null 2>&1; then
+		zenity --info --text="$texto"
+	else
+		if command -v xmessage >/dev/null 2>&1; then
+			xmessage "$texto"
+		else
+			echo "$texto"
+		fi
+	fi
+}
+
+# Localizar o arquivo RDP mais recente no diretório
+for arquivo in "$diretorio"/*"$extensao"; do
+    if [ -z "$arquivo_recente" ] || [ "$arquivo" -nt "$arquivo_recente" ]; then
+        arquivo_recente="$arquivo"
+    fi
+done
+
+# Verificar se um arquivo RDP mais recente foi encontrado
+if [ -n "$arquivo_recente" ]; then
+    notifica "Executando o arquivo RDP mais recente: $arquivo_recente"
+
+    # Atualizar o arquivo RDP
+    sed -i 's/screen mode id:i:2/screen mode id:i:1/g' "$arquivo_recente"
+
+    # Executar o arquivo RDP
+    echo "y" | xfreerdp "$arquivo_recente"
+else
+    notifica "Nenhum arquivo RDP encontrado no diretório: $diretorio"
 fi
 
