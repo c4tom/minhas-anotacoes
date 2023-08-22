@@ -304,3 +304,10 @@ ct_npm_modules_delete() {
 ct_node_uriEncode() {
     node -p "encodeURIComponent('${1//\'/\\\'}')"
 }
+
+
+# REACT NATIVE
+
+ct_npm_react_native_install_tools() {
+    npm install -g react-native-cli
+}
