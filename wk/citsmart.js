@@ -303,6 +303,48 @@ if(location.hash === '#/kanban')
 https://hml.copel.com/site/
 
 
+
+//================================================================
+console.log('Cores diferentes para Responsaveis');
+  // Seleciona todos os elementos com a classe .responsavel
+  var $responsaveis = $(".responsavel");
+
+  // Cria um objeto para armazenar grupos de elementos
+  var grupos = {};
+
+  // Itera sobre cada elemento com a classe .responsavel
+  $responsaveis.each(function() {
+    var title = $(this).attr("title");
+
+    // Verifica se já existe um grupo para o título atual
+    if (!grupos[title]) {
+      grupos[title] = [];
+    }
+
+    // Adiciona o elemento atual ao grupo correspondente
+    grupos[title].push(this);
+  });
+
+  // Cores para os grupos
+  var cores = ["#efc2c2", "#00cccc", "#40ff00", "#ff4d94", "#ffad33", "#b366ff","#99bbff","#79d279","#ffff4d"];
+
+  // Itera sobre os grupos e aplica cores
+  var corIndex = 0;
+  for (var title in grupos) {
+    if (grupos.hasOwnProperty(title)) {
+      var cor = cores[corIndex % cores.length];
+      var elementos = grupos[title];
+
+      // Aplica a cor a cada elemento no grupo
+      for (var i = 0; i < elementos.length; i++) {
+        $(elementos[i]).css("background-color", cor);
+      }
+
+      corIndex++;
+    }
+  }
+
+
 //==========================
 $( document ).ajaxComplete(function() {
     console.log(" FIM do Script CitSmart ");
