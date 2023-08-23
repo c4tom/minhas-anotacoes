@@ -281,6 +281,27 @@ $(".ec-header").css('display','none').contextMenu(data, {
     // Animation complete.
 });
 
+// Kanban
+if(location.hash === '#/kanban')
+{
+    $.ajax({
+  url: '/citsmart/rest/citajax/grupo/findGroupUsers',
+  type: 'POST',
+  data: JSON.stringify({object: 2032, realUrl: '/citsmart/grupo/grupo.load'}),
+  headers : {
+	'Content-Type': "application/json"
+  },
+  success: function(data) {
+    // Função a ser executada em caso de sucesso
+	console.dir(data)
+  },
+  error: function(xhr, status, error) {
+    // Função a ser executada em caso de erro
+  }
+});
+}
+https://hml.copel.com/site/
+
 
 //==========================
 $( document ).ajaxComplete(function() {

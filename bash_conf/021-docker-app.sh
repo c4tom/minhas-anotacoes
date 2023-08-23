@@ -166,6 +166,12 @@ ct_docker_base_ubuntu_18() {
     echo_and_run $DOCKER run -d -it --name ubuntu_bionic_18_04 ubuntu:18.04
 }
 
+#### Oracle Linux ####
+ct_docker_base_oraclelinux_8_7() {
+    echo_and_run $DOCKER run -d -it --name oracle_linux_8_7 oraclelinux:8.7
+}
+
+
 #### ALPINE #####
 ct_docker_base_alpine_any() {
     local container_name=${1:-"alpine_latest"}
