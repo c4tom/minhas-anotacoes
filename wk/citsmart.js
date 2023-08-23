@@ -18,7 +18,7 @@
 
     IMPORTANT: This function requires your script to have loaded jQuery.
 */
-function waitForKeyElements (
+function waitForKeyElements(
   selectorTxt, /* Required: The jQuery selector string that
                         specifies the desired element(s).
                     */
@@ -80,7 +80,7 @@ function waitForKeyElements (
           iframeSelector
         )
       },
-      300
+        300
       )
       controlObj[controlKey] = timeControl
     }
@@ -219,15 +219,15 @@ setTimeout(() => {
   console.log('  - Prioridade (A,M,B) | Status SLA (N,V) | via JS');
   jQuery('.badge-prioridade .ng-scope').each(function () {
     const o = jQuery(this)
-    o.attr('title',o.text()).text(o.text().charAt(0))
+    o.attr('title', o.text()).text(o.text().charAt(0))
   });
-  jQuery('.tableless-th.prioridade').html("P").attr("title","Prioridade");
+  jQuery('.tableless-th.prioridade').html("P").attr("title", "Prioridade");
   //jQuery('.tableless-th.status').html("SLA").attr("title","Status do SLA");
   jQuery('.status').each(function (i) {
     const statusSLA = jQuery(this);
     jQuery(this).prevAll('.SLA').append(statusSLA.html());
     console.log(statusSLA.text().trim());
-    if(statusSLA.text().trim() == "Vencida") {
+    if (statusSLA.text().trim() == "Vencida") {
       jQuery(this).parent('.request-item').css('background-color', '#ffdacc');
     }
   });
@@ -242,7 +242,7 @@ setTimeout(() => {
     jQuery(this).prevAll('.dataCriacao').append('<br>' + dataLimite)
   });
 
-  
+
 
   //= =========================
   console.log('  - Coluna Ticket e Status');
@@ -250,145 +250,145 @@ setTimeout(() => {
 
 
   console.log('  - Zebrinha');
-  jQuery(".tableless-tr:odd").css('background-color','#DFDFDF');
+  jQuery(".tableless-tr:odd").css('background-color', '#DFDFDF');
 
   //==========================
- console.log("  - Toggle Descrição");
- // Adicionar Menu
- //jQuery(".cit--header-nav").append('<li class="cit--header-nav-item" title="Toggle Wrap Descrição"><a href="#" onclick="$.toggleWrapTextDescricao()">WRAP</a></li>')
+  console.log("  - Toggle Descrição");
+  // Adicionar Menu
+  //jQuery(".cit--header-nav").append('<li class="cit--header-nav-item" title="Toggle Wrap Descrição"><a href="#" onclick="$.toggleWrapTextDescricao()">WRAP</a></li>')
 
 
   //everything is fully loaded, don't use me if you can use DOMContentLoaded
   var data = [
     [
-        {
-            text: "<i class='fa'></i>Cut（ctrl+x）"
-        },
-        {
-            text: "<i class='fa site-cm-icon'></i>Copy（ctrl+c）"
-        },
-        {
-            text: "<i class='fa site-cm-icon'></i>Novo Ticket",
-            action: ()=>{
-                jQuery("div :contains('Registrar um Ticket/Chamado')").click()
-            }
-        }
-    ]
-];
-$(".ec-header").css('display','none').contextMenu(data, {
-    name: "box"
-}).show(500, function() {
-    // Animation complete.
-});
-
-// Kanban
-if(location.hash === '#/kanban')
-{
-    $.ajax({
-  url: '/citsmart/rest/citajax/grupo/findGroupUsers',
-  type: 'POST',
-  data: JSON.stringify({object: 2032, realUrl: '/citsmart/grupo/grupo.load'}),
-  headers : {
-	'Content-Type': "application/json"
-  },
-  success: function(data) {
-    // Função a ser executada em caso de sucesso
-	console.dir(data)
-  },
-  error: function(xhr, status, error) {
-    // Função a ser executada em caso de erro
-  }
-});
-}
-https://hml.copel.com/site/
-
-
-
-//================================================================
-console.log('  - Colorizar cada Responsavel');
-
-function setCookie(name, value, days) {
-  var expires = "";
-  if (days) {
-    var date = new Date();
-    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-    expires = "; expires=" + date.toUTCString();
-  }
-  document.cookie = name + "=" + (value || "") + expires + "; path=/";
-}
-
-function getCookie(name) {
-  var nameEQ = name + "=";
-  var ca = document.cookie.split(';');
-  for (var i = 0; i < ca.length; i++) {
-    var c = ca[i];
-    while (c.charAt(0) === ' ') c = c.substring(1, c.length);
-    if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
-  }
-  return null;
-}
-
-function colorizeResponsaveis() {
-  var $responsaveis = $(".responsavel");
-  var grupos = {};
-
-  $responsaveis.each(function() {
-    var title = $(this).attr("title");
-    var savedColor = getCookie(title); // Recupera a cor associada ao título
-
-    if (savedColor) {
-      $(this).css("background-color", savedColor);
-    }
-
-    if (!grupos[title]) {
-      grupos[title] = [];
-    }
-
-    grupos[title].push(this);
-  });
-
-  var cores = ["#efc2c2", "#00cccc", "#40ff00", "#ff4d94", "#ffad33", "#b366ff","#99bbff","#79d279","#ffff4d"];
-
-  var corIndex = 0;
-  for (var title in grupos) {
-    if (grupos.hasOwnProperty(title)) {
-      var cor = cores[corIndex % cores.length];
-      var elementos = grupos[title];
-
-      for (var i = 0; i < elementos.length; i++) {
-        var savedColor = getCookie(title + "-" + i);
-        if (savedColor) {
-          $(elementos[i]).css("background-color", savedColor);
-        } else {
-          $(elementos[i]).css("background-color", cor);
-          setCookie(title + "-" + i, cor, 1); // Memoriza a cor em um cookie por 1 dia
+      {
+        text: "<i class='fa'></i>Cut（ctrl+x）"
+      },
+      {
+        text: "<i class='fa site-cm-icon'></i>Copy（ctrl+c）"
+      },
+      {
+        text: "<i class='fa site-cm-icon'></i>Novo Ticket",
+        action: () => {
+          jQuery("div :contains('Registrar um Ticket/Chamado')").click()
         }
       }
+    ]
+  ];
+  $(".ec-header").css('display', 'none').contextMenu(data, {
+    name: "box"
+  }).show(500, function () {
+    // Animation complete.
+  });
 
-      corIndex++;
+  // Kanban
+  if (location.hash === '#/kanban') {
+    $.ajax({
+      url: '/citsmart/rest/citajax/grupo/findGroupUsers',
+      type: 'POST',
+      data: JSON.stringify({ object: 2032, realUrl: '/citsmart/grupo/grupo.load' }),
+      headers: {
+        'Content-Type': "application/json"
+      },
+      success: function (data) {
+        // Função a ser executada em caso de sucesso
+        console.dir(data)
+      },
+      error: function (xhr, status, error) {
+        // Função a ser executada em caso de erro
+      }
+    });
+  }
+  https://hml.copel.com/site/
+
+
+
+  //================================================================
+  console.log('  - Colorizar cada Responsavel');
+
+  function setCookie(name, value, days) {
+    var expires = "";
+    if (days) {
+      var date = new Date();
+      date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+      expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "") + expires + "; path=/";
+  }
+
+  function getCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+      var c = ca[i];
+      while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+      if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+    }
+    return null;
+  }
+
+  function colorizeResponsaveis() {
+    var $responsaveis = $(".responsavel");
+    var grupos = {};
+
+    $responsaveis.each(function () {
+      var title = $(this).attr("title");
+      var savedColor = getCookie(title); // Recupera a cor associada ao título
+
+      if (savedColor) {
+        $(this).css("background-color", savedColor);
+      }
+
+      if (!grupos[title]) {
+        grupos[title] = [];
+      }
+
+      grupos[title].push(this);
+    });
+
+    var cores = ["#efc2c2", "#00cccc", "#40ff00", "#ff4d94", "#ffad33", "#b366ff", "#99bbff", "#79d279", "#ffff4d"];
+
+    var corIndex = 0;
+    for (var title in grupos) {
+      if (grupos.hasOwnProperty(title)) {
+        var cor = cores[corIndex % cores.length];
+        var elementos = grupos[title];
+
+        for (var i = 0; i < elementos.length; i++) {
+          var savedColor = getCookie(title + "-" + i);
+          if (savedColor) {
+            $(elementos[i]).css("background-color", savedColor);
+          } else {
+            $(elementos[i]).css("background-color", cor);
+            setCookie(title + "-" + i, cor, 1); // Memoriza a cor em um cookie por 1 dia
+          }
+        }
+
+        corIndex++;
+      }
     }
   }
-}
 
-function handleClickWithDelay(event) {
-  if (event.target.classList.contains('material-icons') && 
-    (event.target.textContent === 'chevron_right' 
-      || event.target.textContent === 'chevron_left'
-      || event.target.textContent === 'last_page'
-      || event.target.textContent === 'first_page')) {
-    console.log('Clique detectado no elemento desejado. Aguardando 1 segundos...');
-    setTimeout(colorizeResponsaveis, 1000);
+  function handleClickWithDelay(event) {
+    if (event.target.classList.contains('material-icons') &&
+      (event.target.textContent === 'chevron_right'
+        || event.target.textContent === 'chevron_left'
+        || event.target.textContent === 'last_page'
+        || event.target.textContent === 'first_page')) {
+      console.log('Clique detectado no elemento desejado. Aguardando 1 segundos...');
+      setTimeout(colorizeResponsaveis, 1500);
+    }
   }
-}
 
-document.addEventListener('click', handleClickWithDelay);
-
-//==========================
-$( document ).ajaxComplete(function() {
+  document.addEventListener('click', handleClickWithDelay);
   colorizeResponsaveis();
-  console.log(" FIM do Script CitSmart ");
-});
- 
+
+  //==========================
+  $(document).ajaxComplete(function () {
+
+    console.log(" FIM do Script CitSmart ");
+  });
+
 
 
 }, 1000);
