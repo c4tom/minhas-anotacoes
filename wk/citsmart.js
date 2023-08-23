@@ -305,49 +305,88 @@ https://hml.copel.com/site/
 
 
 //================================================================
-console.log('Cores diferentes para Responsaveis');
-  // Seleciona todos os elementos com a classe .responsavel
-  var $responsaveis = $(".responsavel");
+console.log('  - Colorizar cada Responsavel');
 
-  // Cria um objeto para armazenar grupos de elementos
+function setCookie(name, value, days) {
+  var expires = "";
+  if (days) {
+    var date = new Date();
+    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+    expires = "; expires=" + date.toUTCString();
+  }
+  document.cookie = name + "=" + (value || "") + expires + "; path=/";
+}
+
+function getCookie(name) {
+  var nameEQ = name + "=";
+  var ca = document.cookie.split(';');
+  for (var i = 0; i < ca.length; i++) {
+    var c = ca[i];
+    while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+    if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+  }
+  return null;
+}
+
+function colorizeResponsaveis() {
+  var $responsaveis = $(".responsavel");
   var grupos = {};
 
-  // Itera sobre cada elemento com a classe .responsavel
   $responsaveis.each(function() {
     var title = $(this).attr("title");
+    var savedColor = getCookie(title); // Recupera a cor associada ao título
 
-    // Verifica se já existe um grupo para o título atual
+    if (savedColor) {
+      $(this).css("background-color", savedColor);
+    }
+
     if (!grupos[title]) {
       grupos[title] = [];
     }
 
-    // Adiciona o elemento atual ao grupo correspondente
     grupos[title].push(this);
   });
 
-  // Cores para os grupos
   var cores = ["#efc2c2", "#00cccc", "#40ff00", "#ff4d94", "#ffad33", "#b366ff","#99bbff","#79d279","#ffff4d"];
 
-  // Itera sobre os grupos e aplica cores
   var corIndex = 0;
   for (var title in grupos) {
     if (grupos.hasOwnProperty(title)) {
       var cor = cores[corIndex % cores.length];
       var elementos = grupos[title];
 
-      // Aplica a cor a cada elemento no grupo
       for (var i = 0; i < elementos.length; i++) {
-        $(elementos[i]).css("background-color", cor);
+        var savedColor = getCookie(title + "-" + i);
+        if (savedColor) {
+          $(elementos[i]).css("background-color", savedColor);
+        } else {
+          $(elementos[i]).css("background-color", cor);
+          setCookie(title + "-" + i, cor, 1); // Memoriza a cor em um cookie por 1 dia
+        }
       }
 
       corIndex++;
     }
   }
+}
 
+function handleClickWithDelay(event) {
+  if (event.target.classList.contains('material-icons') && 
+    (event.target.textContent === 'chevron_right' 
+      || event.target.textContent === 'chevron_left'
+      || event.target.textContent === 'last_page'
+      || event.target.textContent === 'first_page')) {
+    console.log('Clique detectado no elemento desejado. Aguardando 1 segundos...');
+    setTimeout(colorizeResponsaveis, 1000);
+  }
+}
+
+document.addEventListener('click', handleClickWithDelay);
 
 //==========================
 $( document ).ajaxComplete(function() {
-    console.log(" FIM do Script CitSmart ");
+  colorizeResponsaveis();
+  console.log(" FIM do Script CitSmart ");
 });
  
 
