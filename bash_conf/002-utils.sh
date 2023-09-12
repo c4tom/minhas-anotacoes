@@ -410,3 +410,14 @@ ct_dictionaryFromFile() {
 ct_diff() {
     diff --width=$COLUMNS --suppress-common-lines --side-by-side --color=always "$1" "$2"
 }
+
+ct_strip_html() {
+  # Pega o texto do HTML
+  local texto=$(cat "$1")
+
+  # Remove os tags HTML
+  local texto_limpo=$(echo "$texto" | sed -e 's/<[^>]*>//g')
+
+  # Imprime o texto limpo
+  echo "$texto_limpo"
+}
