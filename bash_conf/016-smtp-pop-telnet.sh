@@ -9,7 +9,7 @@
 
       password=$(askToPassword "Digite a senha do email ($2): ")
 
-      openssl s_client -connect $1:993 -quiet <<EOF
+      openssl s_client -connect $1:$3 -quiet <<EOF
 a1 LOGIN $2 $password
 a2 LIST "" "*"
 a3 LOGOUT
