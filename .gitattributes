@@ -2,4 +2,8 @@
 # NO We don't want this!! LEAVE line endings alone
 # * text=auto
 # Bash shell scripts make sure to keep unix line endings
- text eol=lf
+* text eol=lf
+
+# Arquivos binários devem ser tratados como binários
+*.png binary
+*.jpg binary
