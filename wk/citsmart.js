@@ -416,4 +416,4 @@ setTimeout(() => {
 
 }, 1000);
 
-console.log('Loaded https://gitprd.copel.nt/snippets/29/raw');
+console.log('Loaded https://raw.githubusercontent.com/c4tom/minhas-anotacoes/beta/wk/citsmart.js');
