@@ -385,11 +385,34 @@ setTimeout(() => {
 
   //==========================
   $(document).ajaxComplete(function () {
-
     console.log(" FIM do Script CitSmart ");
   });
 
 
+ $(document).ready(function() {
+        $(document).on('click', '.descricao', function(event) {
+            if (event.shiftKey) {
+                var textoParaCopiar = $(this).text().trim();
+                var textoRequestID = $(this).siblings('.numero').text().trim();
+                var solicitante = $(this).siblings('.solicitante').find('span').text().trim();
+                var dataCriacao = $(this).siblings('.dataCriacao').html().replace("<br>",' - ').trim();
+                var textoFinal = 'Ticket: ' + textoRequestID + '\nSolicitante: ' + solicitante + '\n'+ 'Data Criação/Limite: ' + dataCriacao + '\n' + textoParaCopiar;
+
+                copiarParaAreaDeTransferencia(textoFinal);
+            }
+        });
+    });
+
+    function copiarParaAreaDeTransferencia(texto) {
+        var textareaTemporario = $('<textarea>');
+        textareaTemporario.val(texto);
+        $('body').append(textareaTemporario);
+        textareaTemporario.select();
+        document.execCommand('copy');
+        textareaTemporario.remove();
+    }
+
+    
 
 }, 1000);
 
