@@ -393,7 +393,7 @@ setTimeout(() => {
         $(document).on('click', '.descricao', function(event) {
             if (event.shiftKey) {
                 var textoParaCopiar = $(this).text().trim();
-                var textoRequestID = $(this).siblings('.numero').find('request-id').text().trim();
+                var textoRequestID = $(this).siblings('.numero').find('.request-id').text().trim();
                 var solicitante = $(this).siblings('.solicitante').find('span').text().trim();
                 var dataCriacao = $(this).siblings('.dataCriacao').html().replace("<br>",' - ').trim();
                 var textoFinal = 'Ticket: ' + textoRequestID + '\nSolicitante: ' + solicitante + '\n'+ 'Data Criação/Limite: ' + dataCriacao + '\n' + textoParaCopiar;
