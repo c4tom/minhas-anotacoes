@@ -6,6 +6,12 @@
 
 #alias code="code -p"
 
+alias code-markdown="code --profile=MD"
+alias code-java="code --profile=Java"
+alias code-php="code --profile=PHP"
+alias code-javascript="code --profile=JS"
+alias code-python="code --profile=Python"
+
 ct_code_executaSemExtensoes() {
     code --disable-extensions "$@"
 }
