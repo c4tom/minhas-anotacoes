@@ -1,0 +1,9 @@
+#!/bin/sh
+
+ct_youtubeDownload480PL () 
+{ 
+    local YOUTUBE_URL="$1";
+    yt-dlp --yes-playlist --format 'bestvideo[width<=480]+bestaudio/best[width<=480]' "$YOUTUBE_URL"
+}
+
+ct_youtubeDownload480PL "`xsel`"
