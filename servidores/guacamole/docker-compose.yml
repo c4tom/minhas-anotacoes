@@ -1,0 +1,31 @@
+version: '3'
+services:
+  guacamole:
+    image: guacamole/guacamole
+    container_name: guacamole
+    ports:
+      - "8080:8080"  # Porta para acesso à interface do Guacamole
+    environment:
+      - GUACD_HOSTNAME=guacd
+      - GUACD_PORT=4822
+      - MYSQL_HOST=mariadb  # Use o nome do serviço do MariaDB no outro compose
+      - MYSQL_PORT=3306
+      - MYSQL_DATABASE=guacamole
+      - MYSQL_USER=guacamole
+      - MYSQL_PASSWORD=sua_senha_guacamole
+    depends_on:
+      - guacd
+    networks:
+      - guacamole-net
+
+  guacd:
+    image: guacamole/guacd
+    container_name: guacd
+    ports:
+      - "4822:4822"
+    networks:
+      - guacamole-net
+
+networks:
+  guacamole-net:
+    driver: bridge
