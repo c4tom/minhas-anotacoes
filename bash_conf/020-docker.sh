@@ -324,3 +324,104 @@ ct_dockerAndUFW_install() {
 
 	sudo ufw-docker check
 }
+
+
+
+#!/bin/bash
+
+# Função para definir as cores ANSI
+ct_docker_tree_set_colors() {
+    COLOR_CONTAINER_ID="\e[1;33m"  # Amarelo
+    COLOR_IMAGE="\e[1;36m"         # Ciano
+    COLOR_VOLUMES="\e[1;35m"       # Magenta
+    COLOR_NETWORK="\e[1;32m"       # Verde
+    COLOR_STATUS="\e[1;34m"        # Azul
+    COLOR_RESOURCE="\e[1;31m"      # Vermelho
+    COLOR_RESET="\e[0m"             # Resetar cor
+}
+
+# Função para obter informações detalhadas sobre volumes
+ct_docker_tree_get_volume_info() {
+    container_id=$1
+    volumes=$(docker inspect --format="{{range .Mounts}}{{.Source}}:{{.Destination}},{{end}}" $container_id)
+    
+    if [ -n "$volumes" ]; then
+        echo -e "    ${COLOR_VOLUMES}Volumes:${COLOR_RESET}"
+        echo "$volumes" | awk -F',' 'NF>1 {for (i=1; i<NF; i++) print "      - " $i} NF==1 {print "      - " $1}'
+    fi
+}
+
+# Função para obter informações detalhadas sobre redes
+ct_docker_tree_get_network_info() {
+    container_id=$1
+    networks=$(docker inspect --format="{{range .NetworkSettings.Networks}}{{.NetworkID}}:{{.IPAddress}},{{end}}" $container_id)
+    
+    if [ -n "$networks" ]; then
+        echo -e "    ${COLOR_NETWORK}Network:${COLOR_RESET}"
+        echo "$networks" | awk -F',' 'NF>1 {for (i=1; i<NF; i++) print "      - " $i} NF==1 {print "      - " $1}'
+    fi
+}
+
+# Função para obter informações detalhadas sobre recursos (CPU e memória)
+ct_docker_tree_get_resource_info() {
+    container_id=$1
+    cpu=$(docker inspect --format="{{.Config.Env}}" $container_id | grep CPU_SHARES | cut -d '=' -f2)
+    memory_limit=$(docker inspect --format="{{.HostConfig.Memory}}" $container_id)
+    
+    echo -e "    ${COLOR_RESOURCE}Recursos:${COLOR_RESET}"
+    echo "      - CPU Shares: $cpu"
+    echo "      - Memória Limite: $memory_limit"
+}
+
+# Função para obter informações sobre os containers
+ct_docker_tree_get_container_info() {
+    container_id=$1
+    container_name=$(docker inspect --format="{{.Name}}" $container_id | sed 's/\///')  # Remover a barra inicial
+    image=$(docker inspect --format="{{.Config.Image}}" $container_id)
+    hostname=$(docker inspect --format="{{.Config.Hostname}}" $container_id)
+    command=$(docker inspect --format="{{.Config.Cmd}}" $container_id)
+    status=$(docker inspect --format="{{.State.Status}}" $container_id)
+    started_at=$(docker inspect --format="{{.State.StartedAt}}" $container_id)
+
+    echo -e "${COLOR_CONTAINER_ID}Container ID:${COLOR_RESET} $container_id"
+    echo -e "${COLOR_CONTAINER_ID}  Nome do Container:${COLOR_RESET} $container_name"
+    echo -e "${COLOR_IMAGE}  Image:${COLOR_RESET} $image"
+    echo -e "${COLOR_STATUS}  Status:${COLOR_RESET} $status"
+    echo -e "${COLOR_CONTAINER_ID}  Hostname:${COLOR_RESET} $hostname"
+    echo -e "${COLOR_CONTAINER_ID}  Comando:${COLOR_RESET} $command"
+    echo "      - Iniciado em: $started_at"
+
+    ct_docker_tree_get_volume_info $container_id
+    ct_docker_tree_get_network_info $container_id
+    ct_docker_tree_get_resource_info $container_id
+}
+
+# Função para exibir a árvore de containers
+ct_docker_tree() {
+	ct_docker_tree_set_colors
+    filter=$1
+    containers=""
+
+    case $filter in
+        ativo)
+            containers=$(docker ps -q)
+            ;;
+        inativo)
+            containers=$(docker ps -q --filter "status=exited")
+            ;;
+        todos | *)
+            containers=$(docker ps -aq)
+            ;;
+    esac
+
+    if [ -z "$containers" ]; then
+        echo "Nenhum container encontrado."
+        return
+    fi
+
+    for container_id in $containers; do
+        ct_docker_tree_get_container_info $container_id
+    done
+}
+
+
