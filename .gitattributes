@@ -7,3 +7,9 @@
 # Arquivos binários devem ser tratados como binários
 *.png binary
 *.jpg binary
+*.epgz -text
+*.pdf -text
+
+
+*.ps1 text eol=crlf
+*.bat text eol=crlf
