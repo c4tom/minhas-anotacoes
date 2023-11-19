@@ -55,7 +55,8 @@ ct_git_config_default_global() {
 
 	# Files
 	git config --global core.filemode false	# Ignore chmod
-	git config --global core.autocrlf false # ignore linefeed
+	#Se você estiver trabalhando em um ambiente Windows e compartilhando arquivos com pessoas em ambientes Unix/Linux, usar core.autocrlf = input pode ajudar a evitar problemas relacionados aos caracteres de fim de linha.
+	git config --global core.autocrlf input # ignore linefeed
 
 }
 ct_git_config_listarConfiguracao() {
