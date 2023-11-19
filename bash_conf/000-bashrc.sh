@@ -39,3 +39,9 @@ export HISTTIMEFORMAT="%d/%m/%y %T "
 
 export uid=$(id -u)
 export gid=$(id -g)
+
+ct_mate_terminal_titulo() {
+    local titulo
+    titulo="${1?' titulo'}"
+    PROMPT_COMMAND='echo -en "\033]0;'"$titulo"'\a"'
+}
