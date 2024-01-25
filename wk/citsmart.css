@@ -201,3 +201,8 @@ header,
     color: #666;
     width: 20px;
 }
+
+/* dialogos */
+modal-dialog pre {
+    width: 550px !important;
+}
