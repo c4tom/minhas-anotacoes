@@ -203,6 +203,6 @@ header,
 }
 
 /* dialogos */
-modal-dialog pre {
+.modal-dialog pre {
     width: 550px !important;
 }
