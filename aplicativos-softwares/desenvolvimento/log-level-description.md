@@ -1,3 +1,47 @@
+### Log Severity Levels Explained
+
+Below is an explanation of the different log severity levels used in application logging, detailing their importance and best practices for each:
+
+#### 1. **Fatal/Critical**
+   - **Description**: Indicates a severe issue that causes complete application or system failure, necessitating immediate attention.
+   - **Action**: Alert the System Administrator (SysAdmin) immediately. Such issues should be rare to preserve the severity's urgency and meaning.
+   - **Example Use**: If a critical component like the database crashes and the system cannot operate at all.
+
+#### 2. **Error**
+   - **Description**: Represents a significant problem in the application that needs to be addressed soon.
+   - **Action**: Automatically notify the SysAdmin, who can prioritize this during working hours rather than an emergency call-out.
+   - **Metrics**: Utilize metrics like Mean Time Between Failures (MTBF) to gauge application reliability and decide on potential additional testing phases.
+   - **Example Use**: A failed transaction due to a bug or a critical service failing to start.
+
+#### 3. **Warning**
+   - **Description**: Indicates a potential issue that may not require immediate correction but should be monitored.
+   - **Action**: Log these to provide early hints of underlying problems that could escalate but manage the frequency to avoid desensitization to warnings.
+   - **Example Use**: Temporary network or database connectivity issues which are expected to resolve themselves.
+
+#### 4. **Info**
+   - **Description**: Useful information regarding the normal operations of the application, such as startup or shutdown of services.
+   - **Action**: Keep these logs concise and informative; typically, these should constitute less than 5% of all log messages.
+   - **Example Use**: Reporting the successful completion of a significant process or the initialization of a major component.
+
+#### 5. **Trace**
+   - **Description**: Provides detailed context about the application’s operation, helping to understand the flow and pinpoint issues.
+   - **Action**: Regularly review and adjust Trace logs to maintain their relevance and helpfulness in debugging.
+   - **Example Use**: Logging detailed steps of a process, such as user interactions or changes in application state.
+
+#### 6. **Debug**
+   - **Description**: Contains highly detailed information used for debugging during development; typically disabled in production.
+   - **Action**: Discouraged in favor of Trace to avoid clutter and maintenance overhead. Necessary for debugging but should be pruned regularly.
+   - **Example Use**: Detailed internal state information useful only during development or troubleshooting complex issues.
+
+### Best Practices
+
+- **Regular Review**: Frequently review log levels and messages to ensure they are appropriate and useful.
+- **Maintain Clarity**: Avoid overusing any log level to prevent desensitization and ensure that logs remain a valuable tool for troubleshooting.
+- **Adjust as Needed**: Adapt logging practices as the application evolves to continue meeting the needs of the system and its maintainers.
+
+Adhering to these guidelines ensures that logging remains a powerful tool for system monitoring, troubleshooting, and operational analysis.
+
+
 Fatal/Critical: Overall application or system failure that should be investigated immediately. Yes, wake up the SysAdmin. Since we prefer our SysAdmins alert and well-rested, this severity should be used very infrequently. If it's happening daily and that's not a BFD, it's lost it's meaning. Typically, a Fatal error only occurs once in the process lifetime, so if the log file is tied to the process, this is typically the last message in the log.
 
 Error: Definitely a problem that should be investigated. SysAdmin should be notified automatically, but doesn't need to be dragged out of bed. By filtering a log to look at errors and above you get an overview of error frequency and can quickly identify the initiating failure that might have resulted in a cascade of additional errors. Tracking error rates as versus application usage can yield useful quality metrics such as MTBF which can be used to assess overall quality. For example, this metric might help inform decisions about whether or not another beta testing cycle is needed before a release.
