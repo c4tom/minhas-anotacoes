@@ -51,8 +51,8 @@ ct_oracloud_firewalld_start_enable_service() {
    sudo systemctl enable firewalld
 }
 
-ct_oracloud_firewalld_listAll() {
-   echo_and_run sudo firewall-cmd --list-all
+ct_oracloud_firewalld_listAllZones() {
+   echo_and_run sudo firewall-cmd --list-all-zones
 }
 
 # Get all services available
