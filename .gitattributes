@@ -2,7 +2,6 @@
 # NO We don't want this!! LEAVE line endings alone
 # * text=auto
 # Bash shell scripts make sure to keep unix line endings
-* text eol=lf
 
 # Arquivos binários devem ser tratados como binários
 *.png binary
@@ -10,6 +9,3 @@
 *.epgz -text
 *.pdf -text
 
-
-*.ps1 text eol=crlf
-*.bat text eol=crlf
