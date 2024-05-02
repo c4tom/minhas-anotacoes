@@ -315,6 +315,12 @@ ct_git_add_alias_default() {
 }
 
 
+ct_git_config_nome_email() {
+	git config --global user.name "$1"
+    git config --global user.email "$2"
+}
+
+
 ct_git_attr_autoLF() {
 	echo "# Set default behavior to automatically normalize line endings.
 # NO We don't want this!! LEAVE line endings alone
