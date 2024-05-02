@@ -4,7 +4,7 @@
         # install, https://youtu.be/epiyExCyb2s?t=2594
 
         echo "Baixando via git"
-        git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.10.0
+        git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.13.1
 
         echo "Para funcionar o asdf"
         echo ". $HOME/.asdf/asdf.sh" >> ~/.bashrc
