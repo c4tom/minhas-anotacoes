@@ -24,3 +24,7 @@ ct_adb_listaPathPacotesAPK() {
         echo "adb shell pm path "$i" | awk -F':' '{print $2}'"
     done    
 }
+
+ct_adb_lista_devices() {
+    adb devices -l
+}
