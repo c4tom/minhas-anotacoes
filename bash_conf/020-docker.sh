@@ -327,8 +327,6 @@ ct_dockerAndUFW_install() {
 
 
 
-#!/bin/bash
-
 # Função para definir as cores ANSI
 ct_docker_tree_set_colors() {
     COLOR_CONTAINER_ID="\e[1;33m"  # Amarelo
