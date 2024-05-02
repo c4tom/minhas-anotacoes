@@ -421,3 +421,53 @@ ct_strip_html() {
   # Imprime o texto limpo
   echo "$texto_limpo"
 }
+
+# Função para buscar arquivos por múltiplas extensões e concatenar seus conteúdos em um arquivo de saída opcional
+ct_find_and_concat_files() {
+    fileoutput="out.txt"
+
+    # Padrões de busca inicializados como uma lista vazia
+    search_patterns=()
+
+    # Analisa parâmetros para construir partes de busca e ignorar
+    ignore_part=""
+    for arg in "$@"; do
+        case "$arg" in
+            --name=*)
+                IFS=',' read -r -a names <<< "${arg#*=}"
+                for name in "${names[@]}"; do
+                    search_patterns+=("-name \"$name\"")
+                done
+                ;;
+            --ignore=*)
+                IFS=',' read -r -a ignores <<< "${arg#*=}"
+                for ignore in "${ignores[@]}"; do
+                    ignore_part+=" ! -path './$ignore/*'"
+                done
+                ;;
+        esac
+    done
+
+    # Se nenhum padrão de nome foi especificado, usa um padrão padrão
+    if [ ${#search_patterns[@]} -eq 0 ]; then
+        search_patterns=('-name "*.py"') # Padrão default, se necessário
+    fi
+
+    # Constrói a parte do comando find para os padrões de busca
+    search_part="$(printf " -o %s" "${search_patterns[@]}")"
+    search_part="${search_part:4}"  # Remove o primeiro ' -o '
+
+    # Monta o comando completo
+    find_command="find . \( $search_part \) $ignore_part -type f"
+
+    # Executa o comando
+    echo > $fileoutput
+    echo "Executando: $find_command"
+    while IFS= read -r file; do
+        echo ">> $file"
+        echo "== file ==>> $file" >> $fileoutput
+        cat "$file" >> $fileoutput
+        echo "" >> $fileoutput
+        echo "" >> $fileoutput
+    done < <(eval "$find_command")
+}
