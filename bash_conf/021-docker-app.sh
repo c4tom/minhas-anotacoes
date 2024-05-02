@@ -95,7 +95,7 @@ ct_docker_WebApp_ApachePHP5() {
 
 ct_docker_WebApp_AlpineApachePHP7() {
     : ${1?' port_to_listen'}
-    docker run -d --name apache-php7 -p $1:80 -v "$PWD":/app ulsmith/alpine-apache-php7
+    docker run -d --name apache-php7 -p $1:80 -v "$PWD":/app/www cahato/alpine-apache-php7:latest
 }
 
 ct_docker_WebApp_DeezLoaderMX() {
