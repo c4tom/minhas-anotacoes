@@ -35,4 +35,21 @@ a3 LOGOUT
 EOF
 
    }
+
+   ct_imap_test_tls() {
+      : ${1?: '<imap servername>'}
+      : ${2?: '<email>'}
+      : ${3:-'993'}
+
+      password=$(askToPassword "Digite a senha do email ($2): ")
+
+      telnet $1 imap <<EOF
+STARTLS
+a1 LOGIN $2 $password
+a2 LIST "" "*"
+a3 LOGOUT
+EOF
+
+   }
+
 }
