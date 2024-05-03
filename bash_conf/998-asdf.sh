@@ -47,7 +47,15 @@ ct_asdf_legacy_versions() {
 
 # Função para listar os plugins disponíveis e permitir que o usuário escolha um para instalar
 ct_asdf_install_plugin_menu() {
-    local plugins=$(asdf plugin list all | awk '{print $1}')
+    local filtro=$1
+    local plugins=""
+
+    # Verifica se foi fornecido um filtro
+    if [[ -n "$filtro" ]]; then
+        plugins=$(asdf plugin list all | awk '{print $1}' | grep "$filtro")
+    else
+        plugins=$(asdf plugin list all | awk '{print $1}')
+    fi
 
     if [[ -z "$plugins" ]]; then
         echo "Nenhum plugin disponível para instalação."
