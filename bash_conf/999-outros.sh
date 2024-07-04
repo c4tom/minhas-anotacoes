@@ -2,7 +2,7 @@
 
 ct_whatsapp() {
     local NUMBER=$(echo "$1" | tr -dc '0-9')
-    xdg-open "https://web.whatsapp.com/send?phone=+55$NUMBER&text&source&data"
+    echo_and_run xdg-open "https://web.whatsapp.com/send?phone=+55$NUMBER&text&source&data"
 }
 
 
