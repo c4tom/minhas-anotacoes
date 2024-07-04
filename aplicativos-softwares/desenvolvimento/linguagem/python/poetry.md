@@ -31,7 +31,6 @@ Depois de instalar o `Poetry`, é uma boa prática garantir que o diretório de 
   ```bash
   export PATH="$HOME/.local/bin:$PATH"
   ```
-
 - **No Windows**:
 
   Você pode adicionar o diretório de instalação (geralmente `C:\Users\<username>\.poetry\bin`) ao PATH através do Painel de Controle ou usando o PowerShell:
@@ -61,6 +60,16 @@ poetry self update
 
 ### Considerações
 
-Antes de instalar o `Poetry`, certifique-se de que você tem o Python instalado, pois o `Poetry` é uma ferramenta baseada em Python. Preferencialmente, use Python 3.6 ou superior. 
+Antes de instalar o `Poetry`, certifique-se de que você tem o Python instalado, pois o `Poetry` é uma ferramenta baseada em Python. Preferencialmente, use Python 3.6 ou superior.
 
 Esses métodos de instalação usam um script que automatiza o processo, mas se você preferir um controle maior ou precisar de uma instalação personalizada, você pode consultar a [documentação oficial do Poetry](https://python-poetry.org/docs/) para mais opções.
+
+### Usando o Poetry (iniciante)
+
+Novo projeto: poetry new `<nome-do-projeto>`
+
+Env Virtual: `poetry shell`
+
+Criar um grupo de desenvolvimento: `poetry add --group dev <nome do pacote>`
+
+Adicionar lib: poetry add `<nome da lib>`
