@@ -105,3 +105,15 @@ ct_oracloud_install_newrelicPHP() {
    #systemctl restart lsws
    #killall lsphp
 }
+
+ct_oracle_firewalld_tinyproxy() {
+   # sudo apt-get install tinyproxy
+   interface=$(ct_escolher_interface_de_rede)
+   : ${1?' <port>'}
+   
+   sudo firewall-cmd --zone=trusted --change-interface=$interface --permanent
+   sudo firewall-cmd --zone=trusted --add-port=$1/tcp --permanent
+   sudo firewall-cmd --reload
+   sudo firewall-cmd --zone=trusted --list-ports
+}
+
