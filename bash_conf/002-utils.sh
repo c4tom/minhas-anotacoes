@@ -471,3 +471,29 @@ ct_find_and_concat_files() {
         echo "" >> $fileoutput
     done < <(eval "$find_command")
 }
+
+
+function ct_escolher_interface_de_rede() {
+    # Obter todas as interfaces de rede
+    interfaces=($(ls /sys/class/net))
+
+    # Exibir o menu numerado
+    echo "Escolha uma interface de rede:"
+    for i in "${!interfaces[@]}"; do
+        echo "$((i + 1)). ${interfaces[$i]}"
+    done
+
+    # Ler a escolha do usuário
+    read -p "Digite o número da interface desejada: " escolha
+
+    # Validar a escolha
+    if [[ $escolha -gt 0 && $escolha -le ${#interfaces[@]} ]]; then
+        interface_escolhida=${interfaces[$((escolha - 1))]}
+        echo "Você escolheu a interface: $interface_escolhida"
+        echo "$interface_escolhida"
+    else
+        echo "Escolha inválida. Tente novamente."
+        ct_escolher_interface_de_rede
+    fi
+}
+
