@@ -17,6 +17,19 @@ ct_ssh_agentIsRunning() {
     echo_and_run ssh-agent -s
 }
 
+
+ct_ssh_agent() {
+    if [ -z "$SSH_AUTH_SOCK" ]; then
+        # Check for a currently running instance of the agent
+        RUNNING_AGENT="`ps -ax | grep 'ssh-agent -s' | grep -v grep | wc -l | tr -d '[:space:]'`"
+        if [ "$RUNNING_AGENT" = "0" ]; then
+            # Launch a new instance of the agent
+            ssh-agent -s &> $HOME/.ssh/ssh-agent
+        fi
+        eval `cat $HOME/.ssh/ssh-agent`
+    fi
+}
+
 # conecta com o remoto, e ouve uma porta como socks
 ct_ssh_socksEnable() {
     ${1?' <host to connect>'}
