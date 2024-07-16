@@ -10,7 +10,7 @@ _gitParseBranch() {
 
 # mostra branch atual
 #export PS1="\n\w $(_gitParseBranch)\n${CCyan}\u@\h${NC} >${NC}"
-export PS1="$CCyan\u@\h>\[\033[32m\]\w$BIYellow\$(_gitParseBranch)\[\033[00m\]>"
+#export PS1="$CCyan\u@\h>\[\033[32m\]\w$BIYellow\$(_gitParseBranch)\[\033[00m\]>"
 #export PS1="\$(_gitParseBranch)\n\u@\h \w >"
 #export PS1="\u@\h\n\w\$(_gitParseBranch)>"
 
