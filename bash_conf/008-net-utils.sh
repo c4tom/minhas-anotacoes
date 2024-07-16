@@ -54,8 +54,7 @@ ct_monitor_my_router() {
 	# 0 => is online
 	# 1 => is offline
 	
-	while(true)
-	do
+	while true; do
 		isOFFLINE=$(nc -z $ROUTER_IP $ROUTER_PORT; echo $?)
 		echo "$(date) => $isOFFLINE" | tee -a ~/modem_isonline.log
 		sleep 30
