@@ -108,7 +108,7 @@ ct_oracloud_install_newrelicPHP() {
 
 ct_oracle_firewalld_tinyproxy() {
    # sudo apt-get install tinyproxy
-   interface=$(ct_escolher_interface_de_rede)
+   interface=`ct_escolher_interface_de_rede`
    : ${1?' <port>'}
    
    sudo firewall-cmd --zone=trusted --change-interface=$interface --permanent
