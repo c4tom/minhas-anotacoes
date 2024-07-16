@@ -45,3 +45,34 @@ ct_mate_terminal_titulo() {
     titulo="${1?' titulo'}"
     PROMPT_COMMAND='echo -en "\033]0;'"$titulo"'\a"'
 }
+
+# Define a custom 'type' function for Zsh
+function type() {
+  local command=$1
+  local options=("${@:2}")  # Get all options after the command name
+
+  # Check if any options are present
+  if [[ ${#options[@]} -gt 0 ]]; then
+    # Ignore options like '-t' and '-P'
+    echo "Ignoring options: ${options[@]}"
+    return 1
+  fi
+
+  # Check for built-in commands
+  if [[ -n "${builtins[$command]}" ]]; then
+    echo "builtin"
+  # Check for aliases
+  elif [[ -n "${aliases[$command]}" ]]; then
+    echo "alias"
+  # Check for functions
+  elif [[ -n "${functions[$command]}" ]]; then
+    echo "function"
+  # Check for external commands
+  elif [[ -f $(which $command) ]]; then
+    echo "external"
+  # If not found
+  else
+    echo "not found"
+  fi
+}
+
