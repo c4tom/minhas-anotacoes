@@ -1,3 +1,14 @@
+# Utilitários gerais para bash
+# Este arquivo contém uma coleção de funções úteis para uso no dia a dia
+#
+# Principais funcionalidades:
+# - Manipulação de arquivos e diretórios
+# - Geração de senhas e strings aleatórias
+# - Funções para manipulação de texto
+# - Utilitários de sistema (memória, rede, etc)
+# - Funções de backup e sincronização
+#
+# Variáveis especiais do bash:
 # $0	Identifica o comando emitido
 # $@	O conjunto dos argumentos
 # $*	Relação dos argumentos fornecidos
@@ -496,4 +507,3 @@ function ct_escolher_interface_de_rede() {
         ct_escolher_interface_de_rede
     fi
 }
-
