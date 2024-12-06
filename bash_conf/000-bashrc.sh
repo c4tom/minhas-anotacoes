@@ -47,6 +47,23 @@ ct_mate_terminal_titulo() {
 }
 
 # Define a custom 'type' function for Zsh
+# Define a custom 'type' function for Zsh
+#
+# This function mimics the behavior of the 'type' command in Bash for Zsh.
+# It determines the type of a given command (builtin, alias, function, or external).
+#
+# Parameters:
+#   $1 - The command to check
+#   $@ - Additional options (currently ignored)
+#
+# Returns:
+#   Prints the type of the command:
+#     "builtin" for shell built-in commands
+#     "alias" for defined aliases
+#     "function" for shell functions
+#     "external" for external commands
+#     "not found" if the command is not recognized
+#   Returns 0 if successful, 1 if options are provided (which are ignored)
 function type() {
   local command=$1
   local options=("${@:2}")  # Get all options after the command name

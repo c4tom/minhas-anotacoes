@@ -4,6 +4,19 @@
 # Disable DNS systemd
 # https://askubuntu.com/questions/907246/how-to-disable-systemd-resolved-in-ubuntu
 
+# Disable DNS systemd
+# https://askubuntu.com/questions/907246/how-to-disable-systemd-resolved-in-ubuntu
+
+# ct_systemd_disableDNS
+# 
+# Disables and stops the systemd-resolved DNS service, then restarts the network manager.
+# This function is used to disable the systemd DNS resolver and switch to a different DNS configuration.
+#
+# Parameters:
+#   None
+#
+# Returns:
+#   None. The function performs its operations and doesn't return any value.
 ct_systemd_disableDNS() {
     echo_and_run sudo systemctl disable systemd-resolved.service
     echo_and_run sudo service systemd-resolved stop
@@ -68,14 +81,48 @@ echo ""
 
 }
 
+# List dependencies of systemd units
+#
+# This function lists the dependencies of systemd units using the systemctl command.
+#
+# Usage: ct_systemd_list_dependency
+#
+# Parameters:
+#   None
+#
+# Returns:
+#   Outputs the list of dependencies to stdout
 ct_systemd_list_dependency() {
     echo_and_run sudo systemctl list-dependencies 
 }
 
+# Analyze critical chain of systemd boot process
+#
+# This function analyzes the critical chain of the systemd boot process,
+# focusing on network.target and local-fs.target.
+#
+# Usage: ct_systemd_critical_chain
+#
+# Parameters:
+#   None
+#
+# Returns:
+#   Outputs the critical chain analysis to stdout
 ct_systemd_critical_chain() {
     echo_and_run systemd-analyze critical-chain network.target local-fs.target
 }
 
+# Display system and service manager status
+#
+# This function shows the status of the system and service manager using systemctl.
+#
+# Usage: ct_systemd_status
+#
+# Parameters:
+#   None
+#
+# Returns:
+#   Outputs the system and service manager status to stdout
 ct_systemd_status() {
     echo_and_run sudo systemctl status
 }

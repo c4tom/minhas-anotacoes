@@ -2,10 +2,16 @@
 
 # Generic Colouriser
 
+# Check if the system is not Windows, otherwise return
 [[ `isWin` != "1" ]] || { return ; }
 
+# Check if GRC is installed, if not, define an installation function
 [[ -f /usr/bin/grc ]] || {
    [[ $HASAPT = false ]] && { return; }
+   # Function: ct_install_grc
+   # Description: Installs the Generic Colouriser (GRC) using apt
+   # Parameters: None
+   # Returns: None
    ct_install_grc() {
       sudo apt install grc
    }
