@@ -1,3 +1,11 @@
+# Script para definir cores no terminal bash
+# Fornece variáveis e funções para colorir a saída do terminal
+# Uso: 
+# - Use as variáveis diretamente: echo -e "${CRed}Texto em vermelho${NC}"
+# - Ou use as funções auxiliares: echoColor "Texto" "$CRed"
+#
+# Referência: https://stackoverflow.com/questions/5947742/how-to-change-the-output-color-of-echo-in-linux
+
 # https://stackoverflow.com/questions/5947742/how-to-change-the-output-color-of-echo-in-linux
 # Reset
 Color_Off='\033[0m'       # Text Reset
