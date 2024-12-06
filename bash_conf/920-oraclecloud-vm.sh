@@ -11,6 +11,18 @@ ct_oracloud_install_utils_packages() {
    sudo apt install iputils-ping inetutils-telnet firewalld net-tools bash-completion
 }
 
+ct_oracloud_limpa_regras_iptables() {
+   sudo iptables -F          # Limpar todas as regras da tabela filter
+   sudo iptables -X          # Excluir todas as cadeias personalizadas
+   sudo iptables -t nat -F   # Limpar as regras de NAT
+   sudo iptables -t nat -X   # Excluir as cadeias de NAT personalizadas
+   sudo iptables -t mangle -F  # Limpar as regras de mangle
+   sudo iptables -t mangle -X  # Excluir as cadeias mangle personalizadas
+
+   sudo systemctl stop iptables
+   sudo systemctl disable iptables
+}
+
 ct_oracloud_install_cyberPanel() {
    ct_isRoot
    cd /tmp
