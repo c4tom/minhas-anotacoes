@@ -1,3 +1,19 @@
+# Script de boas-vindas e status do sistema
+# Este script é executado ao iniciar o terminal e mostra informações úteis sobre o sistema
+#
+# Funcionalidades:
+# - Mostra uma mensagem de boas-vindas personalizada
+# - Exibe informações do sistema:
+#   * Distribuição Linux
+#   * Uso de CPU
+#   * Uso de RAM
+#   * IP principal
+#   * Carga do sistema
+#   * Tempo de atividade
+#   * Uso do disco
+#
+# Se o neofetch estiver instalado, usa ele como alternativa para mostrar as informações
+
 nixName="`uname -n`/`uname -r`"
 echoColor "Olá, como vai $BGreen$USER?$Color_Off Hora: $CCyan`date` :: $nixName"
 
