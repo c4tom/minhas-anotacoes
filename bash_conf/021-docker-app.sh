@@ -152,6 +152,11 @@ ct_docker_base_openJDK12() {
     echo_and_run $DOCKER run -d -it --name openJDK12 adoptopenjdk/openjdk12
 }
 
+# Ubuntu 24.04
+ct_docker_base_ubuntu_24() {
+    echo_and_run $DOCKER run -d -it --name ubuntu_noble_24_04 ubuntu:24.04
+}
+
 # Ubuntu 22.04
 ct_docker_base_ubuntu_22() {
     echo_and_run $DOCKER run -d -it --name ubuntu_jammy_22_4 ubuntu:22.04
