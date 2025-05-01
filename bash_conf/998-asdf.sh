@@ -1,3 +1,4 @@
+#!/bin/bash
 
 [[ -f "${HOME}/.asdf/bin/asdf" ]] || { 
     ct_asdf_install() {
@@ -39,46 +40,39 @@ ct_asdf_convert_dos2unix() {
     done
 }
 
-
 ct_asdf_legacy_versions() {
     echo "legacy_version_file = yes" > ~/.asdfrc
 }
-
 
 # Função para listar os plugins disponíveis e permitir que o usuário escolha um para instalar
 ct_asdf_install_plugin_menu() {
     local filtro=$1
     local plugins=""
 
-    # Verifica se foi fornecido um filtro
-    if [[ -n "$filtro" ]]; then
-        plugins=$(asdf plugin list all | awk '{print $1}' | grep "$filtro")
-    else
-        plugins=$(asdf plugin list all | awk '{print $1}')
-    fi
-
-    if [[ -z "$plugins" ]]; then
-        echo "Nenhum plugin disponível para instalação."
-        return 1
-    fi
-
-    echo "Plugins disponíveis para instalação:"
-    select plugin in $plugins; do
-        if [[ -n "$plugin" ]]; then
-            echo "Instalando o plugin $plugin..."
-            echo_and_run asdf plugin add $plugin
-            break
-        else
-            echo "Opção inválida. Escolha novamente:"
-        fi
-    done
-
-    echo "use ct_asdf_install_version para instalar versões de um plugin"
 }
 
+ct_asdf_addPlugin_nodejs() {
+    local VERSION=${1:-"latest"};
+    echo_and_run asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
+    echo_and_run asdf install nodejs $VERSION
+    echo_and_run asdf global nodejs $VERSION
+}
 
-ct_asdf_dashboard() {
-    echo_and_run asdf info
+ct_asdf_nodejs_install_version() {
+    asdf list all nodejs
+    local version=""
+    echo "Qual versão? "
+    echo ""
+    read version
+    
+    echo_and_run asdf install nodejs $version
+    echo_and_run asdf global nodejs $version
+    echo_and_run asdf local nodejs $version
+    node -v
+}
+
+ct_asdf_addPlugin_python() {
+    echo_and_run asdf plugin add python
 }
 
 ct_asdf_install_version() {
@@ -107,30 +101,35 @@ ct_asdf_install_version() {
     else
         all_versions=$(asdf list-all $tool)
     fi
-
-    local versions=($(echo "$all_versions"))
     
     echo "Versões disponíveis para $tool:"
-    echo "${versions[@]}"
+    echo "$all_versions"
     
-    if [[ ${#versions[@]} -eq 0 ]]; then
-        echo "Nenhuma versão disponível para $tool."
-        return 1
-    fi
+    local version=""
+    echo "Qual versão você deseja instalar? "
+    echo ""
+    read version
     
-    echo "Qual versão de $tool você deseja instalar? Escolha o número correspondente:"
-    select version in "${versions[@]}"; do
-        if [[ -n "$version" ]]; then
-            break
-        else
-            echo "Opção inválida. Escolha novamente:"
-        fi
-    done
-    
-    echo "Instalando $tool $version..."
     echo_and_run asdf install $tool $version
     echo_and_run asdf global $tool $version
     echo_and_run asdf local $tool $version
+}
 
-    return 0
+ct_asdf_addPlugin_dotnetcore() {
+    echo_and_run asdf plugin-add dotnet-core https://github.com/emersonsoares/asdf-dotnet-core.git
+    echo_and_run asdf install dotnet-core latest
+}
+
+ct_asdf_addPlugin_java() {
+    echo_and_run asdf plugin-add java https://github.com/halcyon/asdf-java.git
+    local version=""
+    echo "Qual versão? "
+    echo ""
+    read version
+    asdf list-all java | grep ^openjdk
+    echo ""
+    echo_and_run asdf install java $version
+}
+ct_asdf_dashboard() {
+    asdf current
 }
